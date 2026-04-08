@@ -843,21 +843,21 @@ for node in sorted(all_nodes_with_impact,
 
 
 # ============================================================
-# CHART: DUAL TAXONOMY — TOPOLOGY × FRONTIER
+# CHART: DUAL TAXONOMY — TOPOLOGY × FRONTIER (REWRITTEN)
 # ============================================================
 
-# Collect nodes to plot
+# Collect nodes to plot — group by combined type for layered rendering
 plot_nodes = sorted(all_nodes_with_impact,
                     key=lambda n: max(results['strict']['impact'].get(n, 0),
                                       results['strict']['frontier_stack'].get(n, 0)),
-                    reverse=True)[:12]
+                    reverse=True)[:15]
 
 type_colors = {
-    'topo-declining + frontier-flat': '#ff6644',   # EUV corridor
-    'topo-flat + frontier-flat':      '#ff4444',   # chemistry
-    'frontier-only':                   '#be95ff',   # ABF, CoWoS (topo-invisible)
-    'declining':                       '#ffd93d',   # TSMC, cloud
-    'source-only':                     '#8b949e',   # germanium
+    'topo-declining + frontier-flat': '#ff6644',
+    'topo-flat + frontier-flat':      '#ff4444',
+    'frontier-only':                   '#be95ff',
+    'declining':                       '#ffd93d',
+    'source-only':                     '#8b949e',
 }
 
 def get_combined_type(node):
@@ -876,168 +876,278 @@ def get_combined_type(node):
 
 combined_types = {n: get_combined_type(n) for n in plot_nodes}
 
-fig = plt.figure(figsize=(24, 9))
+# --- Figure layout: wider, more vertical space ---
+fig = plt.figure(figsize=(28, 12))
 fig.patch.set_facecolor('#0d1117')
 
-# Layout: [topology curves | frontier curves | taxonomy + map]
-ax_topo = fig.add_axes([0.04, 0.08, 0.28, 0.78])
-ax_front = fig.add_axes([0.36, 0.08, 0.28, 0.78])
-ax_tax = fig.add_axes([0.68, 0.45, 0.30, 0.48])
-ax_map = fig.add_axes([0.68, 0.05, 0.30, 0.38])
+# Four panels with proper margins
+ax_topo  = fig.add_axes([0.04, 0.10, 0.27, 0.72])
+ax_front = fig.add_axes([0.36, 0.10, 0.27, 0.72])
+ax_tax   = fig.add_axes([0.68, 0.42, 0.30, 0.50])
+ax_map   = fig.add_axes([0.68, 0.04, 0.30, 0.34])
 
-fig.text(0.5, 0.97, 'AI Compute Supply Chain: Topology vs Frontier Impact — V2.5',
-         ha='center', color='white', fontsize=15, fontweight='bold')
-fig.text(0.5, 0.935, '52 nodes · Per-fab design deps · SMIC with china_design · Dual metric · 3 thresholds',
+fig.text(0.34, 0.96, 'AI Compute Supply Chain: Topology vs Frontier Impact',
+         ha='center', color='white', fontsize=16, fontweight='bold')
+fig.text(0.34, 0.925, '52 nodes · AND-dependency cascades · Ordered frontier stack · 3 substitutability thresholds',
          ha='center', color='#8b949e', fontsize=10)
+fig.text(0.965, 0.96, 'v2.5', ha='right', color='#30363d', fontsize=9)
 
 x_pos = np.array([0, 1, 2])
 
-# --- Left: Topology curves ---
+# --- Jitter helper for overlapping lines ---
+def get_jitter(node, node_list, vals, all_vals_map, scale=0.15):
+    """Compute small vertical offset for lines sharing the same value."""
+    key = tuple(vals)
+    same = [n for n in node_list if tuple(all_vals_map[n]) == key]
+    if len(same) <= 1:
+        return [0, 0, 0]
+    idx = same.index(node)
+    spread = np.linspace(-scale * (len(same)-1)/2, scale * (len(same)-1)/2, len(same))
+    return [spread[idx]] * 3
+
+# --- Precompute all values for jitter ---
+topo_vals_map = {}
+front_vals_map = {}
+for node in plot_nodes:
+    topo_vals_map[node] = [results[t]['impact'].get(node, 0) for t in THRESHOLDS]
+    front_vals_map[node] = [results[t]['frontier_stack'].get(node, 0) for t in THRESHOLDS]
+
+# Line style assignments for overlapping groups
+line_styles = ['-', '--', '-.', ':']
+def get_line_style(node, node_list, vals_map):
+    key = tuple(vals_map[node])
+    same = [n for n in node_list if tuple(vals_map[n]) == key]
+    if len(same) <= 1:
+        return '-'
+    idx = same.index(node)
+    return line_styles[idx % len(line_styles)]
+
+# --- LEFT PANEL: Topology Impact ---
 ax = ax_topo
 ax.set_facecolor('#161b22')
+
+# Draw lines — grouped by trajectory
+topo_groups = {}
 for node in plot_nodes:
-    vals = [results[t]['impact'].get(node, 0) for t in THRESHOLDS]
+    vals = tuple(topo_vals_map[node])
+    ctype = combined_types.get(node, 'declining')
+    key = (vals, ctype)
+    if key not in topo_groups:
+        topo_groups[key] = []
+    topo_groups[key].append(node)
+
+for (vals, ctype), members in topo_groups.items():
     if max(vals) == 0:
         continue
-    ctype = combined_types[node]
     color = type_colors.get(ctype, '#8b949e')
-    name = nodes[node]['name'][:35]
-    lw = 3.0 if 'flat' in ctype or 'EUV' in name else 1.8
-    alpha = 1.0 if 'flat' in ctype else 0.6
-    marker = 's' if 'flat' in ctype else 'o'
-    ax.plot(x_pos, vals, f'{marker}-', color=color, linewidth=lw,
-            alpha=alpha, markersize=7, label=name)
+    lw = 3.0 if len(members) > 2 else 2.0
+    alpha = 1.0 if 'flat' in ctype or ctype == 'topo-declining + frontier-flat' else 0.7
+    ax.plot(x_pos, list(vals), '-', color=color, linewidth=lw, alpha=alpha,
+            markersize=6, marker='o')
 
 ax.set_xticks(x_pos)
-ax.set_xticklabels(['Strict\n(0-3 mo)', 'Degraded\n(12 mo)', 'Loose\n(24 mo)'],
+ax.set_xticklabels(['Strict\n(0–3 mo)', 'Degraded\n(12 mo)', 'Loose\n(24 mo)'],
                     color='white', fontsize=9)
-ax.set_ylabel('Pairs Disconnected (out of 20)', color='white', fontsize=10)
-ax.set_title('Topology Impact', color='white', fontsize=12, fontweight='bold', pad=10)
-ax.legend(fontsize=5.5, facecolor='#161b22', edgecolor='#30363d', labelcolor='white',
-          loc='upper right', framealpha=0.9)
+ax.set_ylabel('Source–Sink Pairs Disconnected (of 20)', color='white', fontsize=10)
+ax.set_title('Topology Impact', color='white', fontsize=13, fontweight='bold', pad=12)
 ax.tick_params(colors='white')
-ax.set_ylim(-0.5, 8)
+ax.set_ylim(-0.5, 10)
+ax.set_xlim(-0.2, 2.2)
 ax.axhline(y=0, color='#30363d', linewidth=0.5)
 for spine in ax.spines.values():
     spine.set_color('#30363d')
 
-# --- Center: Frontier curves ---
+# Annotations — label grouped lines directly
+ax.annotate('Si wafers (8/8/8)', xy=(2, 8), xytext=(2.05, 9),
+            color='#ff4444', fontsize=7.5, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#ff4444', lw=0.5))
+ax.annotate('Azure/GCP\n(5→0)', xy=(0.1, 5), xytext=(-0.15, 7),
+            color='#ffd93d', fontsize=7, ha='center',
+            arrowprops=dict(arrowstyle='-', color='#ffd93d', lw=0.5))
+ax.annotate('Chemistry (4/4/4)', xy=(2, 4), xytext=(2.05, 5),
+            color='#ff4444', fontsize=7.5,
+            arrowprops=dict(arrowstyle='-', color='#ff4444', lw=0.5))
+ax.annotate('EUV corridor\n(4/4→0)', xy=(2, 0), xytext=(1.5, 1.8),
+            color='#ff6644', fontsize=7.5, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#ff6644', lw=0.5))
+ax.annotate('ABF, Adv. Pkg\n(invisible: 0/0/0)', xy=(1, 0), xytext=(0.1, 1.8),
+            color='#be95ff', fontsize=7, fontstyle='italic')
+
+# --- CENTER PANEL: Frontier Impact ---
 ax = ax_front
 ax.set_facecolor('#161b22')
+
+# Group by unique trajectory rather than plotting every node
+frontier_groups = {}
 for node in plot_nodes:
-    vals = [results[t]['frontier_stack'].get(node, 0) for t in THRESHOLDS]
+    vals = tuple(front_vals_map[node])
+    ctype = combined_types.get(node, 'declining')
+    key = (vals, ctype)
+    if key not in frontier_groups:
+        frontier_groups[key] = []
+    frontier_groups[key].append(node)
+
+# Draw grouped lines
+group_draw_order = sorted(frontier_groups.keys(),
+                          key=lambda k: (max(k[0]), k[0][0]), reverse=True)
+
+for (vals, ctype), members in frontier_groups.items():
     if max(vals) == 0:
         continue
-    ctype = combined_types[node]
     color = type_colors.get(ctype, '#8b949e')
-    name = nodes[node]['name'][:35]
-    lw = 3.0 if 'flat' in ctype else 1.8
-    alpha = 1.0 if 'flat' in ctype else 0.6
-    marker = 's' if ctype in ('topo-declining + frontier-flat', 'topo-flat + frontier-flat') else 'o'
-    ax.plot(x_pos, vals, f'{marker}-', color=color, linewidth=lw,
-            alpha=alpha, markersize=7, label=name)
+    lw = 3.0 if len(members) > 2 else 2.0
+    alpha = 1.0 if 'flat' in ctype or ctype == 'frontier-only' else 0.7
+    ls = '-' if 'flat' in ctype or ctype == 'frontier-only' else '-'
+    ax.plot(x_pos, list(vals), ls, color=color, linewidth=lw, alpha=alpha,
+            markersize=6, marker='o')
 
 ax.set_xticks(x_pos)
-ax.set_xticklabels(['Strict\n(0-3 mo)', 'Degraded\n(12 mo)', 'Loose\n(24 mo)'],
+ax.set_xticklabels(['Strict\n(0–3 mo)', 'Degraded\n(12 mo)', 'Loose\n(24 mo)'],
                     color='white', fontsize=9)
-ax.set_ylabel('Frontier Pairs Disconnected (out of 16)', color='white', fontsize=10)
-ax.set_title('Frontier Impact', color='white', fontsize=12, fontweight='bold', pad=10)
-ax.legend(fontsize=5.5, facecolor='#161b22', edgecolor='#30363d', labelcolor='white',
-          loc='upper right', framealpha=0.9)
+ax.set_ylabel('Frontier Pairs Disconnected (of 16)', color='white', fontsize=10)
+ax.set_title('Frontier-Stack Impact', color='white', fontsize=13, fontweight='bold', pad=12)
 ax.tick_params(colors='white')
-ax.set_ylim(-0.5, 18)
+ax.set_ylim(-0.5, 19)
+ax.set_xlim(-0.2, 2.2)
 ax.axhline(y=0, color='#30363d', linewidth=0.5)
 for spine in ax.spines.values():
     spine.set_color('#30363d')
 
-# --- Top-right: Taxonomy ---
+# Direct annotations for frontier panel
+# Count how many nodes at 16/16/16 per color
+n_euv = sum(1 for n in plot_nodes if combined_types.get(n) == 'topo-declining + frontier-flat'
+            and front_vals_map[n] == [16,16,16])
+n_chem = sum(1 for n in plot_nodes if combined_types.get(n) == 'topo-flat + frontier-flat'
+             and front_vals_map[n] == [16,16,16])
+n_fonly = sum(1 for n in plot_nodes if combined_types.get(n) == 'frontier-only'
+              and front_vals_map[n] == [16,16,16])
+
+ax.annotate(f'Flat at 16/16: EUV corridor ({n_euv})\n'
+            f'+ chemistry/wafers ({n_chem}) + ABF/pkg ({n_fonly})',
+            xy=(2, 16), xytext=(0.3, 18.2),
+            color='white', fontsize=7.5, fontweight='bold',
+            bbox=dict(boxstyle='round,pad=0.3', facecolor='#161b22', edgecolor='#30363d'),
+            arrowprops=dict(arrowstyle='->', color='white', lw=0.8))
+ax.annotate('TSMC (16→0)', xy=(1.5, 4), xytext=(1.7, 3),
+            color='#ffd93d', fontsize=7.5,
+            arrowprops=dict(arrowstyle='-', color='#ffd93d', lw=0.5))
+ax.annotate('HPQ, Rare Earths (4)', xy=(2, 4), xytext=(2.05, 5.5),
+            color='#ff4444', fontsize=7,
+            arrowprops=dict(arrowstyle='-', color='#ff4444', lw=0.5))
+ax.annotate('Germanium (0)', xy=(1, 0), xytext=(0.2, 1.0),
+            color='#8b949e', fontsize=7, fontstyle='italic',
+            arrowprops=dict(arrowstyle='-', color='#8b949e', lw=0.5))
+
+# --- RIGHT TOP: Taxonomy table ---
 ax = ax_tax
-ax.set_facecolor('#161b22')
+ax.set_facecolor('#0d1117')
 ax.set_xlim(0, 10)
 ax.set_ylim(0, 10)
 ax.axis('off')
 
-y = 9.5
-ax.text(0.3, y, 'DUAL TAXONOMY (V2.5)', color='white', fontsize=11, fontweight='bold')
+y = 9.8
+ax.text(0.1, y, 'DUAL TAXONOMY', color='white', fontsize=12, fontweight='bold')
+y -= 0.15
+ax.plot([0.1, 9.9], [y, y], color='#30363d', linewidth=0.5)
 
 categories = [
     ('topo-declining + frontier-flat', '#ff6644', 'FRONTIER-CRITICAL',
-     'Topology-declining, frontier-flat', 'EUV corridor: compensable topologically,\nirreplaceable for sub-5nm inference'),
+     'Topology-declining · Frontier-flat',
+     ['ASML EUV Lithography', 'Zeiss EUV Optics', 'TRUMPF EUV Light Source'],
+     ['4/4/0', '4/4/0', '4/4/0'],
+     ['16/16/16', '16/16/16', '16/16/16']),
     ('frontier-only', '#be95ff', 'FRONTIER-ONLY',
-     'Topology-invisible, frontier-flat', 'ABF + advanced packaging: invisible to\ntopology, critical for frontier stack'),
+     'Topology-invisible · Frontier-flat',
+     ['ABF Substrate (Ajinomoto)', 'Advanced 2.5D Packaging'],
+     ['0/0/0', '0/0/0'],
+     ['16/16/16', '16/16/16']),
     ('topo-flat + frontier-flat', '#ff4444', 'FULL FLAT-CRITICAL',
-     'Topology-flat, frontier-flat', 'Chemistry + water + wafers: kills ALL fabs\nincluding SMIC'),
+     'Topology-flat · Frontier-flat',
+     ['Si Wafers', 'Photoresists', 'CMP Slurries', 'Specialty Gases'],
+     ['8/8/8', '4/4/4', '4/4/4', '4/4/4'],
+     ['16/16/16', '16/16/16', '16/16/16', '16/16/16']),
     ('declining', '#ffd93d', 'DECLINING',
-     'Declining in both metrics', 'TSMC, Azure, GCP: alternatives\nemerge with time'),
+     'Both metrics decline',
+     ['TSMC Advanced Logic'],
+     ['4/0/0'],
+     ['16/0/0']),
 ]
 
-for ctype_key, color, title, subtitle, desc in categories:
-    members = [n for n in plot_nodes if combined_types.get(n) == ctype_key]
-    y -= 0.7
-    ax.add_patch(plt.Rectangle((0.3, y-0.1), 0.4, 0.4,
+for ctype_key, color, title, subtitle, members, topos, fronts in categories:
+    y -= 0.45
+    ax.add_patch(plt.Rectangle((0.1, y-0.05), 0.25, 0.25,
                  facecolor=color, edgecolor='none'))
-    ax.text(1.0, y, title, color=color, fontsize=9, fontweight='bold')
-    y -= 0.35
-    ax.text(1.0, y, subtitle, color='#8b949e', fontsize=6.5)
-    y -= 0.35
-    ax.text(1.0, y, desc, color='#6b7280', fontsize=6, linespacing=1.4)
-    y -= 0.3
-    for n in members[:4]:
-        t_vals = [results[t]['impact'].get(n, 0) for t in THRESHOLDS]
-        f_vals = [results[t]['frontier_stack'].get(n, 0) for t in THRESHOLDS]
-        t_str = '/'.join(str(v) for v in t_vals)
-        f_str = '/'.join(str(v) for v in f_vals)
-        ax.text(1.2, y, f'• {nodes[n]["name"][:32]}', color='white', fontsize=7)
-        ax.text(9.5, y, f'T:{t_str} F:{f_str}', color=color, fontsize=6.5, ha='right')
-        y -= 0.3
+    ax.text(0.55, y, title, color=color, fontsize=8.5, fontweight='bold', va='center')
+    y -= 0.28
+    ax.text(0.55, y, subtitle, color='#6b7280', fontsize=6.5, va='center')
+    y -= 0.05
+    # Column headers
+    y -= 0.25
+    ax.text(0.7, y, 'Node', color='#4a5568', fontsize=5.5)
+    ax.text(7.2, y, 'Topo', color='#4a5568', fontsize=5.5, ha='right')
+    ax.text(9.5, y, 'Frontier', color='#4a5568', fontsize=5.5, ha='right')
+    for name, topo, front in zip(members, topos, fronts):
+        y -= 0.25
+        ax.text(0.7, y, name, color='white', fontsize=6.5, va='center')
+        ax.text(7.2, y, topo, color='#8b949e', fontsize=6.5, ha='right', va='center',
+                fontfamily='monospace')
+        ax.text(9.5, y, front, color=color, fontsize=6.5, ha='right', va='center',
+                fontfamily='monospace', fontweight='bold')
+    y -= 0.15
+    ax.plot([0.5, 9.5], [y, y], color='#1e2530', linewidth=0.3)
 
-# --- Bottom-right: Map ---
+# --- RIGHT BOTTOM: Map ---
 ax = ax_map
-ax.set_facecolor('#161b22')
-ax.set_xlim(1, 14)
-ax.set_ylim(47, 53.5)
+ax.set_facecolor('#0d1117')
+ax.set_xlim(2, 14)
+ax.set_ylim(47.5, 53)
+ax.axis('off')
 
+# Country shapes with visible borders
 nl_x = [3.4, 7.2, 7.0, 5.9, 3.6, 3.4]
 nl_y = [51.4, 53.4, 52.0, 51.0, 51.4, 51.4]
-ax.fill(nl_x, nl_y, color='#1a2332', alpha=0.5)
-ax.plot(nl_x, nl_y, color='#30363d', linewidth=0.8)
+ax.fill(nl_x, nl_y, color='#1a2332', alpha=0.6)
+ax.plot(nl_x, nl_y, color='#4a5568', linewidth=1.2)
 
 de_x = [6.0, 7.2, 7.5, 9.0, 10.0, 12.0, 13.5, 14.5, 14.0, 12.5, 12.0, 10.0, 9.0, 7.5, 6.0, 6.0]
 de_y = [51.0, 53.4, 53.8, 54.8, 54.0, 54.0, 52.5, 51.0, 49.0, 47.5, 47.7, 47.5, 47.5, 47.6, 49.5, 51.0]
-ax.fill(de_x, de_y, color='#1a2332', alpha=0.3)
-ax.plot(de_x, de_y, color='#30363d', linewidth=0.8)
+ax.fill(de_x, de_y, color='#1a2332', alpha=0.4)
+ax.plot(de_x, de_y, color='#4a5568', linewidth=1.2)
 
-locations = {
-    'Veldhoven\n(ASML)': (5.41, 51.42),
-    'Ditzingen\n(TRUMPF)': (9.07, 48.83),
-    'Oberkochen\n(Zeiss)': (10.10, 48.79),
-}
-for name, (lon, lat) in locations.items():
-    ax.plot(lon, lat, 'o', color='#ff6644', markersize=12, zorder=10,
-            markeredgecolor='white', markeredgewidth=1.5)
-    ax.annotate(name, (lon, lat), textcoords="offset points",
-                xytext=(12, 5), color='white', fontsize=8, fontweight='bold',
-                bbox=dict(boxstyle='round,pad=0.2', facecolor='#0d1117',
-                         edgecolor='#ff6644', alpha=0.9))
+# Country labels
+ax.text(4.5, 52.5, 'NL', color='#4a5568', fontsize=11, fontstyle='italic', fontweight='bold')
+ax.text(11.0, 50.5, 'DE', color='#4a5568', fontsize=11, fontstyle='italic', fontweight='bold')
 
+# Corridor dashed line
 corridor_lons = [5.41, 9.07, 10.10]
 corridor_lats = [51.42, 48.83, 48.79]
-ax.plot(corridor_lons, corridor_lats, '--', color='#ff6644', linewidth=2, alpha=0.6, zorder=5)
+ax.plot(corridor_lons, corridor_lats, '--', color='#ff6644', linewidth=2.5, alpha=0.5, zorder=5)
 
-mid_lon = (5.41 + 10.10) / 2
-mid_lat = (51.42 + 48.79) / 2
-ax.text(mid_lon + 0.5, mid_lat + 0.3, '~480 km', color='#ff6644', fontsize=10,
-        fontweight='bold', fontstyle='italic',
-        bbox=dict(boxstyle='round,pad=0.3', facecolor='#0d1117', edgecolor='#ff6644', alpha=0.8))
+# City markers and labels — offset to avoid overlap
+locations = [
+    ('Veldhoven', 'ASML', 5.41, 51.42, 14, 6),
+    ('Ditzingen', 'TRUMPF', 9.07, 48.83, -85, 12),
+    ('Oberkochen', 'Zeiss', 10.10, 48.79, 14, -8),
+]
+for city, company, lon, lat, dx, dy in locations:
+    ax.plot(lon, lat, 'o', color='#ff6644', markersize=10, zorder=10,
+            markeredgecolor='white', markeredgewidth=1.5)
+    ax.annotate(f'{city}\n({company})', (lon, lat), textcoords="offset points",
+                xytext=(dx, dy), color='white', fontsize=7.5, fontweight='bold',
+                bbox=dict(boxstyle='round,pad=0.25', facecolor='#0d1117',
+                         edgecolor='#ff6644', alpha=0.95),
+                arrowprops=dict(arrowstyle='-', color='#ff6644', lw=0.8),
+                zorder=11)
 
-ax.text(4.0, 52.8, 'NL', color='#4a5568', fontsize=10, fontstyle='italic')
-ax.text(10.5, 51.5, 'DE', color='#4a5568', fontsize=10, fontstyle='italic')
-ax.set_title('The EUV Corridor — Frontier-Critical', color='white', fontsize=11, fontweight='bold')
-ax.tick_params(colors='#30363d', labelsize=7)
-for spine in ax.spines.values():
-    spine.set_color('#30363d')
+# Distance label — positioned cleanly off the line
+ax.text(6.8, 50.5, '~480 km', color='#ff6644', fontsize=11,
+        fontweight='bold', fontstyle='italic', ha='center',
+        bbox=dict(boxstyle='round,pad=0.3', facecolor='#0d1117',
+                  edgecolor='#ff6644', alpha=0.9))
 
-plt.savefig(OUT_CHART, dpi=175, bbox_inches='tight', facecolor='#0d1117')
+ax.set_title('The EUV Corridor', color='#ff6644', fontsize=11, fontweight='bold', pad=8)
+
+plt.savefig(OUT_CHART, dpi=200, bbox_inches='tight', facecolor='#0d1117')
 plt.close()
 print(f"Chart: {OUT_CHART}")
 
