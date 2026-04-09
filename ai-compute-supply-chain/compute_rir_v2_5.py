@@ -948,7 +948,7 @@ for (vals, ctype), members in topo_groups.items():
 ax.set_xticks(x_pos)
 ax.set_xticklabels(['Strict\n(0–3 mo)', 'Degraded\n(12 mo)', 'Loose\n(24 mo)'],
                     color='white', fontsize=9)
-ax.set_ylabel('Source–Sink Pairs Disconnected (of 20)', color='white', fontsize=10)
+ax.set_ylabel('Source–Sink Pairs Disconnected', color='white', fontsize=10)
 ax.set_title('Topology Impact', color='white', fontsize=13, fontweight='bold', pad=12)
 ax.tick_params(colors='white')
 ax.set_ylim(-0.5, 10)
@@ -959,19 +959,20 @@ for spine in ax.spines.values():
 
 # Annotations — label grouped lines directly
 ax.annotate('Si wafers (8/8/8)', xy=(2, 8), xytext=(2.05, 9),
-            color='#ff4444', fontsize=7.5, fontweight='bold',
-            arrowprops=dict(arrowstyle='-', color='#ff4444', lw=0.5))
+            color='#ff6666', fontsize=7.5, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#ff6666', lw=0.5))
 ax.annotate('Azure/GCP\n(5→0)', xy=(0.1, 5), xytext=(-0.15, 7),
-            color='#ffd93d', fontsize=7, ha='center',
-            arrowprops=dict(arrowstyle='-', color='#ffd93d', lw=0.5))
-ax.annotate('Chemistry (4/4/4)', xy=(2, 4), xytext=(2.05, 5),
-            color='#ff4444', fontsize=7.5,
-            arrowprops=dict(arrowstyle='-', color='#ff4444', lw=0.5))
-ax.annotate('EUV corridor\n(4/4→0)', xy=(2, 0), xytext=(1.5, 1.8),
-            color='#ff6644', fontsize=7.5, fontweight='bold',
-            arrowprops=dict(arrowstyle='-', color='#ff6644', lw=0.5))
-ax.annotate('ABF, Adv. Pkg\n(invisible: 0/0/0)', xy=(1, 0), xytext=(0.1, 1.8),
-            color='#be95ff', fontsize=7, fontstyle='italic')
+            color='#ffe066', fontsize=7, ha='center', fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#ffe066', lw=0.5))
+ax.annotate('Chemistry (4/4/4)', xy=(2, 4), xytext=(2.05, 5.2),
+            color='#ff6666', fontsize=7.5,
+            arrowprops=dict(arrowstyle='-', color='#ff6666', lw=0.5))
+ax.annotate('EUV corridor (4/4→0)', xy=(2, 0), xytext=(2.05, 0.5),
+            color='#ff8866', fontsize=7.5, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#ff8866', lw=0.5))
+ax.annotate('ABF, Adv. Pkg\n(invisible: 0/0/0)', xy=(1, 0), xytext=(0.1, 2.2),
+            color='#d4b8ff', fontsize=7, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#d4b8ff', lw=0.5))
 
 # --- CENTER PANEL: Frontier Impact ---
 ax = ax_front
@@ -1029,14 +1030,14 @@ ax.annotate(f'Flat at 16/16: EUV corridor ({n_euv})\n'
             bbox=dict(boxstyle='round,pad=0.3', facecolor='#161b22', edgecolor='#30363d'),
             arrowprops=dict(arrowstyle='->', color='white', lw=0.8))
 ax.annotate('TSMC (16→0)', xy=(1.5, 4), xytext=(1.7, 3),
-            color='#ffd93d', fontsize=7.5,
-            arrowprops=dict(arrowstyle='-', color='#ffd93d', lw=0.5))
+            color='#ffe066', fontsize=7.5, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#ffe066', lw=0.5))
 ax.annotate('HPQ, Rare Earths (4)', xy=(2, 4), xytext=(2.05, 5.5),
-            color='#ff4444', fontsize=7,
-            arrowprops=dict(arrowstyle='-', color='#ff4444', lw=0.5))
+            color='#ff6666', fontsize=7,
+            arrowprops=dict(arrowstyle='-', color='#ff6666', lw=0.5))
 ax.annotate('Germanium (0)', xy=(1, 0), xytext=(0.2, 1.0),
-            color='#8b949e', fontsize=7, fontstyle='italic',
-            arrowprops=dict(arrowstyle='-', color='#8b949e', lw=0.5))
+            color='#b0b8c4', fontsize=7, fontweight='bold',
+            arrowprops=dict(arrowstyle='-', color='#b0b8c4', lw=0.5))
 
 # --- RIGHT TOP: Taxonomy table ---
 ax = ax_tax
@@ -1106,17 +1107,17 @@ ax.axis('off')
 # Country shapes with visible borders
 nl_x = [3.4, 7.2, 7.0, 5.9, 3.6, 3.4]
 nl_y = [51.4, 53.4, 52.0, 51.0, 51.4, 51.4]
-ax.fill(nl_x, nl_y, color='#1a2332', alpha=0.6)
-ax.plot(nl_x, nl_y, color='#4a5568', linewidth=1.2)
+ax.fill(nl_x, nl_y, color='#1a2332', alpha=0.7)
+ax.plot(nl_x, nl_y, color='#6b7280', linewidth=1.5)
 
 de_x = [6.0, 7.2, 7.5, 9.0, 10.0, 12.0, 13.5, 14.5, 14.0, 12.5, 12.0, 10.0, 9.0, 7.5, 6.0, 6.0]
 de_y = [51.0, 53.4, 53.8, 54.8, 54.0, 54.0, 52.5, 51.0, 49.0, 47.5, 47.7, 47.5, 47.5, 47.6, 49.5, 51.0]
-ax.fill(de_x, de_y, color='#1a2332', alpha=0.4)
-ax.plot(de_x, de_y, color='#4a5568', linewidth=1.2)
+ax.fill(de_x, de_y, color='#1a2332', alpha=0.5)
+ax.plot(de_x, de_y, color='#6b7280', linewidth=1.5)
 
 # Country labels
-ax.text(4.5, 52.5, 'NL', color='#4a5568', fontsize=11, fontstyle='italic', fontweight='bold')
-ax.text(11.0, 50.5, 'DE', color='#4a5568', fontsize=11, fontstyle='italic', fontweight='bold')
+ax.text(4.5, 52.5, 'NL', color='#6b7280', fontsize=11, fontstyle='italic', fontweight='bold')
+ax.text(11.0, 50.5, 'DE', color='#6b7280', fontsize=11, fontstyle='italic', fontweight='bold')
 
 # Corridor dashed line
 corridor_lons = [5.41, 9.07, 10.10]
