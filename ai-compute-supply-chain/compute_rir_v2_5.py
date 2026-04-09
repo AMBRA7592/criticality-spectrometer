@@ -888,9 +888,8 @@ ax_map   = fig.add_axes([0.68, 0.04, 0.30, 0.34])
 
 fig.text(0.34, 0.96, 'AI Compute Supply Chain: Topology vs Frontier Impact',
          ha='center', color='white', fontsize=16, fontweight='bold')
-fig.text(0.34, 0.925, '52 nodes · AND-dependency cascades · Ordered frontier stack · 3 substitutability thresholds',
+fig.text(0.34, 0.925, '52 nodes · AND-dependency cascades · Ordered frontier stack · 3 substitutability thresholds · v2.5',
          ha='center', color='#8b949e', fontsize=10)
-fig.text(0.965, 0.96, 'v2.5', ha='right', color='#30363d', fontsize=9)
 
 x_pos = np.array([0, 1, 2])
 
@@ -1076,7 +1075,7 @@ categories = [
 
 for ctype_key, color, title, subtitle, members, topos, fronts in categories:
     y -= 0.45
-    ax.add_patch(plt.Rectangle((0.1, y-0.05), 0.25, 0.25,
+    ax.add_patch(plt.Rectangle((0.1, y-0.12), 0.25, 0.25,
                  facecolor=color, edgecolor='none'))
     ax.text(0.55, y, title, color=color, fontsize=8.5, fontweight='bold', va='center')
     y -= 0.28
@@ -1116,7 +1115,7 @@ ax.fill(de_x, de_y, color='#1a2332', alpha=0.5)
 ax.plot(de_x, de_y, color='#6b7280', linewidth=1.5)
 
 # Country labels
-ax.text(4.5, 52.5, 'NL', color='#6b7280', fontsize=11, fontstyle='italic', fontweight='bold')
+ax.text(5.5, 52.2, 'NL', color='#6b7280', fontsize=11, fontstyle='italic', fontweight='bold')
 ax.text(11.0, 50.5, 'DE', color='#6b7280', fontsize=11, fontstyle='italic', fontweight='bold')
 
 # Corridor dashed line
@@ -1124,20 +1123,22 @@ corridor_lons = [5.41, 9.07, 10.10]
 corridor_lats = [51.42, 48.83, 48.79]
 ax.plot(corridor_lons, corridor_lats, '--', color='#ff6644', linewidth=2.5, alpha=0.5, zorder=5)
 
-# City markers and labels — offset to avoid overlap
+# City markers and labels — all callout lines connect from bottom-center of text box
 locations = [
-    ('Veldhoven', 'ASML', 5.41, 51.42, 14, 6),
-    ('Ditzingen', 'TRUMPF', 9.07, 48.83, -85, 12),
-    ('Oberkochen', 'Zeiss', 10.10, 48.79, 14, -8),
+    ('Veldhoven', 'ASML', 5.41, 51.42, 20, 8),
+    ('Ditzingen', 'TRUMPF', 9.07, 48.83, -70, 15),
+    ('Oberkochen', 'Zeiss', 10.10, 48.79, 20, 8),
 ]
 for city, company, lon, lat, dx, dy in locations:
     ax.plot(lon, lat, 'o', color='#ff6644', markersize=10, zorder=10,
             markeredgecolor='white', markeredgewidth=1.5)
     ax.annotate(f'{city}\n({company})', (lon, lat), textcoords="offset points",
                 xytext=(dx, dy), color='white', fontsize=7.5, fontweight='bold',
+                ha='center', va='bottom',
                 bbox=dict(boxstyle='round,pad=0.25', facecolor='#0d1117',
                          edgecolor='#ff6644', alpha=0.95),
-                arrowprops=dict(arrowstyle='-', color='#ff6644', lw=0.8),
+                arrowprops=dict(arrowstyle='-', color='#ff6644', lw=0.8,
+                               connectionstyle='arc3,rad=0'),
                 zorder=11)
 
 # Distance label — positioned cleanly off the line
