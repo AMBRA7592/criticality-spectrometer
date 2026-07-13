@@ -1,0 +1,1139 @@
+{
+  "version": "0.1",
+  "name": "ai_compute_frontier_fab_only",
+  "description": "AI compute, SECONDARY frontier mission: a sink counts if reached via any advanced fab (no packaging/server/cloud constraint). Matches v2.5 fab_only sensitivity metric.",
+  "nodes": [
+    {
+      "id": "abf_substrate",
+      "label": "ABF Substrate (Ajinomoto)",
+      "type": "internal"
+    },
+    {
+      "id": "anthropic_api",
+      "label": "Anthropic API",
+      "type": "sink"
+    },
+    {
+      "id": "applied_mat",
+      "label": "Applied Materials (Deposition/Etch)",
+      "type": "internal"
+    },
+    {
+      "id": "arm_ip",
+      "label": "ARM Processor IP",
+      "type": "internal"
+    },
+    {
+      "id": "asml_euv",
+      "label": "ASML EUV Lithography",
+      "type": "internal"
+    },
+    {
+      "id": "aws",
+      "label": "AWS",
+      "type": "internal"
+    },
+    {
+      "id": "azure",
+      "label": "Microsoft Azure",
+      "type": "internal"
+    },
+    {
+      "id": "broadcom_asic",
+      "label": "Broadcom Custom ASIC Design",
+      "type": "internal"
+    },
+    {
+      "id": "china_design",
+      "label": "Chinese Design Ecosystem",
+      "type": "internal"
+    },
+    {
+      "id": "cmp_slurries",
+      "label": "CMP Slurries",
+      "type": "internal"
+    },
+    {
+      "id": "copper_foil",
+      "label": "Copper Foil",
+      "type": "internal"
+    },
+    {
+      "id": "cowos",
+      "label": "CoWoS Advanced Packaging (TSMC)",
+      "type": "internal"
+    },
+    {
+      "id": "dell_hpe",
+      "label": "Dell / HPE",
+      "type": "internal"
+    },
+    {
+      "id": "eaton",
+      "label": "Eaton (Power Distribution)",
+      "type": "internal"
+    },
+    {
+      "id": "eda_software",
+      "label": "EDA Software (Synopsys/Cadence)",
+      "type": "internal"
+    },
+    {
+      "id": "fiber_optic",
+      "label": "Fiber Optic Cable (Corning)",
+      "type": "internal"
+    },
+    {
+      "id": "fluorochemistry",
+      "label": "Fluorochemistry (EUV resists)",
+      "type": "internal"
+    },
+    {
+      "id": "foxconn",
+      "label": "Foxconn (Hon Hai)",
+      "type": "internal"
+    },
+    {
+      "id": "gcp",
+      "label": "Google Cloud Platform",
+      "type": "internal"
+    },
+    {
+      "id": "gemini_api",
+      "label": "Google Gemini API",
+      "type": "sink"
+    },
+    {
+      "id": "germanium",
+      "label": "Germanium",
+      "type": "source"
+    },
+    {
+      "id": "glass_fiber",
+      "label": "Glass Fiber",
+      "type": "internal"
+    },
+    {
+      "id": "hpq",
+      "label": "High-Purity Quartz (Spruce Pine)",
+      "type": "source"
+    },
+    {
+      "id": "intel_foundry",
+      "label": "Intel Foundry",
+      "type": "internal"
+    },
+    {
+      "id": "lam_kla",
+      "label": "Lam Research / KLA (Etch/Metrology)",
+      "type": "internal"
+    },
+    {
+      "id": "meta_llama",
+      "label": "Meta Llama (Self-Hosted)",
+      "type": "sink"
+    },
+    {
+      "id": "micron_hbm",
+      "label": "Micron DRAM/HBM",
+      "type": "internal"
+    },
+    {
+      "id": "net_silicon",
+      "label": "Networking Silicon (Broadcom/Marvell)",
+      "type": "internal"
+    },
+    {
+      "id": "nvidia_gpu",
+      "label": "Nvidia GPU Design",
+      "type": "internal"
+    },
+    {
+      "id": "openai_api",
+      "label": "OpenAI API",
+      "type": "sink"
+    },
+    {
+      "id": "optical_xcvr",
+      "label": "Optical Transceivers (Coherent)",
+      "type": "internal"
+    },
+    {
+      "id": "oracle_cloud",
+      "label": "Oracle Cloud",
+      "type": "internal"
+    },
+    {
+      "id": "osat_amkor",
+      "label": "OSAT Amkor",
+      "type": "internal"
+    },
+    {
+      "id": "osat_ase",
+      "label": "OSAT ASE/SPIL",
+      "type": "internal"
+    },
+    {
+      "id": "photoresists",
+      "label": "Photoresists (JSR/TOK/Fujifilm)",
+      "type": "internal"
+    },
+    {
+      "id": "purity_chemicals",
+      "label": "11N Purity Chemicals",
+      "type": "internal"
+    },
+    {
+      "id": "quanta",
+      "label": "Quanta Computer",
+      "type": "internal"
+    },
+    {
+      "id": "rare_earths",
+      "label": "Rare Earth Elements",
+      "type": "source"
+    },
+    {
+      "id": "samsung_foundry",
+      "label": "Samsung Foundry",
+      "type": "internal"
+    },
+    {
+      "id": "samsung_hbm",
+      "label": "Samsung HBM",
+      "type": "internal"
+    },
+    {
+      "id": "schneider",
+      "label": "Schneider Electric (Power/Thermal)",
+      "type": "internal"
+    },
+    {
+      "id": "si_wafers",
+      "label": "Silicon Wafers (Shin-Etsu/Sumco)",
+      "type": "source"
+    },
+    {
+      "id": "sk_hynix_hbm",
+      "label": "SK Hynix HBM",
+      "type": "internal"
+    },
+    {
+      "id": "smic_mature",
+      "label": "SMIC (Mature Nodes)",
+      "type": "internal"
+    },
+    {
+      "id": "specialty_gases",
+      "label": "Specialty Gases (Ne, F2)",
+      "type": "internal"
+    },
+    {
+      "id": "supermicro",
+      "label": "Super Micro Computer",
+      "type": "internal"
+    },
+    {
+      "id": "trumpf_source",
+      "label": "TRUMPF EUV Light Source",
+      "type": "internal"
+    },
+    {
+      "id": "tsmc_advanced",
+      "label": "TSMC Advanced Logic (sub-5nm)",
+      "type": "internal"
+    },
+    {
+      "id": "ultrapure_water",
+      "label": "Ultrapure Water",
+      "type": "source"
+    },
+    {
+      "id": "vertiv",
+      "label": "Vertiv (Power/Thermal)",
+      "type": "internal"
+    },
+    {
+      "id": "wistron",
+      "label": "Wistron / Inventec",
+      "type": "internal"
+    },
+    {
+      "id": "zeiss_optics",
+      "label": "Zeiss EUV Optics",
+      "type": "internal"
+    }
+  ],
+  "dependencies": [
+    {
+      "target": "anthropic_api",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "aws",
+            "gcp"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "asml_euv",
+      "logic": "AND",
+      "requirements": [
+        {
+          "id": "optics",
+          "any_of": [
+            "zeiss_optics"
+          ]
+        },
+        {
+          "id": "source",
+          "any_of": [
+            "trumpf_source"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "aws",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "dell_hpe",
+            "eaton",
+            "foxconn",
+            "quanta",
+            "schneider",
+            "supermicro",
+            "vertiv"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "azure",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "dell_hpe",
+            "eaton",
+            "foxconn",
+            "quanta",
+            "schneider",
+            "supermicro",
+            "vertiv",
+            "wistron"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "broadcom_asic",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "arm_ip",
+            "eda_software"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "cowos",
+      "logic": "AND",
+      "requirements": [
+        {
+          "id": "fab_input",
+          "any_of": [
+            "tsmc_advanced"
+          ]
+        },
+        {
+          "id": "hbm",
+          "any_of": [
+            "sk_hynix_hbm",
+            "samsung_hbm",
+            "micron_hbm"
+          ]
+        },
+        {
+          "id": "substrate",
+          "any_of": [
+            "abf_substrate"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "dell_hpe",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "osat_amkor",
+            "osat_ase"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "fiber_optic",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "germanium",
+            "glass_fiber"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "foxconn",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "cowos",
+            "fiber_optic",
+            "optical_xcvr",
+            "osat_amkor",
+            "osat_ase"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "gcp",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "eaton",
+            "foxconn",
+            "quanta",
+            "schneider",
+            "supermicro",
+            "vertiv"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "gemini_api",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "gcp"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "glass_fiber",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "hpq"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "intel_foundry",
+      "logic": "AND",
+      "requirements": [
+        {
+          "id": "euv",
+          "any_of": [
+            "asml_euv"
+          ]
+        },
+        {
+          "id": "etch",
+          "any_of": [
+            "applied_mat",
+            "lam_kla"
+          ]
+        },
+        {
+          "id": "resist",
+          "any_of": [
+            "photoresists"
+          ]
+        },
+        {
+          "id": "slurry",
+          "any_of": [
+            "cmp_slurries"
+          ]
+        },
+        {
+          "id": "gases",
+          "any_of": [
+            "specialty_gases"
+          ]
+        },
+        {
+          "id": "chemicals",
+          "any_of": [
+            "purity_chemicals"
+          ]
+        },
+        {
+          "id": "water",
+          "any_of": [
+            "ultrapure_water"
+          ]
+        },
+        {
+          "id": "wafers",
+          "any_of": [
+            "si_wafers"
+          ]
+        },
+        {
+          "id": "design",
+          "any_of": [
+            "nvidia_gpu",
+            "broadcom_asic",
+            "net_silicon"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "meta_llama",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "aws",
+            "azure",
+            "gcp",
+            "oracle_cloud"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "micron_hbm",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "si_wafers"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "net_silicon",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "arm_ip",
+            "eda_software"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "nvidia_gpu",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "eda_software"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "openai_api",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "azure"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "optical_xcvr",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "germanium"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "oracle_cloud",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "dell_hpe",
+            "quanta",
+            "schneider",
+            "supermicro",
+            "vertiv",
+            "wistron"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "osat_amkor",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "abf_substrate",
+            "intel_foundry",
+            "samsung_foundry",
+            "tsmc_advanced"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "osat_ase",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "abf_substrate",
+            "intel_foundry",
+            "micron_hbm",
+            "samsung_foundry",
+            "samsung_hbm",
+            "sk_hynix_hbm",
+            "tsmc_advanced"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "purity_chemicals",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "hpq"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "quanta",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "cowos",
+            "fiber_optic",
+            "optical_xcvr",
+            "osat_amkor",
+            "osat_ase"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "samsung_foundry",
+      "logic": "AND",
+      "requirements": [
+        {
+          "id": "euv",
+          "any_of": [
+            "asml_euv"
+          ]
+        },
+        {
+          "id": "etch",
+          "any_of": [
+            "applied_mat",
+            "lam_kla"
+          ]
+        },
+        {
+          "id": "resist",
+          "any_of": [
+            "photoresists"
+          ]
+        },
+        {
+          "id": "slurry",
+          "any_of": [
+            "cmp_slurries"
+          ]
+        },
+        {
+          "id": "gases",
+          "any_of": [
+            "specialty_gases"
+          ]
+        },
+        {
+          "id": "chemicals",
+          "any_of": [
+            "purity_chemicals"
+          ]
+        },
+        {
+          "id": "water",
+          "any_of": [
+            "ultrapure_water"
+          ]
+        },
+        {
+          "id": "wafers",
+          "any_of": [
+            "si_wafers"
+          ]
+        },
+        {
+          "id": "design",
+          "any_of": [
+            "nvidia_gpu",
+            "broadcom_asic",
+            "net_silicon"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "samsung_hbm",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "si_wafers"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "schneider",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "rare_earths"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "si_wafers",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "hpq"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "sk_hynix_hbm",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "si_wafers"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "smic_mature",
+      "logic": "AND",
+      "requirements": [
+        {
+          "id": "etch",
+          "any_of": [
+            "applied_mat",
+            "lam_kla"
+          ]
+        },
+        {
+          "id": "resist",
+          "any_of": [
+            "photoresists"
+          ]
+        },
+        {
+          "id": "slurry",
+          "any_of": [
+            "cmp_slurries"
+          ]
+        },
+        {
+          "id": "gases",
+          "any_of": [
+            "specialty_gases"
+          ]
+        },
+        {
+          "id": "chemicals",
+          "any_of": [
+            "purity_chemicals"
+          ]
+        },
+        {
+          "id": "water",
+          "any_of": [
+            "ultrapure_water"
+          ]
+        },
+        {
+          "id": "wafers",
+          "any_of": [
+            "si_wafers"
+          ]
+        },
+        {
+          "id": "design",
+          "any_of": [
+            "china_design"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "specialty_gases",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "rare_earths"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "supermicro",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "cowos",
+            "optical_xcvr",
+            "osat_ase"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "tsmc_advanced",
+      "logic": "AND",
+      "requirements": [
+        {
+          "id": "euv",
+          "any_of": [
+            "asml_euv"
+          ]
+        },
+        {
+          "id": "etch",
+          "any_of": [
+            "applied_mat",
+            "lam_kla"
+          ]
+        },
+        {
+          "id": "resist",
+          "any_of": [
+            "photoresists"
+          ]
+        },
+        {
+          "id": "slurry",
+          "any_of": [
+            "cmp_slurries"
+          ]
+        },
+        {
+          "id": "gases",
+          "any_of": [
+            "specialty_gases"
+          ]
+        },
+        {
+          "id": "chemicals",
+          "any_of": [
+            "purity_chemicals"
+          ]
+        },
+        {
+          "id": "water",
+          "any_of": [
+            "ultrapure_water"
+          ]
+        },
+        {
+          "id": "wafers",
+          "any_of": [
+            "si_wafers"
+          ]
+        },
+        {
+          "id": "design",
+          "any_of": [
+            "nvidia_gpu",
+            "broadcom_asic",
+            "net_silicon"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "vertiv",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "rare_earths"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "wistron",
+      "logic": "OR",
+      "requirements": [
+        {
+          "id": "in",
+          "any_of": [
+            "osat_ase"
+          ]
+        }
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "target": "samsung_foundry",
+      "requirement_id": "design",
+      "replacement": "nvidia_gpu",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge nvidia_gpu->samsung_foundry"
+    },
+    {
+      "target": "intel_foundry",
+      "requirement_id": "design",
+      "replacement": "nvidia_gpu",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge nvidia_gpu->intel_foundry"
+    },
+    {
+      "target": "samsung_foundry",
+      "requirement_id": "design",
+      "replacement": "broadcom_asic",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge broadcom_asic->samsung_foundry"
+    },
+    {
+      "target": "intel_foundry",
+      "requirement_id": "design",
+      "replacement": "broadcom_asic",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge broadcom_asic->intel_foundry"
+    },
+    {
+      "target": "samsung_foundry",
+      "requirement_id": "design",
+      "replacement": "net_silicon",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge net_silicon->samsung_foundry"
+    },
+    {
+      "target": "intel_foundry",
+      "requirement_id": "design",
+      "replacement": "net_silicon",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge net_silicon->intel_foundry"
+    },
+    {
+      "target": "cowos",
+      "requirement_id": "fab_input",
+      "replacement": "samsung_foundry",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge samsung_foundry->cowos"
+    },
+    {
+      "target": "cowos",
+      "requirement_id": "fab_input",
+      "replacement": "intel_foundry",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge intel_foundry->cowos"
+    },
+    {
+      "target": "osat_amkor",
+      "requirement_id": "in",
+      "replacement": "micron_hbm",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge micron_hbm->osat_amkor"
+    },
+    {
+      "target": "anthropic_api",
+      "requirement_id": "in",
+      "replacement": "azure",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge azure->anthropic_api"
+    },
+    {
+      "target": "openai_api",
+      "requirement_id": "in",
+      "replacement": "oracle_cloud",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge oracle_cloud->openai_api"
+    },
+    {
+      "target": "openai_api",
+      "requirement_id": "in",
+      "replacement": "aws",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge aws->openai_api"
+    },
+    {
+      "target": "openai_api",
+      "requirement_id": "in",
+      "replacement": "gcp",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge gcp->openai_api"
+    },
+    {
+      "target": "wistron",
+      "requirement_id": "in",
+      "replacement": "osat_amkor",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge osat_amkor->wistron"
+    },
+    {
+      "target": "supermicro",
+      "requirement_id": "in",
+      "replacement": "osat_amkor",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge osat_amkor->supermicro"
+    },
+    {
+      "target": "oracle_cloud",
+      "requirement_id": "in",
+      "replacement": "eaton",
+      "activation_time": 12,
+      "source": "v2.5 degraded edge eaton->oracle_cloud"
+    },
+    {
+      "target": "osat_ase",
+      "requirement_id": "in",
+      "replacement": "smic_mature",
+      "activation_time": 24,
+      "source": "v2.5 loose edge smic_mature->osat_ase"
+    },
+    {
+      "target": "osat_amkor",
+      "requirement_id": "in",
+      "replacement": "smic_mature",
+      "activation_time": 24,
+      "source": "v2.5 loose edge smic_mature->osat_amkor"
+    },
+    {
+      "target": "anthropic_api",
+      "requirement_id": "in",
+      "replacement": "oracle_cloud",
+      "activation_time": 24,
+      "source": "v2.5 loose edge oracle_cloud->anthropic_api"
+    },
+    {
+      "target": "gemini_api",
+      "requirement_id": "in",
+      "replacement": "oracle_cloud",
+      "activation_time": 24,
+      "source": "v2.5 loose edge oracle_cloud->gemini_api"
+    },
+    {
+      "target": "gemini_api",
+      "requirement_id": "in",
+      "replacement": "aws",
+      "activation_time": 24,
+      "source": "v2.5 loose edge aws->gemini_api"
+    },
+    {
+      "target": "gemini_api",
+      "requirement_id": "in",
+      "replacement": "azure",
+      "activation_time": 24,
+      "source": "v2.5 loose edge azure->gemini_api"
+    }
+  ],
+  "outcome": {
+    "type": "ordered_served_sinks",
+    "sources": [
+      "hpq",
+      "si_wafers",
+      "rare_earths",
+      "germanium",
+      "ultrapure_water"
+    ],
+    "sinks": [
+      "openai_api",
+      "anthropic_api",
+      "gemini_api",
+      "meta_llama"
+    ],
+    "waypoints": [
+      [
+        "tsmc_advanced",
+        "samsung_foundry",
+        "intel_foundry"
+      ]
+    ]
+  },
+  "horizons": [
+    0,
+    12,
+    24
+  ]
+}

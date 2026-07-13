@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "Criticality Spectrometer"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Brandes
+    given-names: Amadeus
+version: 0.1.0
+date-released: "2026-07-14"
+license: MIT
+repository-code: "https://github.com/AMBRA7592/criticality-spectrometer"
+abstract: >-
+  A domain-agnostic instrument for measuring how the impact of removing a node
+  changes as alternatives become available over an adaptation horizon, in
+  systems with typed AND/OR dependencies. Criticality is represented as a
+  response curve over adaptation time rather than a scalar ranking, separating
+  path redundancy from capability-preserving redundancy.
+keywords:
+  - dependency analysis
+  - criticality
+  - substitutability
+  - supply chain resilience
+  - network analysis

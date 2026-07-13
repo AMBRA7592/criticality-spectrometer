@@ -1,0 +1,1280 @@
+{
+  "topology": {
+    "baseline": 4,
+    "horizons": [
+      0,
+      12,
+      24
+    ],
+    "curves": {
+      "abf_substrate": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "anthropic_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "applied_mat": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "arm_ip": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "asml_euv": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "aws": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "azure": {
+        "impact": [
+          1,
+          0,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "broadcom_asic": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "china_design": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "cmp_slurries": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "copper_foil": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "cowos": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "dell_hpe": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "eaton": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "eda_software": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "fiber_optic": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "fluorochemistry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "foxconn": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "gcp": {
+        "impact": [
+          1,
+          1,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "gemini_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "germanium": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "glass_fiber": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "hpq": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "intel_foundry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "lam_kla": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "meta_llama": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "micron_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "net_silicon": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "nvidia_gpu": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "openai_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "optical_xcvr": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "oracle_cloud": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "osat_amkor": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "osat_ase": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "photoresists": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "purity_chemicals": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "quanta": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "rare_earths": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "samsung_foundry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "samsung_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "schneider": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "si_wafers": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "sk_hynix_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "smic_mature": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "specialty_gases": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "supermicro": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "trumpf_source": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "tsmc_advanced": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "ultrapure_water": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "vertiv": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "wistron": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "zeiss_optics": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      }
+    }
+  },
+  "frontier_stack": {
+    "baseline": 4,
+    "horizons": [
+      0,
+      12,
+      24
+    ],
+    "curves": {
+      "abf_substrate": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "anthropic_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "applied_mat": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "arm_ip": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "asml_euv": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "aws": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "azure": {
+        "impact": [
+          1,
+          0,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "broadcom_asic": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "china_design": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "cmp_slurries": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "copper_foil": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "cowos": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "dell_hpe": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "eaton": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "eda_software": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "fiber_optic": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "fluorochemistry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "foxconn": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "gcp": {
+        "impact": [
+          1,
+          1,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "gemini_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "germanium": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "glass_fiber": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "hpq": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "intel_foundry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "lam_kla": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "meta_llama": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "micron_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "net_silicon": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "nvidia_gpu": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "openai_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "optical_xcvr": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "oracle_cloud": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "osat_amkor": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "osat_ase": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "photoresists": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "purity_chemicals": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "quanta": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "rare_earths": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "samsung_foundry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "samsung_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "schneider": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "si_wafers": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "sk_hynix_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "smic_mature": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "specialty_gases": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "supermicro": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "trumpf_source": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "tsmc_advanced": {
+        "impact": [
+          4,
+          0,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "ultrapure_water": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "vertiv": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "wistron": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "zeiss_optics": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      }
+    }
+  },
+  "frontier_fab_only": {
+    "baseline": 4,
+    "horizons": [
+      0,
+      12,
+      24
+    ],
+    "curves": {
+      "abf_substrate": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "anthropic_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "applied_mat": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "arm_ip": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "asml_euv": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "aws": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "azure": {
+        "impact": [
+          1,
+          0,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "broadcom_asic": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "china_design": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "cmp_slurries": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "copper_foil": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "cowos": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "dell_hpe": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "eaton": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "eda_software": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "fiber_optic": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "fluorochemistry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "foxconn": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "gcp": {
+        "impact": [
+          1,
+          1,
+          0
+        ],
+        "shape": "fully_adaptable"
+      },
+      "gemini_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "germanium": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "glass_fiber": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "hpq": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "intel_foundry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "lam_kla": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "meta_llama": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "micron_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "net_silicon": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "nvidia_gpu": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "openai_api": {
+        "impact": [
+          1,
+          1,
+          1
+        ],
+        "shape": "persistent"
+      },
+      "optical_xcvr": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "oracle_cloud": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "osat_amkor": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "osat_ase": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "photoresists": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "purity_chemicals": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "quanta": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "rare_earths": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "samsung_foundry": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "samsung_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "schneider": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "si_wafers": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "sk_hynix_hbm": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "smic_mature": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "specialty_gases": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "supermicro": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "trumpf_source": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "tsmc_advanced": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "ultrapure_water": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      },
+      "vertiv": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "wistron": {
+        "impact": [
+          0,
+          0,
+          0
+        ],
+        "shape": "none"
+      },
+      "zeiss_optics": {
+        "impact": [
+          4,
+          4,
+          4
+        ],
+        "shape": "persistent"
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/AMBRA7592/criticality-spectrometer/schema/model.schema.json",
+  "title": "Criticality Spectrometer Model",
+  "description": "A domain-agnostic dependency model. Contains no case-specific semantics. Nodes, typed dependencies with identified requirement groups, group-targeted time-stamped alternatives, and an outcome definition. The engine reads only this schema; all domain content lives in instances.",
+  "type": "object",
+  "required": ["version", "nodes", "outcome"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {"type": "string"},
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string"},
+          "label": {"type": "string"},
+          "type": {"type": "string"},
+          "attributes": {"type": "object", "additionalProperties": true}
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Requirement rules. Each says: for target to function, its requirement groups must be satisfied under logic. Each group has a stable id and an any_of list of interchangeable inputs (satisfied if any one functions). AND: every group must be satisfied. OR: at least one.",
+      "items": {
+        "type": "object",
+        "required": ["target", "logic", "requirements"],
+        "additionalProperties": false,
+        "properties": {
+          "target": {"type": "string"},
+          "logic": {"type": "string", "enum": ["AND", "OR"]},
+          "requirements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["id", "any_of"],
+              "additionalProperties": false,
+              "properties": {
+                "id": {"type": "string", "description": "Stable identifier for this requirement group, unique within the target."},
+                "any_of": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {"type": "string"},
+                  "description": "Interchangeable input node ids; group satisfied if any one functions."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "alternatives": {
+      "type": "array",
+      "description": "Group-targeted, time-stamped substitutes. Each says: the requirement group identified by (target, requirement_id) may be satisfied by replacement once tau >= activation_time, while replacement functions. A substitute satisfies ONLY that one identified group.",
+      "items": {
+        "type": "object",
+        "required": ["target", "requirement_id", "replacement", "activation_time"],
+        "additionalProperties": false,
+        "properties": {
+          "target": {"type": "string"},
+          "requirement_id": {"type": "string", "description": "The id of the requirement group (within target) that this substitute satisfies."},
+          "replacement": {"type": "string"},
+          "activation_time": {"type": "number", "minimum": 0},
+          "source": {"type": "string"}
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "description": "What loss is measured. served_sinks (default, recommended): count sinks reachable from at least one source. ordered_served_sinks: served, with the qualifying path passing an ordered waypoint sequence.",
+      "required": ["type", "sources", "sinks"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "enum": ["served_sinks", "ordered_served_sinks"]},
+        "sources": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "sinks": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "waypoints": {
+          "type": "array",
+          "items": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+        }
+      }
+    },
+    "horizons": {
+      "type": "array",
+      "items": {"type": "number", "minimum": 0}
+    }
+  }
+}

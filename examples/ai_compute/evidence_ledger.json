@@ -1,0 +1,123 @@
+{
+  "purpose": "External evidence for the load-bearing structural assumptions in the AI-compute worked example. Distinct from parity_ledger.json (which records only the v2.5->v0.1 translation). Each entry states the claim, the basis class, and the source. Basis classes: verified (checked against a cited primary/secondary source), industry-reported (widely reported, not independently verified here), assumption (analyst judgement, not a sourced fact). This example is illustrative; entries marked industry-reported or assumption should be re-checked before any external use.",
+  "as_of": "reflects sources cited in the project record; market-share figures are time-sensitive and should be re-verified",
+  "methodology_citations": [
+    {
+      "claim": "Critical-node detection in sparse graphs is an established problem.",
+      "basis": "verified",
+      "source": "Arulselvan, Commander, Elefteriadou, Pardalos (2009), 'Detecting critical nodes in sparse graphs', Computers & Operations Research 36(7):2193-2200."
+    },
+    {
+      "claim": "Supply-chain disruption modelling via network/OR methods is established.",
+      "basis": "verified",
+      "source": "Snyder et al. (2016), 'OR/MS models for supply chain disruptions: A review', IIE Transactions 48(2):89-109."
+    },
+    {
+      "claim": "Microelectronics supply-chain lock-in and substitutability is an active analytic topic.",
+      "basis": "verified",
+      "source": "UVA National Security Data & Policy Institute (2025), 'Microelectronics Supply Chain Analysis: Lock-In and Substitutability.'"
+    }
+  ],
+  "structural_assumptions": [
+    {
+      "node": "asml_euv",
+      "claim": "ASML is the sole manufacturer of EUV lithography machines.",
+      "used_for": "asml_euv has no alternative in any requirement group -> frontier-persistent.",
+      "basis": "verified",
+      "source": "ZEISS, 'High-NA EUV lithography', states ASML is the only manufacturer of EUV lithography machines: https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html (market status is time-sensitive; re-verify before external use)."
+    },
+    {
+      "node": "zeiss_optics",
+      "claim": "ZEISS is the exclusive supplier of the optical systems for ASML's EUV machines.",
+      "used_for": "asml_euv 'optics' group = {zeiss_optics} with no alternative.",
+      "basis": "verified",
+      "source": "ZEISS, 'High-NA EUV lithography', documents ZEISS as the exclusive optics partner for ASML EUV: https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html"
+    },
+    {
+      "node": "trumpf_source",
+      "claim": "TRUMPF supplies the high-power CO2 drive laser for EUV light sources, and is the exclusive supplier of it.",
+      "used_for": "asml_euv 'source' group = {trumpf_source} with no alternative (exclusivity is what makes it frontier-persistent, not merely its role).",
+      "basis": "verified",
+      "source": "TRUMPF/ZEISS/Fraunhofer fact sheet '5 facts about EUV lithography' documents TRUMPF as the exclusive supplier of the EUV drive laser: https://www.trumpf.com/filestorage/TRUMPF_Master/Corporate/Press/Press_releases/2020_21/Corporate/20201125-PR-TRUMPF-ZEISS-FRAUNHOFER-DZP/Fact_sheet_5_facts_about_EUV_lithography_EN.pdf ; role also at https://www.trumpf.com/en_US/solutions/applications/euv-lithography/euv-drive-laser/"
+    },
+    {
+      "node": "abf_substrate",
+      "claim": "Ajinomoto Build-up Film (ABF) is used in high-performance IC substrates with a dominant market position.",
+      "used_for": "cowos 'substrate' group = {abf_substrate} with no alternative; drives ABF frontier-persistence on the stack.",
+      "basis": "verified",
+      "source": "Ajinomoto R&D, bioscience & fine chemicals, documents ABF's role and market position in high-performance semiconductor substrates: https://www.ajinomoto.com/innovation/rd-organizations-and-facilities/bioscience_chemicals/technology (share figures are time-sensitive; re-verify)."
+    },
+    {
+      "node": "cowos",
+      "claim": "CoWoS (chip-on-wafer-on-substrate) is TSMC's advanced 2.5D packaging platform, and the frontier stack routes advanced logic through it.",
+      "used_for": "stack waypoint sequence includes cowos between fab and server.",
+      "basis": "verified",
+      "no_concentration_claim": "This entry asserts role only. It does NOT claim CoWoS is sole-source: alternative OSAT 2.5D capacity exists and IS modelled (osat_ase/osat_amkor paths). CoWoS's frontier-persistence in results comes from the stack routing choice, not from an unstated monopoly assumption.",
+      "source": "TSMC 3DFabric documents CoWoS as TSMC's 2.5D advanced-packaging platform: https://3dfabric.tsmc.com/english/dedicatedFoundry/technology/3DFabric.htm"
+    },
+    {
+      "node": "si_wafers",
+      "claim": "Polished silicon wafers are a required input to every advanced fab.",
+      "concentration_claim": "The wafer sector is concentrated among a few producers (Shin-Etsu, SUMCO, Siltronic, SK Siltron).",
+      "used_for": "every fab AND_DEPS includes wafers:{si_wafers}; removing wafers disables all fabs on the stack.",
+      "basis": "verified",
+      "concentration_basis": "industry-reported",
+      "source": "Role verified: SUMCO CSR Report 2024 documents SUMCO as a major silicon-wafer producer supplying advanced fabs: https://www.sumcosi.com/english/csr/pdf/csr_rep24en.pdf . Concentration (few-producer market structure) is industry-reported, not established by this single-producer source; specific shares are time-sensitive. The node aggregates multiple producers, so its flat-critical status is a resolution artifact (see PARITY caveat)."
+    },
+    {
+      "node": "smic_mature",
+      "claim": "SMIC operates mature nodes without EUV (export-controlled) and serves a domestic design ecosystem.",
+      "used_for": "smic_mature has no euv group and design:{china_design}; provides the topological (non-frontier) route.",
+      "basis": "industry-reported",
+      "source": "SMIC EUV export-control status and domestic focus, widely reported. Re-verify current node capability."
+    },
+    {
+      "node": "germanium",
+      "claim": "Germanium feeds optical/photonic components (transceivers, fiber), not the sub-5nm logic path.",
+      "used_for": "germanium edges go to optical_xcvr/fiber_optic only -> zero frontier impact.",
+      "basis": "assumption",
+      "source": "Analyst judgement on germanium's role in this graph's resolution; defensible but not independently sourced here."
+    },
+    {
+      "node": "photoresists",
+      "claim": "EUV/advanced photoresists are a required fab input, and JSR is a leading EUV-photoresist supplier.",
+      "concentration_claim": "Advanced photoresist supply is concentrated in a few Japan-heavy suppliers (JSR, TOK, Shin-Etsu, Fujifilm).",
+      "used_for": "photoresists is an any_of member of every fab's 'resist' AND group -> removing it disables all fabs -> frontier-persistent. fluorochemistry (an upstream input to photoresists) is modeled as non-cascading (see note).",
+      "basis": "verified",
+      "concentration_basis": "industry-reported",
+      "source": "Role verified: JSR documents its EUV photoresist role and leadership: https://www.jsr.co.jp/jsr_e/news/2022/20220802.html . Concentration (few-supplier, Japan-heavy market structure and specific shares) is industry-reported, not established by this single-supplier source, and is time-sensitive. The node aggregates multiple suppliers, so its category-level criticality is a resolution artifact. Re-verify before authoritative use."
+    },
+    {
+      "node": "hbm_memory",
+      "claim": "High-bandwidth memory (HBM) for AI accelerators is supplied by SK Hynix, Samsung, and Micron; it is a required input to advanced 2.5D packaging.",
+      "used_for": "cowos 'hbm' group = {sk_hynix_hbm, samsung_hbm, micron_hbm} (OR within the group); modeled as multi-supplier so no single HBM vendor is frontier-critical.",
+      "basis": "industry-reported",
+      "source": "HBM three-supplier structure, widely reported. Re-verify current share and qualification status."
+    },
+    {
+      "node": "server_cloud_routing",
+      "claim": "Advanced accelerators are integrated by ODM/OEM server assemblers and served through hyperscale clouds; multiple assemblers and clouds exist.",
+      "used_for": "server nodes (foxconn/quanta/wistron/supermicro/dell_hpe) and cloud nodes (aws/azure/gcp/oracle) are the stack's server and cloud waypoint groups; modeled as multi-provider OR so individual assemblers/clouds are not frontier-critical.",
+      "basis": "industry-reported",
+      "source": "Multi-vendor server ODM and hyperscale cloud structure, widely reported. Azure/GCP show minor topology impact only where they uniquely route a specific sink at strict; see results.json."
+    }
+  ],
+  "modeling_notes": [
+    {
+      "note": "Non-cascading upstream inputs",
+      "detail": "copper_foil (-> cowos/osat) and fluorochemistry (-> photoresists) are strict v2.5 edges but v2.5 does NOT cascade them (both report 0/0/0 on every v2.5 metric). They are not rendered as v0.1 dependencies, because any rendered dependency in the frozen engine also imposes a liveness cascade, which would fabricate criticality. Their downstream targets stay reachable via other rendered paths. The dropped edges are logged 'unsupported' in parity_ledger.json. This is a v0.1 expressiveness limitation (no connectivity-only relation), not a v2.5 disagreement."
+    }
+  ],
+  "activation_time_assumptions": [
+    {
+      "claim": "Substitutability thresholds strict/degraded/loose correspond to ~0-3 / ~12 / ~24 months and map to activation times 0/12/24.",
+      "basis": "assumption",
+      "source": "v2.5 analyst parameterisation. The specific month values are judgement, not sourced facts; the qualitative ordering is the load-bearing part."
+    },
+    {
+      "claim": "Leading-edge design re-qualification onto a second foundry (e.g. Nvidia->Samsung) is a degraded (~12 month) substitution, not drop-in.",
+      "basis": "assumption",
+      "source": "v2.5 analyst judgement. This single threshold choice governs whether TSMC is frontier-declining vs frontier-flat; flagged as the model's most consequential assumption."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title description">
+<title id="title">Criticality curves across adaptation horizons</title>
+<desc id="description">ASML EUV remains critical, TSMC advanced becomes adaptable, and germanium has no impact on the selected mission.</desc>
+<rect width="1200" height="600" fill="#F7F8F6"/>
+<text x="70" y="54" fill="#172128" font-family="system-ui, sans-serif" font-size="30" font-weight="700">One network, three criticality shapes</text>
+<text x="70" y="83" fill="#566068" font-family="system-ui, sans-serif" font-size="16">Node-removal impact on the ordered frontier mission as alternatives activate</text>
+<line x1="105" y1="465.0" x2="950" y2="465.0" stroke="#D8DCD8" stroke-width="1"/>
+<text x="82" y="471.0" text-anchor="end" fill="#566068" font-family="system-ui, sans-serif" font-size="15">0</text>
+<line x1="105" y1="375.0" x2="950" y2="375.0" stroke="#D8DCD8" stroke-width="1"/>
+<text x="82" y="381.0" text-anchor="end" fill="#566068" font-family="system-ui, sans-serif" font-size="15">1</text>
+<line x1="105" y1="285.0" x2="950" y2="285.0" stroke="#D8DCD8" stroke-width="1"/>
+<text x="82" y="291.0" text-anchor="end" fill="#566068" font-family="system-ui, sans-serif" font-size="15">2</text>
+<line x1="105" y1="195.0" x2="950" y2="195.0" stroke="#D8DCD8" stroke-width="1"/>
+<text x="82" y="201.0" text-anchor="end" fill="#566068" font-family="system-ui, sans-serif" font-size="15">3</text>
+<line x1="105" y1="105.0" x2="950" y2="105.0" stroke="#D8DCD8" stroke-width="1"/>
+<text x="82" y="111.0" text-anchor="end" fill="#566068" font-family="system-ui, sans-serif" font-size="15">4</text>
+<line x1="105" y1="105" x2="105" y2="465" stroke="#172128" stroke-width="2"/>
+<line x1="105" y1="465" x2="950" y2="465" stroke="#172128" stroke-width="2"/>
+<text x="26" y="290" transform="rotate(-90 26 290)" text-anchor="middle" fill="#172128" font-family="system-ui, sans-serif" font-size="16" font-weight="600">Mission loss</text>
+<text x="527.5" y="545" text-anchor="middle" fill="#172128" font-family="system-ui, sans-serif" font-size="16" font-weight="600">Adaptation horizon (tau)</text>
+<line x1="105.0" y1="465" x2="105.0" y2="473" stroke="#172128" stroke-width="2"/>
+<text x="105.0" y="499" text-anchor="middle" fill="#172128" font-family="system-ui, sans-serif" font-size="16">0</text>
+<line x1="527.5" y1="465" x2="527.5" y2="473" stroke="#172128" stroke-width="2"/>
+<text x="527.5" y="499" text-anchor="middle" fill="#172128" font-family="system-ui, sans-serif" font-size="16">12</text>
+<line x1="950.0" y1="465" x2="950.0" y2="473" stroke="#172128" stroke-width="2"/>
+<text x="950.0" y="499" text-anchor="middle" fill="#172128" font-family="system-ui, sans-serif" font-size="16">24</text>
+<polyline points="105.0,105.0 527.5,105.0 950.0,105.0" fill="none" stroke="#C9493A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="105.0" cy="105.0" r="7" fill="#F7F8F6" stroke="#C9493A" stroke-width="4"/>
+<circle cx="527.5" cy="105.0" r="7" fill="#F7F8F6" stroke="#C9493A" stroke-width="4"/>
+<circle cx="950.0" cy="105.0" r="7" fill="#F7F8F6" stroke="#C9493A" stroke-width="4"/>
+<line x1="960" y1="105.0" x2="978" y2="87.0" stroke="#C9493A" stroke-width="2"/>
+<text x="986" y="84.0" fill="#C9493A" font-family="system-ui, sans-serif" font-size="16" font-weight="700">ASML EUV</text>
+<text x="986" y="104.0" fill="#566068" font-family="system-ui, sans-serif" font-size="13">persistent</text>
+<polyline points="105.0,105.0 527.5,465.0 950.0,465.0" fill="none" stroke="#087E8B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="105.0" cy="105.0" r="7" fill="#F7F8F6" stroke="#087E8B" stroke-width="4"/>
+<circle cx="527.5" cy="465.0" r="7" fill="#F7F8F6" stroke="#087E8B" stroke-width="4"/>
+<circle cx="950.0" cy="465.0" r="7" fill="#F7F8F6" stroke="#087E8B" stroke-width="4"/>
+<line x1="960" y1="465.0" x2="978" y2="493.0" stroke="#087E8B" stroke-width="2"/>
+<text x="986" y="490.0" fill="#087E8B" font-family="system-ui, sans-serif" font-size="16" font-weight="700">TSMC advanced</text>
+<text x="986" y="510.0" fill="#566068" font-family="system-ui, sans-serif" font-size="13">fully adaptable</text>
+<polyline points="105.0,465.0 527.5,465.0 950.0,465.0" fill="none" stroke="#646B73" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="105.0" cy="465.0" r="7" fill="#F7F8F6" stroke="#646B73" stroke-width="4"/>
+<circle cx="527.5" cy="465.0" r="7" fill="#F7F8F6" stroke="#646B73" stroke-width="4"/>
+<circle cx="950.0" cy="465.0" r="7" fill="#F7F8F6" stroke="#646B73" stroke-width="4"/>
+<line x1="960" y1="465.0" x2="978" y2="447.0" stroke="#646B73" stroke-width="2"/>
+<text x="986" y="444.0" fill="#646B73" font-family="system-ui, sans-serif" font-size="16" font-weight="700">Germanium</text>
+<text x="986" y="464.0" fill="#566068" font-family="system-ui, sans-serif" font-size="13">none</text>
+<text x="70" y="582" fill="#737B80" font-family="system-ui, sans-serif" font-size="12">Illustrative output from examples/ai_compute/model_frontier_stack.json; values are model-dependent.</text>
+</svg>

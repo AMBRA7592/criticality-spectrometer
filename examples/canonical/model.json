@@ -1,0 +1,45 @@
+{
+  "version": "0.1",
+  "name": "canonical",
+  "description": "Minimal synthetic model with hand-verifiable answers. One source, one sink, an AND assembler with two requirement groups (a bottleneck stage and a redundant stage), and one group-targeted backup that activates at tau=12 for the bottleneck stage only.",
+  "nodes": [
+    {"id": "src", "type": "source"},
+    {"id": "bottleneck", "type": "internal"},
+    {"id": "redundant_1", "type": "internal"},
+    {"id": "redundant_2", "type": "internal"},
+    {"id": "backup", "type": "internal"},
+    {"id": "assembler", "type": "internal"},
+    {"id": "sink", "type": "sink"}
+  ],
+  "dependencies": [
+    {"target": "bottleneck", "logic": "AND", "requirements": [
+      {"id": "feed", "any_of": ["src"]}
+    ]},
+    {"target": "redundant_1", "logic": "AND", "requirements": [
+      {"id": "feed", "any_of": ["src"]}
+    ]},
+    {"target": "redundant_2", "logic": "AND", "requirements": [
+      {"id": "feed", "any_of": ["src"]}
+    ]},
+    {"target": "backup", "logic": "AND", "requirements": [
+      {"id": "feed", "any_of": ["src"]}
+    ]},
+    {"target": "assembler", "logic": "AND", "requirements": [
+      {"id": "stage_bottleneck", "any_of": ["bottleneck"]},
+      {"id": "stage_redundant", "any_of": ["redundant_1", "redundant_2"]}
+    ]},
+    {"target": "sink", "logic": "AND", "requirements": [
+      {"id": "final", "any_of": ["assembler"]}
+    ]}
+  ],
+  "alternatives": [
+    {"target": "assembler", "requirement_id": "stage_bottleneck", "replacement": "backup", "activation_time": 12,
+     "source": "synthetic: backup covers the bottleneck stage of assembler at tau=12"}
+  ],
+  "outcome": {
+    "type": "served_sinks",
+    "sources": ["src"],
+    "sinks": ["sink"]
+  },
+  "horizons": [0, 12, 24]
+}

@@ -1,0 +1,187 @@
+[
+  {
+    "tag": "preserved",
+    "item": "node set",
+    "note": "All 52 v2.5 nodes verbatim including china_design."
+  },
+  {
+    "tag": "preserved",
+    "item": "wafers group",
+    "note": "Restored: every fab AND_DEPS includes wafers:{si_wafers}, and the four si_wafers->fab strict edges. (Dropped in the prior port; this is P1 fix #1.)"
+  },
+  {
+    "tag": "preserved",
+    "item": "AND_DEPS",
+    "note": "Per-fab euv/etch/resist/slurry/gases/chemicals/water/wafers/design; ASML optics+source; CoWoS fab+hbm+substrate as identified groups."
+  },
+  {
+    "tag": "changed",
+    "item": "thresholds->activation_time",
+    "note": "strict/degraded/loose -> tau 0/12/24; strict edge always-on; degraded/loose-only edge becomes a targeted alternative."
+  },
+  {
+    "tag": "changed",
+    "item": "intel_foundry.design group",
+    "note": "No strict edge satisfies intel_foundry's 'design' (arrives via degraded/loose). Modeled as tau-0 satisfiable by ['nvidia_gpu', 'broadcom_asic', 'net_silicon']; the served_sinks/alternative contract cannot defer a baseline requirement without a present satisfier."
+  },
+  {
+    "tag": "changed",
+    "item": "samsung_foundry.design group",
+    "note": "No strict edge satisfies samsung_foundry's 'design' (arrives via degraded/loose). Modeled as tau-0 satisfiable by ['nvidia_gpu', 'broadcom_asic', 'net_silicon']; the served_sinks/alternative contract cannot defer a baseline requirement without a present satisfier."
+  },
+  {
+    "tag": "unsupported",
+    "item": "edge fluorochemistry->photoresists @strict",
+    "note": "v2.5 has this strict edge but does not cascade fluorochemistry (it is a non-load-bearing upstream input; v2.5 reports fluorochemistry at 0/0/0). v0.1 has no connectivity-only relation, so the edge is not rendered and fluorochemistry is correctly non-critical. photoresists stays reachable/satisfiable via its rendered groups, so no source->sink path is lost."
+  },
+  {
+    "tag": "unsupported",
+    "item": "edge copper_foil->cowos @strict",
+    "note": "v2.5 has this strict edge but does not cascade copper_foil (it is a non-load-bearing upstream input; v2.5 reports copper_foil at 0/0/0). v0.1 has no connectivity-only relation, so the edge is not rendered and copper_foil is correctly non-critical. cowos stays reachable/satisfiable via its rendered groups, so no source->sink path is lost."
+  },
+  {
+    "tag": "unsupported",
+    "item": "edge copper_foil->osat_ase @strict",
+    "note": "v2.5 has this strict edge but does not cascade copper_foil (it is a non-load-bearing upstream input; v2.5 reports copper_foil at 0/0/0). v0.1 has no connectivity-only relation, so the edge is not rendered and copper_foil is correctly non-critical. osat_ase stays reachable/satisfiable via its rendered groups, so no source->sink path is lost."
+  },
+  {
+    "tag": "unsupported",
+    "item": "edge copper_foil->osat_amkor @strict",
+    "note": "v2.5 has this strict edge but does not cascade copper_foil (it is a non-load-bearing upstream input; v2.5 reports copper_foil at 0/0/0). v0.1 has no connectivity-only relation, so the edge is not rendered and copper_foil is correctly non-critical. osat_amkor stays reachable/satisfiable via its rendered groups, so no source->sink path is lost."
+  },
+  {
+    "tag": "changed",
+    "item": "copper_foil aux-group removed",
+    "note": "Prior port rendered copper_foil as an auxiliary AND group of cowos, making it mandatory and fabricating copper_foil frontier-persistence [4,4,4]. v2.5 reports copper_foil 0/0/0. The aux group is removed; copper_foil is now correctly [0,0,0]."
+  },
+  {
+    "tag": "changed",
+    "item": "hpq->si_wafers edge",
+    "note": "Present in v2.5 edge list but si_wafers is a declared source (independent origin). Edge retained in inventory for parity count; not rendered as a dependency, matching v2.5 source semantics. This is the only strict edge unrendered for SOURCE-SEMANTICS reasons; the copper_foil and fluorochemistry strict edges are also intentionally unrendered, but for a different reason (non-cascading upstream connectivity), and are logged 'unsupported'."
+  },
+  {
+    "tag": "new",
+    "item": "alt nvidia_gpu->samsung_foundry @tau12",
+    "note": "nvidia_gpu added as timed substitute into group 'design' of samsung_foundry (was degraded edge). NOTE: redundant \u2014 this node already satisfies the group at tau-0 via the empty-group fallback; retained for edge parity."
+  },
+  {
+    "tag": "new",
+    "item": "alt nvidia_gpu->intel_foundry @tau12",
+    "note": "nvidia_gpu added as timed substitute into group 'design' of intel_foundry (was degraded edge). NOTE: redundant \u2014 this node already satisfies the group at tau-0 via the empty-group fallback; retained for edge parity."
+  },
+  {
+    "tag": "new",
+    "item": "alt broadcom_asic->samsung_foundry @tau12",
+    "note": "broadcom_asic added as timed substitute into group 'design' of samsung_foundry (was degraded edge). NOTE: redundant \u2014 this node already satisfies the group at tau-0 via the empty-group fallback; retained for edge parity."
+  },
+  {
+    "tag": "new",
+    "item": "alt broadcom_asic->intel_foundry @tau12",
+    "note": "broadcom_asic added as timed substitute into group 'design' of intel_foundry (was degraded edge). NOTE: redundant \u2014 this node already satisfies the group at tau-0 via the empty-group fallback; retained for edge parity."
+  },
+  {
+    "tag": "new",
+    "item": "alt net_silicon->samsung_foundry @tau12",
+    "note": "net_silicon added as timed substitute into group 'design' of samsung_foundry (was degraded edge). NOTE: redundant \u2014 this node already satisfies the group at tau-0 via the empty-group fallback; retained for edge parity."
+  },
+  {
+    "tag": "new",
+    "item": "alt net_silicon->intel_foundry @tau12",
+    "note": "net_silicon added as timed substitute into group 'design' of intel_foundry (was degraded edge). NOTE: redundant \u2014 this node already satisfies the group at tau-0 via the empty-group fallback; retained for edge parity."
+  },
+  {
+    "tag": "new",
+    "item": "alt samsung_foundry->cowos @tau12",
+    "note": "samsung_foundry added as timed substitute into group 'fab_input' of cowos (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt intel_foundry->cowos @tau12",
+    "note": "intel_foundry added as timed substitute into group 'fab_input' of cowos (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt micron_hbm->osat_amkor @tau12",
+    "note": "micron_hbm added as timed substitute into group 'in' of osat_amkor (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt azure->anthropic_api @tau12",
+    "note": "azure added as timed substitute into group 'in' of anthropic_api (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt oracle_cloud->openai_api @tau12",
+    "note": "oracle_cloud added as timed substitute into group 'in' of openai_api (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt aws->openai_api @tau12",
+    "note": "aws added as timed substitute into group 'in' of openai_api (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt gcp->openai_api @tau12",
+    "note": "gcp added as timed substitute into group 'in' of openai_api (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt osat_amkor->wistron @tau12",
+    "note": "osat_amkor added as timed substitute into group 'in' of wistron (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt osat_amkor->supermicro @tau12",
+    "note": "osat_amkor added as timed substitute into group 'in' of supermicro (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt eaton->oracle_cloud @tau12",
+    "note": "eaton added as timed substitute into group 'in' of oracle_cloud (was degraded edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt smic_mature->osat_ase @tau24",
+    "note": "smic_mature added as timed substitute into group 'in' of osat_ase (was loose edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt smic_mature->osat_amkor @tau24",
+    "note": "smic_mature added as timed substitute into group 'in' of osat_amkor (was loose edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt oracle_cloud->anthropic_api @tau24",
+    "note": "oracle_cloud added as timed substitute into group 'in' of anthropic_api (was loose edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt oracle_cloud->gemini_api @tau24",
+    "note": "oracle_cloud added as timed substitute into group 'in' of gemini_api (was loose edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt aws->gemini_api @tau24",
+    "note": "aws added as timed substitute into group 'in' of gemini_api (was loose edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alt azure->gemini_api @tau24",
+    "note": "azure added as timed substitute into group 'in' of gemini_api (was loose edge)."
+  },
+  {
+    "tag": "new",
+    "item": "alternatives total",
+    "note": "22 timed alternatives generated from degraded/loose edges (includes the six Samsung/Intel design alternatives)."
+  },
+  {
+    "tag": "changed",
+    "item": "frontier stack -> ordered waypoints",
+    "note": "v2.5 PRIMARY frontier metric (src->adv_fab->cowos->server->cloud->sink) expressed as ordered_served_sinks with four waypoint groups: [advanced_fabs], [cowos], [servers], [clouds]."
+  },
+  {
+    "tag": "changed",
+    "item": "frontier fab_only -> single waypoint",
+    "note": "v2.5 SECONDARY sensitivity metric (src->adv_fab->sink) expressed as ordered_served_sinks with one waypoint group [advanced_fabs]."
+  }
+]

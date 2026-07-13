@@ -1,0 +1,54 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[test]"
+      - name: Run tests
+        run: pytest -q
+      - name: Acceptance — engine is case-free
+        run: |
+          if grep -riE "asml|zeiss|trumpf|tsmc|smic|cowos|hbm|abf|photoresist|germanium|wafer|euv|semiconductor" src/criticality_spectrometer/*.py; then
+            echo "FAIL: case-specific entity in engine"; exit 1
+          else
+            echo "CLEAN: engine is case-free"
+          fi
+
+  packaging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build wheel
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build --wheel
+      - name: Install wheel into a clean venv and run acceptance gate
+        run: |
+          python -m venv /tmp/clean
+          . /tmp/clean/bin/activate
+          pip install dist/criticality_spectrometer-*.whl
+          # Packaged schema must load via importlib.resources
+          python -c "from criticality_spectrometer.model import _load_schema; assert _load_schema()['title']=='Criticality Spectrometer Model'"
+          # Run canonical through the installed CLI twice; outputs must be identical
+          mkdir -p /tmp/gate && cp examples/canonical/model.json /tmp/gate/
+          cd /tmp/gate
+          criticality-spectrometer run model.json --format json > out1.json
+          criticality-spectrometer run model.json --format json > out2.json
+          diff out1.json out2.json
+          echo "Packaging acceptance gate: PASS"

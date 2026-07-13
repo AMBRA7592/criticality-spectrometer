@@ -1,104 +1,102 @@
-# Topology and frontier capability are not the same thing
+# Criticality Spectrometer
 
-**A dual-metric substitutability curve analysis of the AI compute supply chain.**
+**Measure node criticality as a curve across adaptation horizons in AND/OR dependency systems.**
 
-The AI compute supply chain — 52 nodes, 13 countries, over $650 billion in annual hyperscaler capex — appears richly redundant. A graph analysis with AND-dependency cascades and two impact metrics reveals that topological redundancy and frontier inference capability diverge: nodes exist that are topologically compensable but frontier-irreplaceable.
+[![CI](https://github.com/AMBRA7592/criticality-spectrometer/actions/workflows/ci.yml/badge.svg)](https://github.com/AMBRA7592/criticality-spectrometer/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB)](https://www.python.org/)
+[![MIT license](https://img.shields.io/badge/license-MIT-2F6F62)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/AMBRA7592/criticality-spectrometer?display_name=tag)](https://github.com/AMBRA7592/criticality-spectrometer/releases)
 
-Four categories emerge from the dual taxonomy:
+![Three node-removal impact curves: persistent, fully adaptable, and none](docs/criticality-curves.svg)
 
-**Frontier-critical** (topology-declining, frontier-flat) — three companies whose topological impact declines at the 24-month horizon (SMIC provides alternative routes) but whose frontier-stack impact is invariant (no sub-5nm alternative exists):
-- ASML (Veldhoven, NL) — sole source of EUV lithography
-- Zeiss SMT (Oberkochen, DE) — sole source of EUV optics
-- TRUMPF (Ditzingen, DE) — sole source of EUV high-power light sources
+Most network rankings assign one importance score per node. Criticality Spectrometer instead removes each node, sweeps the time at which substitutes become available, and records mission loss at every horizon. The result distinguishes a node that must be protected now and later from one whose risk can be reduced by enabling alternatives.
 
-**Frontier-only** (topology-invisible, frontier-flat) — nodes with zero topology impact but 16/16 frontier-stack impact, surfaced only by the ordered end-to-end stack metric:
-- ABF Substrate (Ajinomoto, ~95% market share)
-- Advanced 2.5D Packaging
-
-**Full flat-critical** (topology-flat, frontier-flat) — material classes whose removal disables all fabs including SMIC:
-- Photoresists, CMP slurries, specialty gases, purity chemicals, ultrapure water, silicon wafers
-
-**Declining** (both metrics decline) — TSMC, cloud providers, server assemblers.
-
-![Substitutability Curves](ai-compute-supply-chain/euv_corridor_v2_5.png)
-
-## What's in this repo
-
-```
-criticality-spectrometer/
-├── README.md
-├── LICENSE
-├── requirements.txt
-└── ai-compute-supply-chain/
-    ├── compute_rir_v2_5.py        # Full computation (52 nodes, dual metric, audit block)
-    ├── rir_v2_5.json              # Results (topology + frontier-stack + source decomposition)
-    ├── euv_corridor_v2_5.png      # Dual-panel chart (topology vs frontier)
-    └── euv_corridor_post_v2_5.md  # 1,100-word writeup
-```
-
-## Version history
-
-**v2.5** (current) — Silicon wafers added as explicit fab AND-dependency. Frontier redefined as ordered end-to-end stack (source → advanced fab → advanced packaging → server → cloud → sink). ABF substrate and advanced packaging now surface as frontier-flat. Frontier source decomposition added. Sensitivity comparison between fab-only and stack frontier definitions.
-
-**v2.4** — Fab design requirements moved to per-fab AND-deps. Chinese design ecosystem added as explicit SMIC input. Frontier impact metric introduced (fab-only definition). Source impact formula made symmetric.
-
-**v2.3** — Chemical AND-deps split into separate required categories. Sources included in impact scoring. CoWoS AND-deps added. Adversarial code review identified bugs in v2.2 that changed the result from 3 flat-critical nodes to 12.
-
-**v2.3 → v2.5 correction summary:** v2.3 classified ASML/Zeiss/TRUMPF as topology-flat-critical. This was an artifact: SMIC silently failed a blanket design-predecessor check because no design-to-SMIC edge existed. v2.4 corrected this with per-fab design requirements. v2.5 further corrected the frontier metric from fab-touch to ordered stack, and added silicon wafers as a fab prerequisite. The EUV corridor is now correctly classified as topology-declining but frontier-flat.
-
-## Key concepts
-
-**AND-dependencies.** A fab needs photoresists *and* slurries *and* gases *and* chemicals *and* water *and* wafers *and* lithography *and* a chip design simultaneously. ASML needs Zeiss *and* TRUMPF. Advanced packaging needs fab output *and* HBM *and* ABF substrate.
-
-**Substitutability thresholds.** Strict (0–3 months), degraded (12 months), loose (24 months).
-
-**Two metrics.** Topology: source-to-sink reachability (20 pairs). Frontier-stack: ordered path through advanced fab → packaging → server → cloud (16 pairs). The gap between them is the finding.
-
-**Robustness tiers.** Analyst-assigned judgment register, not computed by the algorithm. Tier A (robust single-entity): ASML, Zeiss, TRUMPF, ABF, advanced packaging. Tier C (resolution/threshold/model-sensitive): chemistry categories, raw material sources.
-
-## How to replicate
+## Run it in 60 seconds
 
 ```bash
-pip install -r requirements.txt
-python ai-compute-supply-chain/compute_rir_v2_5.py
+git clone https://github.com/AMBRA7592/criticality-spectrometer.git
+cd criticality-spectrometer
+python -m pip install -e .
+criticality-spectrometer run examples/canonical/model.json
 ```
 
-The script prints results, runs acceptance tests, and generates chart + JSON. The computation is deterministic.
+The canonical model is a seven-node, hand-verifiable fixture. Its bottleneck has impact `1` at `tau=0` and `0` after its backup activates at `tau=12`:
 
-## How to challenge
+```text
+bottleneck  fully_adaptable  1  0
+```
 
-The edge list (lines 190–360 of `compute_rir_v2_5.py`) encodes every analytical judgment.
+Use JSON output for a reproducible artifact:
 
-**Move a threshold.** Shift design→Samsung/Intel from degraded to loose. TSMC re-enters frontier-flat.
+```bash
+criticality-spectrometer run examples/canonical/model.json --format json > result.json
+```
 
-**Split a category.** Decompose photoresists into JSR/TOK/Shin-Etsu/Fujifilm. The category likely shifts from flat to declining.
+## What the instrument returns
 
-**Add AND-deps.** Server integration arguably needs chips AND memory AND networking AND power. Add these and re-run.
+For every node, the sweep reports an impact curve and a conservative shape class:
 
-**Add HPQ alternatives.** Model degraded quartz edges from Russia/Brazil/China. Test whether HPQ stays flat.
+| shape | curve behavior | interpretation |
+|---|---|---|
+| `persistent` | positive and unchanged | alternatives do not reduce measured loss |
+| `fully_adaptable` | falls to zero | available alternatives eventually restore the mission |
+| `partially_adaptable` | declines but stays positive | adaptation helps without eliminating loss |
+| `none` | zero at every horizon | removal does not reduce the selected mission outcome |
 
-## Model scope and known exclusions
+These labels describe model output. They are not policy recommendations or empirical claims by themselves.
 
-This is a structural framework, not an empirical digital twin. Known exclusions:
+## Model contract
 
-- AND-dependencies cover fabs, ASML, and advanced packaging only. Server, networking, power/thermal, and cloud layers use OR-semantics.
-- Category nodes aggregate multiple suppliers. Splitting to supplier level would likely convert several from flat to declining.
-- HPQ lacks degraded alternative-quartz edges. Its topology-flat status is model-dependent.
-- Temporal buffers (installed base, inventory) are not modeled. The finding applies to new capacity, not existing fleet.
-- The frontier-stack metric requires an ordered path through advanced packaging. It is a more realistic proxy than fab-only reachability but is not a complete end-to-end capability model.
+A model contains:
 
-## Prior art
+- nodes;
+- identified requirement groups with `AND` or `OR` logic;
+- substitutes targeted to a specific requirement group and activation time;
+- one mission outcome: `served_sinks` or `ordered_served_sinks`.
 
-- Arulselvan et al. 2009 — Critical Node Detection Problem
-- Snyder et al. 2016 — OR/MS models for supply chain disruptions
-- UVA NSDPI 2025 — Microelectronics supply chain lock-in and substitutability
+The machine-readable contract is in [`schema/model.schema.json`](schema/model.schema.json). The formal cascade, outcome, baseline, and comparison semantics are in [`docs/method.md`](docs/method.md).
 
-The dual topology/frontier taxonomy and ordered-stack frontier definition are, to our knowledge, novel contributions.
+## Worked example: AI compute supply chain
 
-## Author
+The repository includes a 52-node worked example expressed entirely as model data; the engine contains no semiconductor-specific entities. Three missions separate topology, an advanced-fab path, and the primary ordered frontier stack.
 
-Amadeus Brandes · Independent researcher · Kronberg, Germany
+The primary stack reproduces the prior case study's seven named acceptance tests at the shape level. For example, the modeled EUV corridor is persistent, TSMC is fully adaptable over the specified horizons, and germanium has no impact on that mission. The example is an application, not cross-domain validation.
 
-## License
+- [Parity analysis and divergences](examples/ai_compute/PARITY.md)
+- [Evidence ledger](examples/ai_compute/evidence_ledger.json)
+- [Frozen source manifest](examples/ai_compute/v2_5_manifest.json)
+- [Non-claims and empirical boundaries](docs/nonclaims.md)
 
-MIT. Use it, extend it, challenge it.
+Rebuild and verify the example:
+
+```bash
+python examples/ai_compute/build_ai_case.py
+pytest -q tests/test_ai_case.py
+```
+
+## How it differs from common network measures
+
+| method | represents | answer type |
+|---|---|---|
+| Centrality | position in a graph | scalar score |
+| Critical-node detection | disconnection caused by removal | scalar or set |
+| **Criticality Spectrometer** | mission loss across adaptation horizons under explicit requirements | **curve and shape class** |
+
+## Scope of v0.1
+
+This is an alpha research instrument with one canonical fixture and one empirical domain. It does not infer dependencies, estimate activation times, prove causal claims, or turn shape classes into policy prescriptions. The current model contract also lacks connectivity-only edges; the worked example logs where that boundary matters.
+
+See [`docs/nonclaims.md`](docs/nonclaims.md) for the full boundary and [`CHANGELOG.md`](CHANGELOG.md) for release history.
+
+## Development
+
+```bash
+python -m pip install -e ".[test]"
+pytest -q
+```
+
+Contributions are welcome, especially independent examples that exercise the frozen model contract without adding domain logic to the engine. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Citation and license
+
+Citation metadata is provided in [`CITATION.cff`](CITATION.cff). Released under the [MIT License](LICENSE).
