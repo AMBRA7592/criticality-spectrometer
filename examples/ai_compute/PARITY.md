@@ -136,6 +136,31 @@ member of every fab's `resist` group), so no source→sink path is lost and no
 load-bearing curve changes. This is a v0.1 expressiveness limitation, not a v2.5
 disagreement.
 
+## Divergence 6: hpq persists through the rendered chemicals liveness path — OPEN
+
+On both frontier missions, `hpq` (Spruce Pine high-purity quartz) is
+frontier-persistent `[4,4,4]`: the port renders `purity_chemicals` with an OR
+liveness dependency on its only declared input, `hpq`, so removing `hpq`
+cascades `purity_chemicals` and fails every fab's `chemicals` group. v2.5 would
+not propagate that removal — `purity_chemicals` is not an `AND_DEPS` key there,
+so it is reachability-only and never cascades, and `hpq`'s v2.5 stack signal
+was whatever pair-count path loss its removal produced, not a fab shutdown.
+
+The root cause is the same single-edge-mechanism boundary as Divergence 5, with
+the opposite disposition. The `copper_foil`/`fluorochemistry` edges could be
+left unrendered because their targets remained satisfiable through other
+rendered paths. `hpq -> purity_chemicals` cannot be dropped the same way: it is
+`purity_chemicals`' only input, and leaving it unrendered would quietly turn
+`purity_chemicals` into an unconditional origin. The port keeps the edge
+rendered and accepts the stronger reading: under v0.1's uniform liveness
+semantics, the 11N chemicals path makes `hpq` load-bearing for the frontier
+missions.
+
+`hpq` is not one of the seven named v2.5 acceptance tests, and the v2.5 source
+is not shipped here, so its exact v2.5 stack numbers cannot be compared in this
+repository. Logged as a semantics divergence (uniform liveness vs
+reachability-only pass-through), not a translation error.
+
 ## Open extension
 
 v2.5 flagged that adding AND-dependencies to the OSAT layer would likely surface
@@ -151,8 +176,12 @@ frontier-critical, and TSMC frontier-declining — survives the cleaner instrume
 on the primary stack mission and matches all seven of v2.5's hard acceptance
 tests. The port reproduces those named results; it does not claim bit-identical
 behaviour on every node, because the generic dependency semantics differ from
-v2.5 in two logged, non-load-bearing ways: (a) the τ-12 design-deferral boundary,
-which affects only the secondary fab_only metric, and (b) four connectivity-only
-edges from two upstream node families (`copper_foil`, `fluorochemistry`) that v0.1
-cannot render without fabricating criticality, left unrendered so both nodes
-correctly read `[0,0,0]`. No model was tuned to recover a headline.
+v2.5 in three logged ways: (a) the τ-12 design-deferral boundary, which affects
+only the secondary fab_only metric, (b) four connectivity-only edges from two
+upstream node families (`copper_foil`, `fluorochemistry`) that v0.1 cannot
+render without fabricating criticality, left unrendered so both nodes correctly
+read `[0,0,0]`, and (c) the `hpq` chemicals path (Divergence 6), where v0.1's
+uniform liveness reading is stronger than v2.5's reachability-only treatment
+and is kept because dropping the edge would silently detach `purity_chemicals`
+from its only input. None of the seven acceptance-test curves is affected. No
+model was tuned to recover a headline.

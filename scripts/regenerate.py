@@ -37,8 +37,13 @@ def main() -> None:
 
     reports = {}
     for mission, path in MISSIONS.items():
+        # Sweep each model over its own declared horizons instead of a
+        # hardcoded list. Read them verbatim from the file (load_model coerces
+        # to float, which would serialize 0 as 0.0 in the committed bundle and
+        # in the figure's axis labels).
+        declared = json.loads(path.read_text(encoding="utf-8")).get("horizons")
         model = load_model(str(path))
-        result = run_sweep(model, [0, 12, 24])
+        result = run_sweep(model, declared)
         reports[mission] = to_document(model, result)
 
     bundle = {

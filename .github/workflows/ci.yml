@@ -50,8 +50,8 @@ jobs:
           cd /tmp/gate
           criticality-spectrometer run model.json --format json > out1.json
           criticality-spectrometer run model.json --format json > out2.json
-            diff out1.json out2.json
-            echo "Packaging acceptance gate: PASS"
+          diff out1.json out2.json
+          echo "Packaging acceptance gate: PASS"
 
   provenance:
     runs-on: ubuntu-latest
@@ -67,4 +67,13 @@ jobs:
       - name: Regenerate committed artifacts
         run: python scripts/regenerate.py
       - name: Require byte-clean regeneration
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          # git diff misses files regeneration creates but never committed;
+          # any porcelain output (modified or untracked) fails the gate.
+          leftover="$(git status --porcelain)"
+          if [ -n "$leftover" ]; then
+            echo "regeneration left modified or untracked files:"
+            echo "$leftover"
+            exit 1
+          fi
