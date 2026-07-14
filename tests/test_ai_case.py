@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from criticality_spectrometer import load_model, run_sweep
+from criticality_spectrometer import load_model, run_sweep, to_document
 
 AI = Path(__file__).resolve().parent.parent / "examples" / "ai_compute"
 
@@ -176,14 +176,12 @@ def test_topology_upstream_nodes_zero_clouds_can_bite(sweeps):
         assert sink in nonzero
 
 
-def test_committed_results_match(sweeps):
-    """results.json must match a fresh run (guards against stale committed data)."""
+def test_committed_results_match(models, sweeps):
+    """Every committed report must exactly match a fresh self-identifying run."""
     committed = json.loads((AI / "results.json").read_text())
-    for name, r in sweeps.items():
-        for node, cur in r.curves.items():
-            exp = committed[name]["curves"][node]
-            assert exp["impact"] == cur.impact, f"{name}/{node}"
-            assert exp["shape"] == cur.shape, f"{name}/{node}"
+    assert set(committed["reports"]) == set(sweeps)
+    for name, result in sweeps.items():
+        assert committed["reports"][name] == to_document(models[name], result)
 
 
 # ---- edge parity vs frozen v2.5 manifest ----------------------------------

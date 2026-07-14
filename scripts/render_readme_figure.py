@@ -34,9 +34,9 @@ def y_position(value: float, maximum: float) -> float:
 
 
 def render() -> str:
-    results = json.loads(RESULTS.read_text())["frontier_stack"]
-    horizons = results["horizons"]
-    curves = results["curves"]
+    results = json.loads(RESULTS.read_text())["reports"]["frontier_stack"]
+    horizons = results["run"]["horizons"]
+    curves = results["nodes"]
     maximum = max(results["baseline"], 1)
 
     parts = [

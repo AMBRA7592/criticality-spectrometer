@@ -13,11 +13,13 @@ Before submitting a change, also run:
 
 ```bash
 git diff --check
-python examples/ai_compute/build_ai_case.py
+python scripts/regenerate.py
 pytest -q
+git diff --exit-code
 ```
 
-The generated AI example files must remain byte-deterministic.
+The generated AI example models, parity ledger, self-identifying results, and
+README figure must remain byte-deterministic.
 
 ## Engine boundary
 
