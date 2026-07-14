@@ -8,7 +8,8 @@ import pytest
 
 from criticality_spectrometer import (
     load_model, functioning_nodes, count_outcome, baseline_outcome,
-    run_sweep, default_horizons, ModelError, BaselineError,
+    run_sweep, default_horizons, ModelError, ModelWarning, BaselineError,
+    or_relax,
 )
 
 FIXTURE = os.path.join(os.path.dirname(__file__), "..", "examples", "canonical", "model.json")
@@ -130,11 +131,16 @@ def test_impact_monotone_nonincreasing(model):
             assert c.impact[i] >= c.impact[i + 1]
 
 
+def test_duplicate_horizons_are_deduplicated(model):
+    result = run_sweep(model, [12, 0, 12, 24, 0])
+    assert result.horizons == [0, 12, 24]
+    assert result.curves["bottleneck"].horizons == [0, 12, 24]
+
+
 # ---------- AND survival <= OR survival ----------
 
 def test_and_survival_le_or(model):
-    from criticality_spectrometer.sweep import _or_relax
-    relaxed = _or_relax(model)
+    relaxed = or_relax(model)
     for node in model.nodes:
         for tau in (0, 12, 24):
             s_and = count_outcome(model, functioning_nodes(model, {node}, tau), tau)
@@ -280,6 +286,41 @@ def test_reject_negative_horizon():
     d["horizons"] = [-3]
     with pytest.raises(ModelError):
         load_model(d)
+
+
+def test_reject_direct_self_requirement():
+    d = _valid()
+    d["dependencies"][0]["requirements"][0]["any_of"] = ["b"]
+    with pytest.raises(ModelError, match="self-satisfaction"):
+        load_model(d)
+
+
+def test_reject_direct_self_alternative():
+    d = _valid()
+    d["alternatives"] = [
+        {
+            "target": "b",
+            "requirement_id": "g",
+            "replacement": "b",
+            "activation_time": 1,
+        }
+    ]
+    with pytest.raises(ModelError, match="self-satisfaction"):
+        load_model(d)
+
+
+def test_source_dependency_warns_but_loads():
+    d = _valid()
+    d["dependencies"].append(
+        {
+            "target": "a",
+            "logic": "AND",
+            "requirements": [{"id": "upstream", "any_of": ["b"]}],
+        }
+    )
+    with pytest.warns(ModelWarning, match="reachability starting points"):
+        model = load_model(d)
+    assert "a" in model.dependencies
 
 
 # ---------- continuity semantics for cycles ----------

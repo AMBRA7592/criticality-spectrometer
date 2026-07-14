@@ -14,6 +14,7 @@ from .model import (
     Alternative,
     Outcome,
     ModelError,
+    ModelWarning,
     load_model,
 )
 from .cascade import functioning_nodes
@@ -26,9 +27,10 @@ from ._version import __version__
 
 __all__ = [
     "Model", "Dependency", "RequirementGroup", "Alternative", "Outcome",
-    "ModelError", "BaselineError", "load_model",
+    "ModelError", "ModelWarning", "BaselineError", "load_model",
     "functioning_nodes", "count_outcome", "baseline_outcome", "induced_edges",
     "run_sweep", "SweepResult", "NodeCurve", "default_horizons",
-    "classify", "policy_verb", "or_relax", "survival_gap", "to_document", "to_json", "to_text",
+    "classify", "policy_verb", "or_relax", "survival_gap", "to_document",
+    "to_json", "to_text",
     "__version__",
 ]

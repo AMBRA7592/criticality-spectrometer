@@ -35,6 +35,10 @@ Use JSON output for a reproducible artifact:
 criticality-spectrometer run examples/canonical/model.json --format json > result.json
 ```
 
+JSON reports identify the instrument and schema versions, model SHA-256,
+horizons, and run configuration. The contract is
+[`schema/result.schema.json`](schema/result.schema.json).
+
 Prefer the Python API?
 
 ```python
@@ -48,6 +52,10 @@ print(result.curves["runner_primary"].impact)
 
 The narrated [model-your-first-system tutorial](docs/tutorial.md) builds that
 ten-node CI pipeline from scratch.
+
+CLI exit codes are stable: `0` means success, `2` means invalid CLI input or an
+invalid model, and `3` means the model failed the positive, constant-baseline
+requirement. `criticality-spectrometer --version` prints the installed version.
 
 ## What the instrument returns
 

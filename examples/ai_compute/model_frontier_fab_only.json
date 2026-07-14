@@ -760,18 +760,6 @@
       ]
     },
     {
-      "target": "si_wafers",
-      "logic": "OR",
-      "requirements": [
-        {
-          "id": "in",
-          "any_of": [
-            "hpq"
-          ]
-        }
-      ]
-    },
-    {
       "target": "sk_hynix_hbm",
       "logic": "OR",
       "requirements": [

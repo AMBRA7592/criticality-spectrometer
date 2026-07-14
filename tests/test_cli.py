@@ -9,6 +9,7 @@ import tempfile
 import pytest
 
 from criticality_spectrometer.cli import main
+from criticality_spectrometer import __version__, ModelWarning
 
 
 CANONICAL = os.path.join(os.path.dirname(__file__), "..", "examples", "canonical", "model.json")
@@ -81,3 +82,46 @@ def test_validate_missing_file_exit_2():
 
 def test_good_horizons_run_ok():
     assert main(["run", CANONICAL, "--horizons", "0,12,24"]) == 0
+
+
+def test_duplicate_horizons_are_deduplicated(capsys):
+    assert main([
+        "run",
+        CANONICAL,
+        "--horizons",
+        "12,0,12,0",
+        "--format",
+        "json",
+    ]) == 0
+    document = json.loads(capsys.readouterr().out)
+    assert document["run"]["horizons"] == [0.0, 12.0]
+
+
+def test_version_flag(capsys):
+    with pytest.raises(SystemExit) as exc:
+        main(["--version"])
+    assert exc.value.code == 0
+    assert capsys.readouterr().out.strip() == f"criticality-spectrometer {__version__}"
+
+
+def test_validate_source_dependency_warns_and_exits_zero(tmp_path):
+    document = {
+        "version": "0.1",
+        "nodes": [{"id": "src"}, {"id": "upstream"}, {"id": "sink"}],
+        "dependencies": [
+            {
+                "target": "src",
+                "logic": "AND",
+                "requirements": [{"id": "input", "any_of": ["upstream"]}],
+            },
+            {
+                "target": "sink",
+                "logic": "AND",
+                "requirements": [{"id": "input", "any_of": ["src"]}],
+            },
+        ],
+        "outcome": {"type": "served_sinks", "sources": ["src"], "sinks": ["sink"]},
+    }
+    path = _write(tmp_path, "dependent-source.json", json.dumps(document))
+    with pytest.warns(ModelWarning):
+        assert main(["validate", path]) == 0

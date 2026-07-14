@@ -10,10 +10,10 @@ from __future__ import annotations
 import json
 from importlib import resources
 
+from ._version import __version__
+from .classify import policy_verb
 from .model import MODEL_SCHEMA_VERSION, Model
 from .sweep import SweepResult
-from .classify import policy_verb
-from ._version import __version__
 
 
 RESULT_SCHEMA_VERSION = "0.1"
@@ -30,9 +30,11 @@ def to_document(
     model: Model,
     result: SweepResult,
     include_policy: bool = False,
-    compute_or_gap: bool = True,
+    compute_or_gap: bool | None = None,
 ) -> dict:
     """Build a deterministic, self-identifying result document."""
+    if compute_or_gap is None:
+        compute_or_gap = bool(result.or_survival_gap)
     doc = {
         "result_schema_version": RESULT_SCHEMA_VERSION,
         "instrument": {

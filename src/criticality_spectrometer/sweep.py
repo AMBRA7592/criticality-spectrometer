@@ -21,11 +21,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from .model import Model, Dependency, RequirementGroup
 from .cascade import functioning_nodes
-from .outcome import count_outcome, baseline_outcome
 from .classify import classify as _classify
-from .compare import or_relax as _or_relax
+from .compare import or_relax, survival_gap
+from .model import Model
+from .outcome import baseline_outcome, count_outcome
 
 
 class BaselineError(ValueError):
@@ -40,7 +40,12 @@ class NodeCurve:
     shape: str
 
     def as_dict(self) -> dict:
-        return {"node": self.node, "horizons": self.horizons, "impact": self.impact, "shape": self.shape}
+        return {
+            "node": self.node,
+            "horizons": self.horizons,
+            "impact": self.impact,
+            "shape": self.shape,
+        }
 
 
 @dataclass
@@ -79,11 +84,15 @@ def _check_constant_baseline(model: Model, taus: list[float]) -> int:
     return b0
 
 
-def run_sweep(model: Model, horizons: list[float] | None = None, compute_or_gap: bool = True) -> SweepResult:
+def run_sweep(
+    model: Model,
+    horizons: list[float] | None = None,
+    compute_or_gap: bool = True,
+) -> SweepResult:
     taus = horizons if horizons is not None else (model.horizons or default_horizons(model))
     if not taus:
         taus = default_horizons(model)
-    taus = sorted(taus)
+    taus = sorted(set(taus))
 
     baseline = _check_constant_baseline(model, taus)
 
@@ -91,24 +100,28 @@ def run_sweep(model: Model, horizons: list[float] | None = None, compute_or_gap:
     candidates = list(model.nodes)
 
     curves: dict[str, NodeCurve] = {}
+    survival_by_node: dict[str, list[int]] = {}
     for node in candidates:
         impact = []
+        survival = []
         for tau in taus:
             fn = functioning_nodes(model, {node}, tau)
-            impact.append(baseline - count_outcome(model, fn, tau))
+            served = count_outcome(model, fn, tau)
+            survival.append(served)
+            impact.append(baseline - served)
+        survival_by_node[node] = survival
         curves[node] = NodeCurve(node=node, horizons=list(taus), impact=impact, shape=_classify(impact))
 
     or_survival_gap: dict[str, list[int]] = {}
     if compute_or_gap:
-        relaxed = _or_relax(model)
+        relaxed = or_relax(model)
         for node in candidates:
-            row = []
-            for tau in taus:
-                fn_and = functioning_nodes(model, {node}, tau)
-                s_and = count_outcome(model, fn_and, tau)
-                fn_or = functioning_nodes(relaxed, {node}, tau)
-                s_or = count_outcome(relaxed, fn_or, tau)
-                row.append(s_or - s_and)
-            or_survival_gap[node] = row
+            or_survival_gap[node] = survival_gap(
+                model,
+                node,
+                list(taus),
+                and_survival=survival_by_node[node],
+                relaxed_model=relaxed,
+            )
 
     return SweepResult(horizons=list(taus), baseline=baseline, curves=curves, or_survival_gap=or_survival_gap)

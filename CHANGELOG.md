@@ -2,6 +2,35 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.1] — 2026-07-14
+
+Hardening release focused on reproducible public artifacts and stricter model
+validation.
+
+### Added
+- Self-identifying JSON reports with instrument version, model and result schema
+  versions, model SHA-256, horizons, and run configuration.
+- A result JSON Schema shipped both publicly and inside the wheel.
+- One deterministic `scripts/regenerate.py` command for the AI models, parity
+  ledger, complete results bundle, and README figure.
+- CI regeneration/clean-diff gate and local tests for schema identity, result
+  validity, and README-figure freshness.
+- A narrated ten-node CI-pipeline tutorial and Python API quickstart.
+- `criticality-spectrometer --version`, documented CLI exit codes, and a
+  `py.typed` marker for downstream type checkers.
+- Python 3.13 CI coverage.
+
+### Changed
+- **Validation is stricter:** direct self-satisfaction through a requirement or
+  alternative now raises `ModelError`. A source with a dependency remains valid
+  but emits `ModelWarning` because sources are reachability starts, not
+  automatically independent origins.
+- Explicit horizons are sorted and deduplicated. Existing serialized curve
+  fields are retained.
+- AND-aware survival computed during the curve sweep is reused by the single
+  public OR-gap implementation.
+- Package and test dependencies are defined only in `pyproject.toml`.
+
 ## [0.1.0] — 2026-07-14
 
 First public release: the instrument extracted from the AI-compute case study.

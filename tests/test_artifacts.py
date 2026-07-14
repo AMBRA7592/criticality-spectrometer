@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import re
 
 import jsonschema
 
-from criticality_spectrometer import load_model, run_sweep, to_text
-from criticality_spectrometer.report import _load_result_schema
+from criticality_spectrometer import __version__, load_model, run_sweep, to_text
+from criticality_spectrometer.model import MODEL_SCHEMA_VERSION, _load_schema
+from criticality_spectrometer.report import RESULT_SCHEMA_VERSION, _load_result_schema
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -22,11 +25,37 @@ def test_public_and_packaged_schemas_are_byte_identical():
         assert (public / name).read_bytes() == (packaged / name).read_bytes()
 
 
+def test_schema_versions_match_runtime_constants():
+    assert _load_schema()["x-schema-version"] == MODEL_SCHEMA_VERSION
+    assert _load_result_schema()["x-schema-version"] == RESULT_SCHEMA_VERSION
+
+
+def test_release_versions_are_synchronized():
+    pyproject = (ROOT / "pyproject.toml").read_text()
+    citation = (ROOT / "CITATION.cff").read_text()
+    project_version = re.search(r'^version = "([^"]+)"$', pyproject, re.MULTILINE)
+    citation_version = re.search(r"^version: (.+)$", citation, re.MULTILINE)
+    assert project_version is not None
+    assert citation_version is not None
+    assert project_version.group(1) == __version__
+    assert citation_version.group(1) == __version__
+
+
+def test_typing_marker_exists():
+    assert (ROOT / "src" / "criticality_spectrometer" / "py.typed").is_file()
+
+
 def test_committed_result_bundle_validates():
     document = json.loads(
         (ROOT / "examples" / "ai_compute" / "results.json").read_text()
     )
     jsonschema.validate(document, _load_result_schema())
+
+
+def test_path_loaded_model_hashes_raw_file_bytes():
+    path = ROOT / "examples" / "canonical" / "model.json"
+    model = load_model(str(path))
+    assert model.source_sha256 == hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def test_readme_figure_is_fresh():

@@ -51,7 +51,11 @@
             "name": {"type": "string"},
             "version": {"type": "string"},
             "schema_version": {"const": "0.1"},
-            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$",
+              "description": "SHA-256 of raw UTF-8 file bytes for path-loaded models; canonical sorted JSON bytes for mapping-loaded models."
+            }
           }
         },
         "run": {
@@ -102,4 +106,3 @@
     }
   }
 }
-

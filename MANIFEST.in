@@ -1,6 +1,7 @@
 include CHANGELOG.md
 include CITATION.cff
 include CONTRIBUTING.md
+include src/criticality_spectrometer/py.typed
 recursive-include docs *.md *.svg
 recursive-include examples *.json *.md *.py
 recursive-include schema *.json *.md
