@@ -1,3 +1,5 @@
+<img src="docs/brand/mark.svg" width="64" alt="Criticality Spectrometer mark">
+
 # Criticality Spectrometer
 
 **Measure node criticality as a curve across adaptation horizons in AND/OR dependency systems.**

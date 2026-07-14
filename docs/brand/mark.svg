@@ -1,9 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
-  <title id="title">Criticality Spectrometer mark</title>
-  <desc id="description">Three strokes show persistent, adaptable, and no-impact criticality curves.</desc>
-  <g fill="none" stroke-linecap="round" stroke-width="44">
-    <path d="M62 126 H182" stroke="#C4462B"/>
-    <path d="M202 126 L322 386" stroke="#147D87"/>
-    <path d="M342 386 H462" stroke="#737980"/>
-  </g>
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Criticality Spectrometer mark — the three curve shapes as glyphs:
+    persistent (flat, high) · fully adaptable (falls to zero) · none (flat, zero)
+    vermillion #C4462B · teal #147D87 · gray #77808B
+    Transparent background; place on paper #F5F4F1 or white.
+  -->
+  <path d="M 8 26 H 30"  stroke="#C4462B" stroke-width="11" stroke-linecap="round" fill="none"/>
+  <path d="M 40 26 L 54 70" stroke="#147D87" stroke-width="11" stroke-linecap="round" fill="none"/>
+  <path d="M 68 70 H 90" stroke="#77808B" stroke-width="11" stroke-linecap="round" fill="none"/>
 </svg>
