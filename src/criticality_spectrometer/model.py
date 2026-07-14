@@ -9,9 +9,9 @@ Schema and then applies referential-integrity checks the schema cannot express.
 
 from __future__ import annotations
 
-import json
 import hashlib
-import os
+import json
+import warnings
 from dataclasses import dataclass, field
 from importlib import resources
 from typing import Any
@@ -24,6 +24,10 @@ MODEL_SCHEMA_VERSION = "0.1"
 
 class ModelError(ValueError):
     """Raised when a model instance is invalid."""
+
+
+class ModelWarning(UserWarning):
+    """Warns about valid but potentially surprising model semantics."""
 
 
 @dataclass(frozen=True)
@@ -139,6 +143,11 @@ def load_model(path_or_dict: str | dict) -> Model:
                     member in nodes,
                     f"Requirement {gid!r} of {target!r} references undeclared node {member!r}.",
                 )
+                _require(
+                    member != target,
+                    f"Requirement {gid!r} of {target!r} directly references its own target. "
+                    "Direct self-satisfaction bypasses dependency enforcement.",
+                )
             groups.append(RequirementGroup(id=gid, any_of=tuple(greq["any_of"])))
         dependencies[target] = Dependency(target=target, logic=rec["logic"], requirements=tuple(groups))
 
@@ -150,6 +159,11 @@ def load_model(path_or_dict: str | dict) -> Model:
         replacement = rec["replacement"]
         _require(target in nodes, f"Alternative target {target!r} is not a declared node.")
         _require(replacement in nodes, f"Alternative replacement {replacement!r} is not a declared node.")
+        _require(
+            replacement != target,
+            f"Alternative for {target!r} uses the target itself as replacement. "
+            "Direct self-satisfaction bypasses dependency enforcement.",
+        )
         _require(target in dependencies, f"Alternative targets {target!r}, which has no dependency.")
         _require(
             dependencies[target].group(rid) is not None,
@@ -185,6 +199,14 @@ def load_model(path_or_dict: str | dict) -> Model:
         sinks=tuple(o["sinks"]),
         waypoints=tuple(waypoints),
     )
+    for sid in outcome.sources:
+        if sid in dependencies:
+            warnings.warn(
+                f"Outcome source {sid!r} has a dependency. Sources are reachability "
+                "starting points, not independent origins, and may stop functioning.",
+                ModelWarning,
+                stacklevel=2,
+            )
 
     horizons = [float(h) for h in data.get("horizons", [])]
 

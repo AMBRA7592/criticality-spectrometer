@@ -23,6 +23,11 @@ A **model** is nodes, dependencies, alternatives, and an outcome.
   from at least one source. `ordered_served_sinks`: served via a path passing an
   ordered waypoint sequence.
 
+An outcome **source** is a reachability starting point, not automatically an
+independent origin. If a source has a dependency, it can stop functioning during
+a cascade. Such a model is meaningful but unusual, so loading it emits
+`ModelWarning`.
+
 ## Functioning (continuity semantics)
 
 The instrument asks about continuity after removal from an already-operating
@@ -33,6 +38,12 @@ point: iteratively remove any node whose dependency is unsatisfied, until stable
 A requirement group is satisfied iff a declared `any_of` member functions, or a
 targeted substitute for that group is active (tau reached) with its replacement
 functioning.
+
+Direct self-satisfaction is rejected: a target may not appear in its own
+`any_of` group or name itself as an alternative replacement. Under continuity
+semantics those constructs bypass dependency enforcement rather than expressing
+a useful dependency. Multi-node cycles remain valid and retain the continuity
+meaning below.
 
 Consequence for cycles: a mutually-supporting cycle that is intact at start
 keeps running unless a removal breaks it. This is the correct continuity reading
@@ -87,6 +98,7 @@ looks substitutable, but under the true AND requirements it is not.
 
 ## What v0.1 does not do
 
-k-of-n logic, capacity/throughput constraints, phase-transition detection,
-curve clustering, source-sink pair diagnostics, startup-feasibility analysis,
-and policy scoring are out of scope. See `nonclaims.md`.
+k-of-n logic, connectivity-only edges, capacity/throughput constraints,
+phase-transition detection, curve clustering, source-sink pair diagnostics,
+startup-feasibility analysis, and policy scoring are out of scope. See
+`nonclaims.md`.

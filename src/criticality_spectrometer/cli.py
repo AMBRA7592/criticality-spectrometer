@@ -17,6 +17,7 @@ import json
 import math
 import sys
 
+from ._version import __version__
 from .model import load_model, ModelError
 from .sweep import run_sweep, BaselineError
 from .report import to_json, to_text
@@ -90,6 +91,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="criticality-spectrometer")
+    p.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = p.add_subparsers(dest="command", required=True)
 
     r = sub.add_parser("run", help="run the sweep and print a report")

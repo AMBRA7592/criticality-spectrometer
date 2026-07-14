@@ -199,6 +199,11 @@ dependencies = {}
 group_membership = {}
 
 for node in sorted(ALL_NODES):
+    # Outcome sources are independent origins in the v2.5 case. Preserve their
+    # incoming edges in the parity inventory, but do not render dependencies for
+    # them; the hpq->si_wafers disposition below records that translation.
+    if node in SOURCES:
+        continue
     if node in AND_DEPS:
         groups, gm = [], {}
         sp = strict_preds.get(node, set())

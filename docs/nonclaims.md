@@ -25,6 +25,11 @@ What this instrument does **not** assert, in v0.1.
 - **Not centrality.** Criticality here is mission-relative response-curve shape
   under removal, not a static graph-centrality score.
 
+- **No connectivity-only edges in v0.1.** Every rendered relation participates
+  in dependency semantics. Models must not emulate pass-through connectivity via
+  direct self-satisfaction; first-class connectivity-only edges are a v0.2
+  candidate alongside k-of-n requirements.
+
 - **Keyword separation is a smoke test, not a proof.** The engine is checked to
   contain no case-specific tokens, and tests instantiate unrelated in-memory
   fixtures. Neither proves generality; a second real domain (v0.2) is what

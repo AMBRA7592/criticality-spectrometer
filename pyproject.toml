@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "criticality-spectrometer"
-version = "0.1.0"
+version = "0.1.1"
 description = "A domain-agnostic instrument for measuring how node-removal impact changes as alternatives become available over an adaptation horizon in systems with AND/OR dependencies."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,6 +16,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
 ]
 dependencies = [
@@ -41,4 +42,5 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
+"criticality_spectrometer" = ["py.typed"]
 "criticality_spectrometer._schema" = ["*.json"]

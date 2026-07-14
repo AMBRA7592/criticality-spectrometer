@@ -4,12 +4,12 @@
       "baseline": 4,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.0"
+        "version": "0.1.1"
       },
       "model": {
         "name": "ai_compute_frontier_fab_only",
         "schema_version": "0.1",
-        "sha256": "9485005212842ea48ec398d517dffb9713693ca5cb63bffc8ad05992176e1292",
+        "sha256": "6bc517be382d9392ab0ab132a89a2d6f286c3144c30799558a0f4e1703b609e9",
         "version": "0.1"
       },
       "nodes": {
@@ -705,12 +705,12 @@
       "baseline": 4,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.0"
+        "version": "0.1.1"
       },
       "model": {
         "name": "ai_compute_frontier_stack",
         "schema_version": "0.1",
-        "sha256": "80be48c747fa86a48a0dc163ff0ed69d65ccf346d2923e56c5d65d479ebb05cf",
+        "sha256": "929f919a1efd5b541ece1d9d4fde5a9270db3c395f254d63433fde4310ae7411",
         "version": "0.1"
       },
       "nodes": {
@@ -1406,12 +1406,12 @@
       "baseline": 4,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.0"
+        "version": "0.1.1"
       },
       "model": {
         "name": "ai_compute_topology",
         "schema_version": "0.1",
-        "sha256": "2d6d2a68b4aac95679f71649c7d5121f8ef747bd94a5f1b980246ac9b2bc4a81",
+        "sha256": "cfb6b5693e097526f8d5266e554176267ae4961250173f50260cbb74b2d2c2a0",
         "version": "0.1"
       },
       "nodes": {
