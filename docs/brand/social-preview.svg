@@ -1,60 +1,28 @@
 <svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg">
-  <!--
-    Criticality Spectrometer — GitHub social preview
-    Palette: paper #F5F4F1 · ink #1E242C · vermillion #C4462B · teal #147D87 · gray #77808B · rule #E5E2DA
-    Type: Newsreader SemiBold (display) · IBM Plex Sans (support) · IBM Plex Mono (meta)
-    Signature: two curves through one shared point — same score at τ=0, different criticality.
-  -->
+  <!-- Criticality Spectrometer - text-free social preview (numerals are data, not copy) -->
   <rect width="1280" height="640" fill="#F5F4F1"/>
 
-  <!-- ============ left column ============ -->
-  <!-- mark: three bars, bottoms aligned -->
-  <g>
-    <rect x="88"  y="74" width="11" height="34" fill="#C4462B"/>
-    <rect x="106" y="86" width="11" height="22" fill="#147D87"/>
-    <rect x="124" y="96" width="11" height="12" fill="#77808B"/>
-  </g>
-  <text x="152" y="102" font-family="IBM Plex Sans SemiBold" font-size="27" fill="#1E242C">Criticality Spectrometer</text>
+  <!-- gridlines: value level, zero level -->
+  <line x1="240" y1="170" x2="1040" y2="170" stroke="#E5E2DA" stroke-width="1.5"/>
+  <line x1="240" y1="440" x2="1040" y2="440" stroke="#E5E2DA" stroke-width="1.5"/>
 
-  <!-- headline -->
-  <text x="86" y="262" font-family="Newsreader SemiBold" font-size="72" fill="#1E242C">Criticality is a curve,</text>
-  <text x="86" y="352" font-family="Newsreader SemiBold" font-size="72" fill="#1E242C">not a score.</text>
+  <!-- persistent -->
+  <polyline points="280,170 1000,170" fill="none" stroke="#C4462B" stroke-width="6"/>
+  <!-- fully adaptable -->
+  <polyline points="280,170 640,440 1000,440" fill="none" stroke="#147D87" stroke-width="6"/>
 
-  <!-- support line: the proof in one sentence -->
-  <text x="88" y="424" font-family="IBM Plex Sans" font-size="27" fill="#4A5158">Same score at τ = 0. Different criticality.</text>
+  <!-- sample points -->
+  <circle cx="640" cy="170" r="8" fill="#F5F4F1" stroke="#C4462B" stroke-width="4"/>
+  <circle cx="1000" cy="170" r="8" fill="#F5F4F1" stroke="#C4462B" stroke-width="4"/>
+  <circle cx="640" cy="440" r="8" fill="#F5F4F1" stroke="#147D87" stroke-width="4"/>
+  <circle cx="1000" cy="440" r="8" fill="#F5F4F1" stroke="#147D87" stroke-width="4"/>
 
-  <!-- ============ glyph ============ -->
-  <!-- chart frame: x 688→1180 (τ = 0/12/24), y_top=176, y_zero=452 -->
-  <!-- faint gridlines at value level and zero level -->
-  <line x1="744" y1="176" x2="1196" y2="176" stroke="#E5E2DA" stroke-width="1.5"/>
-  <line x1="744" y1="452" x2="1196" y2="452" stroke="#E5E2DA" stroke-width="1.5"/>
+  <!-- the shared point -->
+  <circle cx="280" cy="170" r="18" fill="none" stroke="#1E242C" stroke-width="1.5"/>
+  <circle cx="280" cy="170" r="9" fill="#1E242C"/>
 
-  <!-- persistent: flat at full impact -->
-  <polyline points="760,176 1180,176" fill="none" stroke="#C4462B" stroke-width="5"/>
-  <!-- fully adaptable: full impact at τ=0, zero from τ=12 on -->
-  <polyline points="760,176 970,452 1180,452" fill="none" stroke="#147D87" stroke-width="5"/>
-
-  <!-- open sample points -->
-  <circle cx="970"  cy="176" r="7" fill="#F5F4F1" stroke="#C4462B" stroke-width="3.5"/>
-  <circle cx="1180" cy="176" r="7" fill="#F5F4F1" stroke="#C4462B" stroke-width="3.5"/>
-  <circle cx="970"  cy="452" r="7" fill="#F5F4F1" stroke="#147D87" stroke-width="3.5"/>
-  <circle cx="1180" cy="452" r="7" fill="#F5F4F1" stroke="#147D87" stroke-width="3.5"/>
-
-  <!-- the shared point: one measured score, two futures -->
-  <circle cx="760" cy="176" r="16" fill="none" stroke="#1E242C" stroke-width="1.5"/>
-  <circle cx="760" cy="176" r="8" fill="#1E242C"/>
-
-  <!-- curve labels -->
-  <text x="1180" y="148" text-anchor="end" font-family="IBM Plex Sans SemiBold" font-size="24" fill="#C4462B">persistent</text>
-  <text x="1180" y="428" text-anchor="end" font-family="IBM Plex Sans SemiBold" font-size="24" fill="#147D87">fully adaptable</text>
-
-  <!-- τ ticks -->
-  <text x="760"  y="496" text-anchor="middle" font-family="IBM Plex Mono" font-size="21" fill="#77808B">0</text>
-  <text x="970"  y="496" text-anchor="middle" font-family="IBM Plex Mono" font-size="21" fill="#77808B">12</text>
-  <text x="1180" y="496" text-anchor="middle" font-family="IBM Plex Mono" font-size="21" fill="#77808B">24</text>
-  <text x="970" y="532" text-anchor="middle" font-family="IBM Plex Mono" font-size="19" fill="#77808B">adaptation horizon <tspan font-family="IBM Plex Sans">τ</tspan></text>
-
-  <!-- ============ footer ============ -->
-  <line x1="88" y1="566" x2="1192" y2="566" stroke="#E5E2DA" stroke-width="1.5"/>
-  <text x="88" y="600" font-family="IBM Plex Mono" font-size="19" fill="#77808B">AND/OR dependency graphs · Python · MIT</text>
+  <!-- horizon ticks -->
+  <text x="280" y="502" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="23" fill="#77808B">0</text>
+  <text x="640" y="502" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="23" fill="#77808B">12</text>
+  <text x="1000" y="502" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="23" fill="#77808B">24</text>
 </svg>
