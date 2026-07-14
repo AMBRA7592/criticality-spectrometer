@@ -19,6 +19,12 @@ validation.
 - `criticality-spectrometer --version`, documented CLI exit codes, and a
   `py.typed` marker for downstream type checkers.
 - Python 3.13 CI coverage.
+- Release workflow (`release.yml`): tag-gated build with a tag/version match
+  check and `twine check`, publishing to PyPI via OIDC trusted publishing from
+  the protected `pypi` environment — no long-lived API tokens.
+- PARITY Divergence 6, recording that `hpq` reads frontier-persistent through
+  the rendered `purity_chemicals` liveness path — a uniform-liveness vs
+  reachability-only semantics divergence from v2.5, not a translation error.
 
 ### Changed
 - **Validation is stricter:** direct self-satisfaction through a requirement or
@@ -30,6 +36,9 @@ validation.
 - AND-aware survival computed during the curve sweep is reused by the single
   public OR-gap implementation.
 - Package and test dependencies are defined only in `pyproject.toml`.
+- The provenance CI gate also fails on untracked files, and
+  `scripts/regenerate.py` sweeps each model over its own declared horizons
+  instead of a hardcoded list.
 
 ## [0.1.0] — 2026-07-14
 
