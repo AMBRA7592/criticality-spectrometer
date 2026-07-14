@@ -1,0 +1,82 @@
+{
+  "version": "0.1",
+  "name": "tutorial_ci_pipeline",
+  "description": "Synthetic ten-node CI pipeline used to explain the model contract.",
+  "nodes": [
+    {"id": "source_code"},
+    {"id": "runner_primary"},
+    {"id": "runner_backup"},
+    {"id": "compiler"},
+    {"id": "unit_tests"},
+    {"id": "package_builder"},
+    {"id": "signing_key"},
+    {"id": "release_host"},
+    {"id": "package"},
+    {"id": "release"}
+  ],
+  "dependencies": [
+    {
+      "target": "compiler",
+      "logic": "AND",
+      "requirements": [
+        {"id": "source", "any_of": ["source_code"]},
+        {"id": "executor", "any_of": ["runner_primary"]}
+      ]
+    },
+    {
+      "target": "unit_tests",
+      "logic": "AND",
+      "requirements": [
+        {"id": "source", "any_of": ["source_code"]},
+        {"id": "executor", "any_of": ["runner_primary"]}
+      ]
+    },
+    {
+      "target": "package_builder",
+      "logic": "AND",
+      "requirements": [
+        {"id": "compiled", "any_of": ["compiler"]},
+        {"id": "tested", "any_of": ["unit_tests"]}
+      ]
+    },
+    {
+      "target": "package",
+      "logic": "AND",
+      "requirements": [
+        {"id": "build", "any_of": ["package_builder"]},
+        {"id": "signing", "any_of": ["signing_key"]}
+      ]
+    },
+    {
+      "target": "release",
+      "logic": "AND",
+      "requirements": [
+        {"id": "artifact", "any_of": ["package"]},
+        {"id": "hosting", "any_of": ["release_host"]}
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "target": "compiler",
+      "requirement_id": "executor",
+      "replacement": "runner_backup",
+      "activation_time": 4,
+      "source": "synthetic tutorial assumption"
+    },
+    {
+      "target": "unit_tests",
+      "requirement_id": "executor",
+      "replacement": "runner_backup",
+      "activation_time": 4,
+      "source": "synthetic tutorial assumption"
+    }
+  ],
+  "outcome": {
+    "type": "served_sinks",
+    "sources": ["source_code"],
+    "sinks": ["release"]
+  },
+  "horizons": [0, 4]
+}
+

@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/AMBRA7592/criticality-spectrometer/schema/model.schema.json",
   "title": "Criticality Spectrometer Model",
+  "x-schema-version": "0.1",
   "description": "A domain-agnostic dependency model. Contains no case-specific semantics. Nodes, typed dependencies with identified requirement groups, group-targeted time-stamped alternatives, and an outcome definition. The engine reads only this schema; all domain content lives in instances.",
   "type": "object",
   "required": ["version", "nodes", "outcome"],

@@ -8,17 +8,48 @@ JSON output is sorted and stable so runs are byte-for-byte reproducible.
 from __future__ import annotations
 
 import json
+from importlib import resources
 
-from .model import Model
+from .model import MODEL_SCHEMA_VERSION, Model
 from .sweep import SweepResult
 from .classify import policy_verb
+from ._version import __version__
 
 
-def to_json(model: Model, result: SweepResult, include_policy: bool = False) -> str:
-    """Deterministic JSON. Keys sorted; node order sorted."""
+RESULT_SCHEMA_VERSION = "0.1"
+
+
+def _load_result_schema() -> dict:
+    with resources.files("criticality_spectrometer._schema").joinpath(
+        "result.schema.json"
+    ).open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def to_document(
+    model: Model,
+    result: SweepResult,
+    include_policy: bool = False,
+    compute_or_gap: bool = True,
+) -> dict:
+    """Build a deterministic, self-identifying result document."""
     doc = {
-        "model": {"name": model.name, "version": model.version},
-        "horizons": result.horizons,
+        "result_schema_version": RESULT_SCHEMA_VERSION,
+        "instrument": {
+            "name": "criticality-spectrometer",
+            "version": __version__,
+        },
+        "model": {
+            "name": model.name,
+            "version": model.version,
+            "schema_version": MODEL_SCHEMA_VERSION,
+            "sha256": model.source_sha256,
+        },
+        "run": {
+            "horizons": result.horizons,
+            "compute_or_gap": compute_or_gap,
+            "include_policy": include_policy,
+        },
         "baseline": result.baseline,
         "nodes": {},
     }
@@ -32,7 +63,16 @@ def to_json(model: Model, result: SweepResult, include_policy: bool = False) -> 
         if include_policy:
             entry["policy_verb"] = policy_verb(c.shape)
         doc["nodes"][node] = entry
-    return json.dumps(doc, indent=2, sort_keys=True)
+    return doc
+
+
+def to_json(model: Model, result: SweepResult, include_policy: bool = False) -> str:
+    """Deterministic JSON. Keys sorted; node order sorted."""
+    return json.dumps(
+        to_document(model, result, include_policy=include_policy),
+        indent=2,
+        sort_keys=True,
+    )
 
 
 def to_text(model: Model, result: SweepResult, include_policy: bool = False) -> str:

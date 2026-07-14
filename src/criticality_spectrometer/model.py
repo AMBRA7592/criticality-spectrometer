@@ -10,12 +10,16 @@ Schema and then applies referential-integrity checks the schema cannot express.
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 from dataclasses import dataclass, field
 from importlib import resources
 from typing import Any
 
 import jsonschema
+
+
+MODEL_SCHEMA_VERSION = "0.1"
 
 
 class ModelError(ValueError):
@@ -68,6 +72,7 @@ class Model:
     horizons: list[float] = field(default_factory=list)
     name: str = ""
     description: str = ""
+    source_sha256: str = ""
 
     @property
     def node_ids(self) -> set[str]:
@@ -90,10 +95,15 @@ def _load_schema() -> dict:
 
 def load_model(path_or_dict: str | dict) -> Model:
     if isinstance(path_or_dict, str):
-        with open(path_or_dict, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        with open(path_or_dict, "rb") as f:
+            source_bytes = f.read()
+        data = json.loads(source_bytes.decode("utf-8"))
     else:
         data = path_or_dict
+        source_bytes = json.dumps(
+            data, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode("utf-8")
+    source_sha256 = hashlib.sha256(source_bytes).hexdigest()
 
     # --- JSON Schema validation (structure, types, enums, additionalProperties) ---
     try:
@@ -187,4 +197,5 @@ def load_model(path_or_dict: str | dict) -> Model:
         horizons=horizons,
         name=data.get("name", ""),
         description=data.get("description", ""),
+        source_sha256=source_sha256,
     )

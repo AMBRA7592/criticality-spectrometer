@@ -25,7 +25,8 @@ criticality-spectrometer run examples/canonical/model.json
 The canonical model is a seven-node, hand-verifiable fixture. Its bottleneck has impact `1` at `tau=0` and `0` after its backup activates at `tau=12`:
 
 ```text
-bottleneck  fully_adaptable  1  0
+node                     impact               shape                OR gap
+bottleneck               [1, 0, 0]            fully_adaptable      [1, 0, 0]
 ```
 
 Use JSON output for a reproducible artifact:
@@ -33,6 +34,20 @@ Use JSON output for a reproducible artifact:
 ```bash
 criticality-spectrometer run examples/canonical/model.json --format json > result.json
 ```
+
+Prefer the Python API?
+
+```python
+from criticality_spectrometer import load_model, run_sweep
+
+model = load_model("examples/tutorial/model.json")
+result = run_sweep(model)
+print(result.curves["runner_primary"].impact)
+# [1, 0]
+```
+
+The narrated [model-your-first-system tutorial](docs/tutorial.md) builds that
+ten-node CI pipeline from scratch.
 
 ## What the instrument returns
 
