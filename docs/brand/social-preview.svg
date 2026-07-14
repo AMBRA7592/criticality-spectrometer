@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title description">
+  <title id="title">Criticality is a curve, not a score</title>
+  <desc id="description">Two nodes share the same initial score. One remains critical while the other becomes fully adaptable as alternatives activate.</desc>
+  <rect width="1280" height="640" fill="#F5F4F1"/>
+  <g fill="none" stroke-linecap="round" stroke-width="7">
+    <path d="M72 76 H88" stroke="#C4462B"/>
+    <path d="M96 76 L112 106" stroke="#147D87"/>
+    <path d="M120 106 H137" stroke="#737980"/>
+  </g>
+  <text x="158" y="95" fill="#1E242C" font-family="IBM Plex Sans, sans-serif" font-size="30" font-weight="600">Criticality Spectrometer</text>
+  <text x="72" y="214" fill="#1E242C" font-family="Newsreader, serif" font-size="72" font-weight="600">Criticality is a curve,</text>
+  <text x="72" y="294" fill="#1E242C" font-family="Newsreader, serif" font-size="72" font-weight="600">not a score.</text>
+  <text x="75" y="390" fill="#1E242C" font-family="IBM Plex Sans, sans-serif" font-size="25">Same score at &#964; = 0. Different criticality.</text>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M760 225 H1198" stroke="#C4462B" stroke-width="6"/>
+    <path d="M760 225 L978 348 L1198 457" stroke="#147D87" stroke-width="6"/>
+    <path d="M760 154 V493 H1198" stroke="#1E242C" stroke-width="2"/>
+    <path d="M760 225 H1198 M760 348 H1198 M760 457 H1198" stroke="#D8D7D2" stroke-width="1"/>
+  </g>
+  <circle cx="760" cy="225" r="12" fill="#F5F4F1" stroke="#1E242C" stroke-width="4"/>
+  <circle cx="760" cy="225" r="4" fill="#1E242C"/>
+  <g fill="#1E242C" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="600" letter-spacing="1">
+    <text x="760" y="132">MISSION LOSS</text>
+    <text x="935" y="548">ADAPTATION HORIZON (TAU)</text>
+  </g>
+  <text x="1014" y="195" fill="#C4462B" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600">PERSISTENT</text>
+  <text x="1006" y="354" fill="#147D87" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600">FULLY ADAPTABLE</text>
+  <g fill="#636A70" font-family="IBM Plex Mono, monospace" font-size="14">
+    <text x="754" y="520">0</text><text x="971" y="520">12</text><text x="1188" y="520">24</text>
+  </g>
+  <path d="M72 571 H1208" stroke="#D8D7D2"/>
+  <text x="72" y="605" fill="#636A70" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="600" letter-spacing="1">AND/OR DEPENDENCY SYSTEMS  /  PYTHON  /  MIT</text>
+</svg>
