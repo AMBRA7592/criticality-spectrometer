@@ -5,6 +5,7 @@
 **Measure node criticality as a curve across adaptation horizons in AND/OR dependency systems.**
 
 [![CI](https://github.com/AMBRA7592/criticality-spectrometer/actions/workflows/ci.yml/badge.svg)](https://github.com/AMBRA7592/criticality-spectrometer/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/criticality-spectrometer?color=3775A9&label=pypi)](https://pypi.org/project/criticality-spectrometer/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB)](https://www.python.org/)
 [![MIT license](https://img.shields.io/badge/license-MIT-2F6F62)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/AMBRA7592/criticality-spectrometer?display_name=tag)](https://github.com/AMBRA7592/criticality-spectrometer/releases)
@@ -14,12 +15,24 @@
 
 Most network rankings assign one importance score per node. Criticality Spectrometer instead removes each node, sweeps the time at which substitutes become available, and records mission loss at every horizon. The result distinguishes a node that must be protected now and later from one whose risk can be reduced by enabling alternatives.
 
-## Run it in 60 seconds
+## Install
+
+```bash
+pip install criticality-spectrometer
+```
+
+That puts the `criticality-spectrometer` command and the Python API on your
+system. The worked examples and the canonical fixture ship with the source, so
+clone the repository to follow the 60-second demo below and the tutorial:
 
 ```bash
 git clone https://github.com/AMBRA7592/criticality-spectrometer.git
 cd criticality-spectrometer
-python -m pip install -e .
+```
+
+## Run it in 60 seconds
+
+```bash
 criticality-spectrometer run examples/canonical/model.json
 ```
 
