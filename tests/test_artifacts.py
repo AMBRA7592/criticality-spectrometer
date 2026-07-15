@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 def test_public_and_packaged_schemas_are_byte_identical():
     public = ROOT / "schema"
     packaged = ROOT / "src" / "criticality_spectrometer" / "_schema"
-    for name in ("model.schema.json", "result.schema.json"):
+    for name in ("model.schema.json", "result.schema.json", "explain.schema.json"):
         assert (public / name).read_bytes() == (packaged / name).read_bytes()
 
 
@@ -38,6 +38,12 @@ def test_repository_and_packaged_example_models_are_byte_identical():
 def test_schema_versions_match_runtime_constants():
     assert _load_schema()["x-schema-version"] == MODEL_SCHEMA_VERSION
     assert _load_result_schema()["x-schema-version"] == RESULT_SCHEMA_VERSION
+    packaged_explain = json.loads(
+        (ROOT / "src" / "criticality_spectrometer" / "_schema" / "explain.schema.json").read_text()
+    )
+    from criticality_spectrometer import EXPLAIN_SCHEMA_VERSION
+
+    assert packaged_explain["x-schema-version"] == EXPLAIN_SCHEMA_VERSION
 
 
 def test_release_versions_are_synchronized():

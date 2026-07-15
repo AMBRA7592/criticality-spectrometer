@@ -6,11 +6,16 @@ Command-line interface.
                                             [--policy]
     criticality-spectrometer validate MODEL.json
     criticality-spectrometer example NAME [--output PATH]
+    criticality-spectrometer explain MODEL.json NODE [--horizons 0,12,24]
+                                                     [--format text|json]
 
 `run` loads and validates a model, runs the sweep, and prints a deterministic
 report. `validate` loads and validates only, printing OK or the error.
 `example` emits a bundled example model byte-for-byte (stdout by default), so a
 pip-installed instrument can be exercised without cloning the repository.
+`explain` reports, per horizon, why one node's removal has the impact it has:
+lost and restored sinks, casualties by cascade round, unsatisfied requirement
+groups, and substitute status.
 """
 
 from __future__ import annotations
@@ -22,6 +27,7 @@ import sys
 from importlib import resources
 
 from ._version import __version__
+from .explain import explain_json, explain_document, explain_text
 from .model import load_model, ModelError
 from .sweep import run_sweep, BaselineError
 from .report import to_json, to_text
@@ -93,6 +99,27 @@ def cmd_validate(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_explain(args: argparse.Namespace) -> int:
+    try:
+        horizons = _parse_horizons(args.horizons)
+        model = _load(args.model)
+    except (CLIError, ModelError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    try:
+        if args.format == "json":
+            print(explain_json(model, args.node, horizons))
+        else:
+            print(explain_text(explain_document(model, args.node, horizons)))
+    except ModelError as e:  # unknown node
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    except BaselineError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 3
+    return 0
+
+
 EXAMPLE_NAMES = ("canonical", "tutorial")
 
 
@@ -140,6 +167,13 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("name", choices=EXAMPLE_NAMES, help="which bundled model to emit")
     e.add_argument("--output", help="write to this path instead of stdout; refuses to overwrite")
     e.set_defaults(func=cmd_example)
+
+    x = sub.add_parser("explain", help="explain one node's impact curve")
+    x.add_argument("model", help="path to a model JSON file")
+    x.add_argument("node", help="node id to explain")
+    x.add_argument("--horizons", help="comma-separated tau values, e.g. 0,12,24")
+    x.add_argument("--format", choices=["text", "json"], default="text")
+    x.set_defaults(func=cmd_explain)
 
     return p
 

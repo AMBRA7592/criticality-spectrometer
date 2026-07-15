@@ -79,6 +79,29 @@ CLI exit codes are stable: `0` means success, `2` means invalid CLI input or an
 invalid model, and `3` means the model failed the positive, constant-baseline
 requirement. `criticality-spectrometer --version` prints the installed version.
 
+## Explain a curve
+
+`run` tells you *what* a node's curve is; `explain` shows *why* — per horizon:
+lost and restored sinks, casualties grouped by cascade round, every unsatisfied
+requirement group, and which substitutes are active versus actually rescuing a
+group. Rounds are propagation stages, not unique-causality claims.
+
+```bash
+criticality-spectrometer explain examples/canonical/model.json bottleneck
+```
+
+```text
+tau=0   impact 1   lost sinks: sink
+  round 1: assembler — unsatisfied: stage_bottleneck (members: bottleneck; pending: backup@12)
+  round 2: sink — unsatisfied: final (members: assembler)
+  ...
+tau=12   impact 0   lost sinks: none   restored: sink
+  rescuing substitutes: backup -> assembler.stage_bottleneck @12
+```
+
+`--format json` emits a self-identifying document conforming to
+[`schema/explain.schema.json`](schema/explain.schema.json).
+
 ## What the instrument returns
 
 For every node, the sweep reports an impact curve and a conservative shape class:

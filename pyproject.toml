@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "criticality-spectrometer"
-version = "0.1.1"
+version = "0.1.2"
 description = "A domain-agnostic instrument for measuring how node-removal impact changes as alternatives become available over an adaptation horizon in systems with AND/OR dependencies."
 readme = "README.md"
 requires-python = ">=3.10"

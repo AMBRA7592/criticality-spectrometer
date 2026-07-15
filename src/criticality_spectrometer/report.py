@@ -26,6 +26,21 @@ def _load_result_schema() -> dict:
         return json.load(f)
 
 
+def instrument_block() -> dict:
+    """The instrument identity stamp shared by every self-identifying document."""
+    return {"name": "criticality-spectrometer", "version": __version__}
+
+
+def model_block(model: Model) -> dict:
+    """The model identity stamp shared by every self-identifying document."""
+    return {
+        "name": model.name,
+        "version": model.version,
+        "schema_version": MODEL_SCHEMA_VERSION,
+        "sha256": model.source_sha256,
+    }
+
+
 def to_document(
     model: Model,
     result: SweepResult,
@@ -37,16 +52,8 @@ def to_document(
         compute_or_gap = bool(result.or_survival_gap)
     doc = {
         "result_schema_version": RESULT_SCHEMA_VERSION,
-        "instrument": {
-            "name": "criticality-spectrometer",
-            "version": __version__,
-        },
-        "model": {
-            "name": model.name,
-            "version": model.version,
-            "schema_version": MODEL_SCHEMA_VERSION,
-            "sha256": model.source_sha256,
-        },
+        "instrument": instrument_block(),
+        "model": model_block(model),
         "run": {
             "horizons": result.horizons,
             "compute_or_gap": compute_or_gap,

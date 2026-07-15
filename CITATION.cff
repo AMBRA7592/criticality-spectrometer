@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Brandes
     given-names: Amadeus
-version: 0.1.1
-doi: "10.5281/zenodo.21383919"
+version: 0.1.2
+doi: "10.5281/zenodo.21383918"
 date-released: "2026-07-15"
 license: MIT
 repository-code: "https://github.com/AMBRA7592/criticality-spectrometer"

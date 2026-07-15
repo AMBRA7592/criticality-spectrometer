@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [0.1.2] — unreleased
+## [0.1.2] — 2026-07-15
 
 ### Added
 - `criticality-spectrometer example {canonical,tutorial} [--output PATH]`:
@@ -10,6 +10,26 @@ All notable changes to this project are documented here.
   overwrite existing files), so a pip-installed instrument runs the demo with
   no clone. Packaged copies are regression-tested byte-identical to the
   repository fixtures.
+- `criticality-spectrometer explain MODEL NODE [--format text|json]`: per
+  horizon, the measured impact and lost sinks, casualties grouped by cascade
+  round, every unsatisfied requirement group per casualty (with pending and
+  dead substitutes), active substitutes, substitutes that actually satisfy a
+  group with no functioning declared member, and sinks restored relative to
+  the previous horizon. JSON output is self-identifying and conforms to
+  `schema/explain.schema.json` (shipped publicly and inside the wheel).
+- Public API: `cascade_trace`, `CascadeTrace`, `rescuing_substitutes`,
+  `served_sink_set`, `explain_document`, `explain_json`, `explain_text`.
+
+### Changed
+- The cascade fixed point is computed in synchronous rounds (each round
+  evaluated against the set frozen at its start). The greatest fixed point is
+  unchanged — every result is identical — but rounds surfaced by
+  `cascade_trace`/`explain` are now declaration-order-invariant propagation
+  stages. `functioning_nodes` and `cascade_trace` are two views of one shared
+  engine, asserted equal by tests.
+- `count_outcome` is now the cardinality of the single authoritative
+  `served_sink_set`. Side effect: a sink id listed twice in `outcome.sinks`
+  no longer double-counts (the documented "a sink counts once" reading).
 
 ## [0.1.1] — 2026-07-14
 

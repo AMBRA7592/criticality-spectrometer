@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/AMBRA7592/criticality-spectrometer/schema/explain.schema.json",
+  "title": "Criticality Spectrometer Explanation",
+  "description": "A self-identifying explanation of one node's impact curve. Per horizon: measured impact and lost sinks, casualties grouped by cascade round (propagation stages, not unique-causality claims), every unsatisfied requirement group per casualty, active substitutes, substitutes satisfying a group with no functioning declared member, and sinks restored relative to the previous horizon.",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "required": [
+    "explain_schema_version",
+    "instrument",
+    "model",
+    "run",
+    "baseline",
+    "impact",
+    "shape",
+    "horizons"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "explain_schema_version": {"const": "0.1"},
+    "instrument": {
+      "type": "object",
+      "required": ["name", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"const": "criticality-spectrometer"},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["name", "version", "schema_version", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "schema_version": {"const": "0.1"},
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 of raw UTF-8 file bytes for path-loaded models; canonical sorted JSON bytes for mapping-loaded models."
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "required": ["node", "horizons"],
+      "additionalProperties": false,
+      "properties": {
+        "node": {"type": "string", "minLength": 1},
+        "horizons": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "number", "minimum": 0}
+        }
+      }
+    },
+    "baseline": {"type": "integer", "minimum": 1},
+    "impact": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "integer", "minimum": 0}
+    },
+    "shape": {
+      "type": "string",
+      "enum": ["none", "persistent", "fully_adaptable", "partially_adaptable"]
+    },
+    "horizons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/horizon"}
+    }
+  },
+  "definitions": {
+    "horizon": {
+      "type": "object",
+      "required": [
+        "tau",
+        "impact",
+        "lost_sinks",
+        "restored_sinks",
+        "casualties",
+        "active_substitutes",
+        "rescuing_substitutes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tau": {"type": "number", "minimum": 0},
+        "impact": {"type": "integer", "minimum": 0},
+        "lost_sinks": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Sinks served by the intact system at this tau but not after the removal."
+        },
+        "restored_sinks": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Sinks lost at the previous swept horizon and no longer lost at this one. Empty at the first horizon."
+        },
+        "casualties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["round", "nodes"],
+            "additionalProperties": false,
+            "properties": {
+              "round": {"type": "integer", "minimum": 1},
+              "nodes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"$ref": "#/definitions/fallen_node"}
+              }
+            }
+          },
+          "description": "Nodes that stopped functioning, grouped by synchronous propagation round. Round 1 is direct; later rounds are downstream. Propagation stages, not unique-causality assertions."
+        },
+        "active_substitutes": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/substitute"},
+          "description": "Every alternative whose activation_time <= tau."
+        },
+        "rescuing_substitutes": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/substitute"},
+          "description": "Active substitutes whose target and replacement function while the identified group has no functioning declared member — the substitute is what satisfies that group at this tau."
+        }
+      }
+    },
+    "fallen_node": {
+      "type": "object",
+      "required": ["node", "unsatisfied_groups"],
+      "additionalProperties": false,
+      "properties": {
+        "node": {"type": "string"},
+        "unsatisfied_groups": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "members", "pending_substitutes", "dead_substitutes"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "members": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string"},
+                "description": "The group's declared any_of; none functioned when the node fell."
+              },
+              "pending_substitutes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["replacement", "activation_time"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "replacement": {"type": "string"},
+                    "activation_time": {"type": "number", "minimum": 0}
+                  }
+                },
+                "description": "Substitutes targeting this group that activate only after the swept tau."
+              },
+              "dead_substitutes": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Replacements of substitutes active at this tau whose replacement node was itself not functioning."
+              }
+            }
+          }
+        }
+      }
+    },
+    "substitute": {
+      "type": "object",
+      "required": ["target", "requirement_id", "replacement", "activation_time"],
+      "additionalProperties": false,
+      "properties": {
+        "target": {"type": "string"},
+        "requirement_id": {"type": "string"},
+        "replacement": {"type": "string"},
+        "activation_time": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

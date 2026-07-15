@@ -157,3 +157,44 @@ def test_example_unknown_name_rejected():
     with pytest.raises(SystemExit) as exc:
         main(["example", "no-such-model"])
     assert exc.value.code == 2
+
+
+def test_explain_text_ok(capsys):
+    assert main(["explain", CANONICAL, "bottleneck"]) == 0
+    out = capsys.readouterr().out
+    assert "explain 'bottleneck'" in out
+    assert "round 1: assembler" in out
+
+
+def test_explain_json_ok(capsys):
+    assert main(["explain", CANONICAL, "bottleneck", "--format", "json"]) == 0
+    document = json.loads(capsys.readouterr().out)
+    assert document["impact"] == [1, 0, 0]
+    assert document["shape"] == "fully_adaptable"
+
+
+def test_explain_unknown_node_exit_2(capsys):
+    assert main(["explain", CANONICAL, "ghost"]) == 2
+    assert "not a declared node" in capsys.readouterr().err
+
+
+def test_explain_missing_file_exit_2():
+    assert main(["explain", "/no/such/file.json", "x"]) == 2
+
+
+def test_explain_bad_horizons_exit_2():
+    assert main(["explain", CANONICAL, "bottleneck", "--horizons", "abc"]) == 2
+
+
+def test_explain_zero_baseline_exit_3(tmp_path):
+    d = {
+        "version": "0.1",
+        "nodes": [{"id": "src"}, {"id": "sink"}, {"id": "dead"}],
+        "dependencies": [
+            {"target": "dead", "logic": "AND", "requirements": [{"id": "imposs", "any_of": ["sink"]}]},
+            {"target": "sink", "logic": "AND", "requirements": [{"id": "fin", "any_of": ["dead"]}]},
+        ],
+        "outcome": {"type": "served_sinks", "sources": ["src"], "sinks": ["sink"]},
+    }
+    p = _write(tmp_path, "zero.json", json.dumps(d))
+    assert main(["explain", p, "src"]) == 3

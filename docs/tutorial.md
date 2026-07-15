@@ -82,6 +82,21 @@ print(runner.impact, runner.shape)
 # [1, 0] fully_adaptable
 ```
 
+## 6. Explain the curve
+
+The sweep says the primary runner is `fully_adaptable`; `explain` shows the
+mechanism — what breaks at `tau=0` and what restores the mission at `tau=4`:
+
+```bash
+criticality-spectrometer explain examples/tutorial/model.json runner_primary
+```
+
+Per horizon it reports lost and restored sinks, casualties grouped by cascade
+round, every unsatisfied requirement group, and which substitutes are active
+versus actually rescuing a group. Rounds are propagation stages, not
+unique-causality claims. `--format json` emits the same content as a
+self-identifying document.
+
 From here, replace the synthetic nodes and assumptions with a system whose
 requirements, alternatives, and activation times you can defend.
 
