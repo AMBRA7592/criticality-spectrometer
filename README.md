@@ -8,6 +8,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB)](https://www.python.org/)
 [![MIT license](https://img.shields.io/badge/license-MIT-2F6F62)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/AMBRA7592/criticality-spectrometer?display_name=tag)](https://github.com/AMBRA7592/criticality-spectrometer/releases)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21383918.svg)](https://doi.org/10.5281/zenodo.21383918)
 
 ![Three node-removal impact curves: persistent, fully adaptable, and none](docs/criticality-curves.svg)
 
