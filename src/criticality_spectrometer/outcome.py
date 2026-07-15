@@ -62,33 +62,36 @@ def _has_ordered_path(adj, source, sink, waypoints, allowed) -> bool:
     return sink in reach_final
 
 
-def count_outcome(model: Model, functioning: set[str], tau: float) -> int:
-    """Count served sinks given functioning nodes at horizon tau."""
+def served_sink_set(model: Model, functioning: set[str], tau: float) -> frozenset[str]:
+    """The set of served sinks given functioning nodes at horizon tau.
+
+    Single authoritative implementation of the outcome; count_outcome is its
+    cardinality and explain diffs these sets for lost/restored sinks.
+    """
     adj = induced_edges(model, tau)
     allowed = functioning
     o = model.outcome
 
-    served = 0
+    served = set()
     for sink in o.sinks:
         if sink not in allowed:
             continue
         if o.type == "served_sinks":
-            reached = False
             for s in o.sources:
                 if s in allowed and sink in _reachable_from(adj, s, allowed):
-                    reached = True
+                    served.add(sink)
                     break
-            if reached:
-                served += 1
         else:  # ordered_served_sinks
-            served_flag = False
             for s in o.sources:
                 if s in allowed and _has_ordered_path(adj, s, sink, o.waypoints, allowed):
-                    served_flag = True
+                    served.add(sink)
                     break
-            if served_flag:
-                served += 1
-    return served
+    return frozenset(served)
+
+
+def count_outcome(model: Model, functioning: set[str], tau: float) -> int:
+    """Count served sinks given functioning nodes at horizon tau."""
+    return len(served_sink_set(model, functioning, tau))
 
 
 def baseline_outcome(model: Model, tau: float) -> int:

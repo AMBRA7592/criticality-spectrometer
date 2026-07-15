@@ -50,6 +50,13 @@ keeps running unless a removal breaks it. This is the correct continuity reading
 — the cycle was already operating. Startup feasibility is a separate question,
 out of scope for the removal instrument.
 
+The fixed point is computed in synchronous rounds: each round removes every
+node whose dependency fails against the set frozen at the round's start. The
+greatest fixed point is unique regardless of update order, so this changes no
+result; it makes the rounds surfaced by `cascade_trace` and `explain`
+declaration-order-invariant propagation stages (round k = dependency first
+fails k rounds after removal). Rounds are stages, not unique-causality claims.
+
 ## Outcome: served sinks
 
 `served_sinks` counts sinks reachable from at least one source. A sink served by

@@ -78,6 +78,28 @@ def test_served_sinks_ignores_redundant_source():
     assert r.curves["s2"].impact == [0]
 
 
+def test_served_sinks_counts_duplicate_sink_id_once():
+    # Outcome semantics are set-based: repeating a sink id in model data must
+    # not turn one served mission endpoint into two units of baseline service.
+    d = {
+        "version": "0.1",
+        "nodes": [{"id": "src"}, {"id": "sink"}],
+        "dependencies": [
+            {"target": "sink", "logic": "AND", "requirements": [
+                {"id": "in", "any_of": ["src"]}
+            ]}
+        ],
+        "outcome": {
+            "type": "served_sinks",
+            "sources": ["src"],
+            "sinks": ["sink", "sink"],
+        },
+    }
+    m = load_model(d)
+    assert baseline_outcome(m, 0) == 1
+    assert run_sweep(m, [0]).baseline == 1
+
+
 # ---------- group targeting isolation ----------
 
 def test_substitute_covers_only_its_group():
