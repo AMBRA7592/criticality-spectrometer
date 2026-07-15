@@ -25,6 +25,16 @@ def test_public_and_packaged_schemas_are_byte_identical():
         assert (public / name).read_bytes() == (packaged / name).read_bytes()
 
 
+def test_repository_and_packaged_example_models_are_byte_identical():
+    packaged = ROOT / "src" / "criticality_spectrometer" / "_examples"
+    pairs = {
+        "canonical.json": ROOT / "examples" / "canonical" / "model.json",
+        "tutorial.json": ROOT / "examples" / "tutorial" / "model.json",
+    }
+    for packaged_name, repository_path in pairs.items():
+        assert (packaged / packaged_name).read_bytes() == repository_path.read_bytes()
+
+
 def test_schema_versions_match_runtime_constants():
     assert _load_schema()["x-schema-version"] == MODEL_SCHEMA_VERSION
     assert _load_result_schema()["x-schema-version"] == RESULT_SCHEMA_VERSION

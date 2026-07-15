@@ -22,8 +22,16 @@ pip install criticality-spectrometer
 ```
 
 That puts the `criticality-spectrometer` command and the Python API on your
-system. The worked examples and the canonical fixture ship with the source, so
-clone the repository to follow the 60-second demo below and the tutorial:
+system. From v0.1.2, the demo fixtures are also bundled with the package, so
+the 60-second demo needs no clone:
+
+```bash
+criticality-spectrometer example canonical --output model.json
+criticality-spectrometer run model.json
+```
+
+The full worked examples, tests, and tutorial ship with the source; clone the
+repository to explore those:
 
 ```bash
 git clone https://github.com/AMBRA7592/criticality-spectrometer.git

@@ -125,3 +125,35 @@ def test_validate_source_dependency_warns_and_exits_zero(tmp_path):
     path = _write(tmp_path, "dependent-source.json", json.dumps(document))
     with pytest.warns(ModelWarning):
         assert main(["validate", path]) == 0
+
+
+def test_example_stdout_is_byte_identical_to_repository_fixture(capsysbinary):
+    assert main(["example", "canonical"]) == 0
+    emitted = capsysbinary.readouterr().out
+    with open(CANONICAL, "rb") as f:
+        assert emitted == f.read()
+
+
+def test_example_output_file_loads_and_runs(tmp_path):
+    target = os.path.join(tmp_path, "model.json")
+    assert main(["example", "canonical", "--output", target]) == 0
+    assert main(["run", target]) == 0
+
+
+def test_example_tutorial_is_available(tmp_path):
+    target = os.path.join(tmp_path, "tutorial.json")
+    assert main(["example", "tutorial", "--output", target]) == 0
+    assert main(["validate", target]) == 0
+
+
+def test_example_refuses_to_overwrite(tmp_path):
+    target = _write(tmp_path, "existing.json", "{}")
+    assert main(["example", "canonical", "--output", target]) == 2
+    with open(target, "r", encoding="utf-8") as f:
+        assert f.read() == "{}"
+
+
+def test_example_unknown_name_rejected():
+    with pytest.raises(SystemExit) as exc:
+        main(["example", "no-such-model"])
+    assert exc.value.code == 2

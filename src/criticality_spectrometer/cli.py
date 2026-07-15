@@ -5,9 +5,12 @@ Command-line interface.
                                             [--format json|text]
                                             [--policy]
     criticality-spectrometer validate MODEL.json
+    criticality-spectrometer example NAME [--output PATH]
 
 `run` loads and validates a model, runs the sweep, and prints a deterministic
 report. `validate` loads and validates only, printing OK or the error.
+`example` emits a bundled example model byte-for-byte (stdout by default), so a
+pip-installed instrument can be exercised without cloning the repository.
 """
 
 from __future__ import annotations
@@ -16,6 +19,7 @@ import argparse
 import json
 import math
 import sys
+from importlib import resources
 
 from ._version import __version__
 from .model import load_model, ModelError
@@ -89,6 +93,33 @@ def cmd_validate(args: argparse.Namespace) -> int:
     return 0
 
 
+EXAMPLE_NAMES = ("canonical", "tutorial")
+
+
+def cmd_example(args: argparse.Namespace) -> int:
+    # Emit the packaged copy byte-for-byte so the file's SHA-256 matches the
+    # repository fixture and any provenance-stamped report derived from it.
+    data = (
+        resources.files("criticality_spectrometer._examples")
+        .joinpath(f"{args.name}.json")
+        .read_bytes()
+    )
+    if args.output is None:
+        sys.stdout.buffer.write(data)
+        return 0
+    try:
+        with open(args.output, "xb") as f:
+            f.write(data)
+    except FileExistsError:
+        print(f"error: refusing to overwrite existing file: {args.output}", file=sys.stderr)
+        return 2
+    except OSError as e:
+        print(f"error: cannot write {args.output}: {e}", file=sys.stderr)
+        return 2
+    print(f"wrote {args.name} example model to {args.output}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="criticality-spectrometer")
     p.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
@@ -104,6 +135,11 @@ def build_parser() -> argparse.ArgumentParser:
     v = sub.add_parser("validate", help="validate a model without running")
     v.add_argument("model", help="path to a model JSON file")
     v.set_defaults(func=cmd_validate)
+
+    e = sub.add_parser("example", help="emit a bundled example model")
+    e.add_argument("name", choices=EXAMPLE_NAMES, help="which bundled model to emit")
+    e.add_argument("--output", help="write to this path instead of stdout; refuses to overwrite")
+    e.set_defaults(func=cmd_example)
 
     return p
 

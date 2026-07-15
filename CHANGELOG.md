@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.2] — unreleased
+
+### Added
+- `criticality-spectrometer example {canonical,tutorial} [--output PATH]`:
+  emits a bundled example model byte-for-byte (stdout by default, refusing to
+  overwrite existing files), so a pip-installed instrument runs the demo with
+  no clone. Packaged copies are regression-tested byte-identical to the
+  repository fixtures.
+
 ## [0.1.1] — 2026-07-14
 
 Hardening release focused on reproducible public artifacts and stricter model
