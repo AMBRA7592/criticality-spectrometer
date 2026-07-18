@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [0.1.2] — 2026-07-15
+## [0.1.2] — 2026-07-18
 
 ### Added
 - `criticality-spectrometer example {canonical,tutorial} [--output PATH]`:
