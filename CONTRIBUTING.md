@@ -18,8 +18,8 @@ pytest -q
 git diff --exit-code
 ```
 
-The generated AI example models, parity ledger, self-identifying results, and
-README figure must remain byte-deterministic.
+The generated AI and Kubernetes example models, ledgers, self-identifying
+results and explanations, and README figure must remain byte-deterministic.
 
 ## Engine boundary
 

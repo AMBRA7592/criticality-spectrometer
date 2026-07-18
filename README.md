@@ -144,6 +144,31 @@ python examples/ai_compute/build_ai_case.py
 pytest -q tests/test_ai_case.py
 ```
 
+## Worked example: Kubernetes Bookinfo
+
+The second domain compares endpoint redundancy declared by an Istio Bookinfo
+Kubernetes Service with the route observed for one bounded request. In the
+selector view, `reviews_v1` is non-critical because three versions are eligible;
+in the observed all-v1 route view, its curve is `[1, 0]` because a modeled route
+change to the already-deployed v2 restores the mission after five minutes.
+
+The example preserves pinned manifest/source inventory and the normalized
+request record separately, labels the five-minute adaptation time as an
+assumption, and uses `explain` to expose the three failure rounds and restoring
+substitute.
+
+- [Bookinfo result and non-claims](examples/kubernetes/README.md)
+- [Evidence ledger](examples/kubernetes/evidence_ledger.json)
+- [Declared selector model](examples/kubernetes/model_declared.json)
+- [Observed route model](examples/kubernetes/model.json)
+
+Rebuild and verify it:
+
+```bash
+python examples/kubernetes/build_bookinfo_case.py
+pytest -q tests/test_kubernetes_case.py
+```
+
 ## How it differs from common network measures
 
 | method | represents | answer type |
@@ -152,9 +177,14 @@ pytest -q tests/test_ai_case.py
 | Critical-node detection | disconnection caused by removal | scalar or set |
 | **Criticality Spectrometer** | mission loss across adaptation horizons under explicit requirements | **curve and shape class** |
 
-## Scope of v0.1
+## Scope
 
-This is an alpha research instrument with one canonical fixture and one empirical domain. It does not infer dependencies, estimate activation times, prove causal claims, or turn shape classes into policy prescriptions. The current model contract also lacks connectivity-only edges; the worked example logs where that boundary matters.
+This is an alpha research instrument with a canonical fixture and two bounded
+worked domains. It does not infer dependencies, estimate activation times,
+prove causal claims, or turn shape classes into policy prescriptions. The
+current model contract also lacks connectivity-only edges; the AI example logs
+where that boundary matters. The Kubernetes example uses one externally
+reported request and is an external-validity probe, not broad validation.
 
 See [`docs/nonclaims.md`](docs/nonclaims.md) for the full boundary and [`CHANGELOG.md`](CHANGELOG.md) for release history.
 

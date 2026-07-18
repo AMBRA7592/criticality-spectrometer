@@ -1,0 +1,154 @@
+{
+  "alternatives": [],
+  "dependencies": [
+    {
+      "logic": "OR",
+      "requirements": [
+        {
+          "any_of": [
+            "details_v1"
+          ],
+          "id": "endpoint"
+        }
+      ],
+      "target": "details_service"
+    },
+    {
+      "logic": "OR",
+      "requirements": [
+        {
+          "any_of": [
+            "ratings_v1"
+          ],
+          "id": "endpoint"
+        }
+      ],
+      "target": "ratings_service"
+    },
+    {
+      "logic": "AND",
+      "requirements": [
+        {
+          "any_of": [
+            "ratings_service"
+          ],
+          "id": "ratings"
+        }
+      ],
+      "target": "reviews_v2"
+    },
+    {
+      "logic": "AND",
+      "requirements": [
+        {
+          "any_of": [
+            "ratings_service"
+          ],
+          "id": "ratings"
+        }
+      ],
+      "target": "reviews_v3"
+    },
+    {
+      "logic": "OR",
+      "requirements": [
+        {
+          "any_of": [
+            "reviews_v1",
+            "reviews_v2",
+            "reviews_v3"
+          ],
+          "id": "endpoint"
+        }
+      ],
+      "target": "reviews_service"
+    },
+    {
+      "logic": "AND",
+      "requirements": [
+        {
+          "any_of": [
+            "client_request"
+          ],
+          "id": "request"
+        },
+        {
+          "any_of": [
+            "details_service"
+          ],
+          "id": "details"
+        },
+        {
+          "any_of": [
+            "reviews_service"
+          ],
+          "id": "reviews"
+        }
+      ],
+      "target": "productpage_v1"
+    },
+    {
+      "logic": "AND",
+      "requirements": [
+        {
+          "any_of": [
+            "productpage_v1"
+          ],
+          "id": "rendered"
+        }
+      ],
+      "target": "complete_book_page"
+    }
+  ],
+  "description": "Bookinfo service-selector view: every reviews deployment selected by the Kubernetes Service is immediately eligible.",
+  "horizons": [
+    0,
+    5
+  ],
+  "name": "bookinfo_declared_selector_view",
+  "nodes": [
+    {
+      "id": "client_request"
+    },
+    {
+      "id": "details_v1"
+    },
+    {
+      "id": "ratings_v1"
+    },
+    {
+      "id": "reviews_v1"
+    },
+    {
+      "id": "reviews_v2"
+    },
+    {
+      "id": "reviews_v3"
+    },
+    {
+      "id": "productpage_v1"
+    },
+    {
+      "id": "details_service"
+    },
+    {
+      "id": "ratings_service"
+    },
+    {
+      "id": "reviews_service"
+    },
+    {
+      "id": "complete_book_page"
+    }
+  ],
+  "outcome": {
+    "sinks": [
+      "complete_book_page"
+    ],
+    "sources": [
+      "client_request"
+    ],
+    "type": "served_sinks"
+  },
+  "version": "0.1"
+}
