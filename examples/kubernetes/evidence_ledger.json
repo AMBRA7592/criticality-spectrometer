@@ -1,0 +1,44 @@
+[
+  {
+    "basis": "manifest-derived",
+    "claim": "The Bookinfo base manifest exposes details, ratings, reviews, and productpage Services backed by the listed deployments.",
+    "source": "https://github.com/istio/istio/tree/a54429a603bca459b4329adc226f247cac0b8fc4/samples/bookinfo/platform/kube/bookinfo.yaml",
+    "status": "verified"
+  },
+  {
+    "basis": "manifest-derived",
+    "claim": "The reviews Service selector admits reviews-v1, reviews-v2, and reviews-v3 as eligible endpoints.",
+    "source": "sources/declared_inventory.json#service_selectors",
+    "status": "verified"
+  },
+  {
+    "basis": "configuration-derived",
+    "claim": "The pinned all-v1 VirtualService routes reviews traffic to subset v1 while the DestinationRule defines v1, v2, and v3 subsets.",
+    "source": "sources/declared_inventory.json#traffic_policy",
+    "status": "verified"
+  },
+  {
+    "basis": "source-derived",
+    "claim": "productpage calls details and reviews; reviews-v2 and reviews-v3 call ratings while reviews-v1 does not.",
+    "source": "sources/declared_inventory.json#service_calls",
+    "status": "verified"
+  },
+  {
+    "basis": "observed",
+    "claim": "One externally reported request reached productpage-v1, details-v1, and reviews-v1 with a shared request ID and HTTP 200 records; ratings was not present in the excerpt.",
+    "source": "https://github.com/istio/istio/issues/55172",
+    "status": "verified-for-one-request"
+  },
+  {
+    "basis": "modeling-assumption",
+    "claim": "The mission requires a page containing both details and reviews.",
+    "source": "examples/kubernetes/README.md#mission",
+    "status": "assumption"
+  },
+  {
+    "basis": "modeling-assumption",
+    "claim": "After reviews-v1 removal, an operator can route to the already-deployed reviews-v2 within five minutes.",
+    "source": "examples/kubernetes/README.md#adaptation-assumption",
+    "status": "assumption-not-measured"
+  }
+]

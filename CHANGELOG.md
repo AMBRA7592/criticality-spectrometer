@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Added
+- A second worked domain using Istio Bookinfo: pinned Kubernetes/Istio
+  configuration and application-source inventory, one separately preserved
+  observed request record, declared-selector and observed-route models, an
+  evidence ledger, deterministic results, and a committed `explain` document.
+- Regression coverage for the cross-view result: `reviews_v1` is `none` under
+  immediate Service-selector redundancy but `[1, 0]` / `fully_adaptable` under
+  the observed all-v1 route with an explicitly assumed five-minute route
+  change to deployed `reviews_v2`.
+
+### Changed
+- Repository-wide regeneration now includes the Kubernetes example. CI's
+  existing clean-tree provenance gate therefore rejects stale Bookinfo models,
+  ledgers, reports, or explanations.
+
 ## [0.1.2] — 2026-07-18
 
 ### Added

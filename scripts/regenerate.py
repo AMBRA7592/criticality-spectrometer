@@ -57,7 +57,11 @@ def main() -> None:
     )
 
     run_script(ROOT / "scripts" / "render_readme_figure.py")
-    print("regenerated AI models, parity ledger, results, and README figure")
+    run_script(ROOT / "examples" / "kubernetes" / "build_bookinfo_case.py")
+    print(
+        "regenerated AI models, Kubernetes models, ledgers, results, "
+        "explanations, and README figure"
+    )
 
 
 if __name__ == "__main__":

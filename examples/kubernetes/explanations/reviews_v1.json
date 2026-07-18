@@ -1,0 +1,124 @@
+{
+  "baseline": 1,
+  "explain_schema_version": "0.1",
+  "horizons": [
+    {
+      "active_substitutes": [],
+      "casualties": [
+        {
+          "nodes": [
+            {
+              "node": "reviews_service",
+              "unsatisfied_groups": [
+                {
+                  "dead_substitutes": [],
+                  "id": "endpoint",
+                  "members": [
+                    "reviews_v1"
+                  ],
+                  "pending_substitutes": [
+                    {
+                      "activation_time": 5.0,
+                      "replacement": "reviews_v2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "round": 1
+        },
+        {
+          "nodes": [
+            {
+              "node": "productpage_v1",
+              "unsatisfied_groups": [
+                {
+                  "dead_substitutes": [],
+                  "id": "reviews",
+                  "members": [
+                    "reviews_service"
+                  ],
+                  "pending_substitutes": []
+                }
+              ]
+            }
+          ],
+          "round": 2
+        },
+        {
+          "nodes": [
+            {
+              "node": "complete_book_page",
+              "unsatisfied_groups": [
+                {
+                  "dead_substitutes": [],
+                  "id": "rendered",
+                  "members": [
+                    "productpage_v1"
+                  ],
+                  "pending_substitutes": []
+                }
+              ]
+            }
+          ],
+          "round": 3
+        }
+      ],
+      "impact": 1,
+      "lost_sinks": [
+        "complete_book_page"
+      ],
+      "rescuing_substitutes": [],
+      "restored_sinks": [],
+      "tau": 0
+    },
+    {
+      "active_substitutes": [
+        {
+          "activation_time": 5.0,
+          "replacement": "reviews_v2",
+          "requirement_id": "endpoint",
+          "target": "reviews_service"
+        }
+      ],
+      "casualties": [],
+      "impact": 0,
+      "lost_sinks": [],
+      "rescuing_substitutes": [
+        {
+          "activation_time": 5.0,
+          "replacement": "reviews_v2",
+          "requirement_id": "endpoint",
+          "target": "reviews_service"
+        }
+      ],
+      "restored_sinks": [
+        "complete_book_page"
+      ],
+      "tau": 5
+    }
+  ],
+  "impact": [
+    1,
+    0
+  ],
+  "instrument": {
+    "name": "criticality-spectrometer",
+    "version": "0.1.2"
+  },
+  "model": {
+    "name": "bookinfo_observed_v1_route",
+    "schema_version": "0.1",
+    "sha256": "d24b5177ae4d4e064ca48363cee45c66579a8f7087199c32d47b3af24b823986",
+    "version": "0.1"
+  },
+  "run": {
+    "horizons": [
+      0,
+      5
+    ],
+    "node": "reviews_v1"
+  },
+  "shape": "fully_adaptable"
+}

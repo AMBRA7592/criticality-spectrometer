@@ -62,10 +62,12 @@ def test_typing_marker_exists():
 
 
 def test_committed_result_bundle_validates():
-    document = json.loads(
-        (ROOT / "examples" / "ai_compute" / "results.json").read_text()
+    paths = (
+        ROOT / "examples" / "ai_compute" / "results.json",
+        ROOT / "examples" / "kubernetes" / "results.json",
     )
-    jsonschema.validate(document, _load_result_schema())
+    for path in paths:
+        jsonschema.validate(json.loads(path.read_text()), _load_result_schema())
 
 
 def test_path_loaded_model_hashes_raw_file_bytes():

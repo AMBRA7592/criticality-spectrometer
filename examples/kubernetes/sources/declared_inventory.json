@@ -1,0 +1,102 @@
+{
+  "application": "Istio Bookinfo",
+  "basis": "manifest-and-source-derived",
+  "description": "Normalized inventory of the pinned Bookinfo deployment, traffic policy, and application call sites used to build the declared selector model.",
+  "service_calls": [
+    {
+      "caller": "productpage_v1",
+      "callee": "details_service",
+      "evidence": "productpage.py getProductDetails sends GET /details/{product_id}"
+    },
+    {
+      "caller": "productpage_v1",
+      "callee": "reviews_service",
+      "evidence": "productpage.py getProductReviews sends GET /reviews/{product_id}"
+    },
+    {
+      "caller": "reviews_v2",
+      "callee": "ratings_service",
+      "evidence": "reviews v2 is built with enable_ratings=true and calls /ratings/{product_id}"
+    },
+    {
+      "caller": "reviews_v3",
+      "callee": "ratings_service",
+      "evidence": "reviews v3 is built with enable_ratings=true and calls /ratings/{product_id}"
+    }
+  ],
+  "service_selectors": {
+    "details_service": [
+      "details_v1"
+    ],
+    "productpage_service": [
+      "productpage_v1"
+    ],
+    "ratings_service": [
+      "ratings_v1"
+    ],
+    "reviews_service": [
+      "reviews_v1",
+      "reviews_v2",
+      "reviews_v3"
+    ]
+  },
+  "traffic_policy": {
+    "destination_rule_subsets": {
+      "details_service": [
+        "details_v1"
+      ],
+      "productpage_service": [
+        "productpage_v1"
+      ],
+      "ratings_service": [
+        "ratings_v1"
+      ],
+      "reviews_service": [
+        "reviews_v1",
+        "reviews_v2",
+        "reviews_v3"
+      ]
+    },
+    "virtual_service_routes": {
+      "details_service": "details_v1",
+      "productpage_service": "productpage_v1",
+      "ratings_service": "ratings_v1",
+      "reviews_service": "reviews_v1"
+    }
+  },
+  "upstream": {
+    "commit": "a54429a603bca459b4329adc226f247cac0b8fc4",
+    "files": [
+      {
+        "path": "samples/bookinfo/platform/kube/bookinfo.yaml",
+        "sha256": "61a08b9a08e0e2d453e530b550313334c3fc97905fba7ce46736854c3ee6bb47"
+      },
+      {
+        "path": "samples/bookinfo/networking/virtual-service-all-v1.yaml",
+        "sha256": "d0538009109cc1e764c964fab4f7008bfd3dc7f868af7f06f578ee21e16fcabc"
+      },
+      {
+        "path": "samples/bookinfo/networking/destination-rule-all.yaml",
+        "sha256": "d80b5e7effff1c4f5db089c7fcd33ad7cfe8708b6e27ac7cb502c57f3f55f88c"
+      },
+      {
+        "path": "samples/bookinfo/src/productpage/productpage.py",
+        "sha256": "856503340afe59834007880c10ea9b94b73f3d51534a5542a038d0dbac76db1c"
+      },
+      {
+        "path": "samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java",
+        "sha256": "8f2b1fb5dadb2ec31a9775702b7b7d067adea5e87bd76183ed4b0061a9bc843f"
+      },
+      {
+        "path": "samples/bookinfo/src/reviews/Dockerfile",
+        "sha256": "3752986d70729c2200d968078317a88e2a7f4b31cc3ea8e9be05ae079695afa4"
+      },
+      {
+        "path": "samples/bookinfo/src/docker-bake.hcl",
+        "sha256": "bc0e9b152780ccdd1e6a1f6161660706df2061cfc03c255a89688388785f85a3"
+      }
+    ],
+    "repository": "https://github.com/istio/istio",
+    "source_branch": "release-1.24"
+  }
+}

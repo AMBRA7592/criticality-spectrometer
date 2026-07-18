@@ -1,0 +1,295 @@
+{
+  "reports": {
+    "declared": {
+      "baseline": 1,
+      "instrument": {
+        "name": "criticality-spectrometer",
+        "version": "0.1.2"
+      },
+      "model": {
+        "name": "bookinfo_declared_selector_view",
+        "schema_version": "0.1",
+        "sha256": "6373af68eebd4925a15370ac6e3a420671f7f638b3919ff06dd1578e012c3ee3",
+        "version": "0.1"
+      },
+      "nodes": {
+        "client_request": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "persistent"
+        },
+        "complete_book_page": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "persistent"
+        },
+        "details_service": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            1,
+            1
+          ],
+          "shape": "persistent"
+        },
+        "details_v1": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            1,
+            1
+          ],
+          "shape": "persistent"
+        },
+        "productpage_v1": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "persistent"
+        },
+        "ratings_service": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "ratings_v1": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "reviews_service": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            1,
+            1
+          ],
+          "shape": "persistent"
+        },
+        "reviews_v1": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "reviews_v2": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "reviews_v3": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        }
+      },
+      "result_schema_version": "0.1",
+      "run": {
+        "compute_or_gap": true,
+        "horizons": [
+          0,
+          5
+        ],
+        "include_policy": false
+      }
+    },
+    "observed": {
+      "baseline": 1,
+      "instrument": {
+        "name": "criticality-spectrometer",
+        "version": "0.1.2"
+      },
+      "model": {
+        "name": "bookinfo_observed_v1_route",
+        "schema_version": "0.1",
+        "sha256": "d24b5177ae4d4e064ca48363cee45c66579a8f7087199c32d47b3af24b823986",
+        "version": "0.1"
+      },
+      "nodes": {
+        "client_request": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "persistent"
+        },
+        "complete_book_page": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "persistent"
+        },
+        "details_service": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            1,
+            1
+          ],
+          "shape": "persistent"
+        },
+        "details_v1": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            1,
+            1
+          ],
+          "shape": "persistent"
+        },
+        "productpage_v1": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "persistent"
+        },
+        "ratings_service": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "ratings_v1": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "reviews_service": {
+          "impact": [
+            1,
+            1
+          ],
+          "or_survival_gap": [
+            1,
+            1
+          ],
+          "shape": "persistent"
+        },
+        "reviews_v1": {
+          "impact": [
+            1,
+            0
+          ],
+          "or_survival_gap": [
+            1,
+            0
+          ],
+          "shape": "fully_adaptable"
+        },
+        "reviews_v2": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        },
+        "reviews_v3": {
+          "impact": [
+            0,
+            0
+          ],
+          "or_survival_gap": [
+            0,
+            0
+          ],
+          "shape": "none"
+        }
+      },
+      "result_schema_version": "0.1",
+      "run": {
+        "compute_or_gap": true,
+        "horizons": [
+          0,
+          5
+        ],
+        "include_policy": false
+      }
+    }
+  },
+  "result_schema_version": "0.1"
+}
