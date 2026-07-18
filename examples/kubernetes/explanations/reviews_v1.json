@@ -49,11 +49,11 @@
         {
           "nodes": [
             {
-              "node": "complete_book_page",
+              "node": "productpage_service",
               "unsatisfied_groups": [
                 {
                   "dead_substitutes": [],
-                  "id": "rendered",
+                  "id": "endpoint",
                   "members": [
                     "productpage_v1"
                   ],
@@ -63,6 +63,24 @@
             }
           ],
           "round": 3
+        },
+        {
+          "nodes": [
+            {
+              "node": "complete_book_page",
+              "unsatisfied_groups": [
+                {
+                  "dead_substitutes": [],
+                  "id": "rendered",
+                  "members": [
+                    "productpage_service"
+                  ],
+                  "pending_substitutes": []
+                }
+              ]
+            }
+          ],
+          "round": 4
         }
       ],
       "impact": 1,
@@ -110,7 +128,7 @@
   "model": {
     "name": "bookinfo_observed_v1_route",
     "schema_version": "0.1",
-    "sha256": "d24b5177ae4d4e064ca48363cee45c66579a8f7087199c32d47b3af24b823986",
+    "sha256": "8b7fd347bf5ec854941e10b0082333d7d8d024103ce3742afaff214aa1ebb5cb",
     "version": "0.1"
   },
   "run": {
