@@ -74,12 +74,6 @@
       "requirements": [
         {
           "any_of": [
-            "client_request"
-          ],
-          "id": "request"
-        },
-        {
-          "any_of": [
             "details_service"
           ],
           "id": "details"
@@ -94,11 +88,29 @@
       "target": "productpage_v1"
     },
     {
-      "logic": "AND",
+      "logic": "OR",
       "requirements": [
         {
           "any_of": [
             "productpage_v1"
+          ],
+          "id": "endpoint"
+        }
+      ],
+      "target": "productpage_service"
+    },
+    {
+      "logic": "AND",
+      "requirements": [
+        {
+          "any_of": [
+            "client_request"
+          ],
+          "id": "request"
+        },
+        {
+          "any_of": [
+            "productpage_service"
           ],
           "id": "rendered"
         }
@@ -142,6 +154,9 @@
     },
     {
       "id": "reviews_service"
+    },
+    {
+      "id": "productpage_service"
     },
     {
       "id": "complete_book_page"

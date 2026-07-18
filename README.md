@@ -154,8 +154,8 @@ change to the already-deployed v2 restores the mission after five minutes.
 
 The example preserves pinned manifest/source inventory and the normalized
 request record separately, labels the five-minute adaptation time as an
-assumption, and uses `explain` to expose the three failure rounds and restoring
-substitute.
+assumption, and uses `explain` to expose four failure rounds and the restoring
+substitute. Those rounds preserve the declared `productpage` Service layer.
 
 - [Bookinfo result and non-claims](examples/kubernetes/README.md)
 - [Evidence ledger](examples/kubernetes/evidence_ledger.json)

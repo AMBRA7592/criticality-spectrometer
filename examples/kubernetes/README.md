@@ -76,10 +76,10 @@ Inspect the mechanism directly:
 criticality-spectrometer explain examples/kubernetes/model.json reviews_v1
 ```
 
-At `tau=0`, the trace records `reviews_service`, `productpage_v1`, and
-`complete_book_page` failing in three propagation rounds. At `tau=5`,
-`reviews_v2` is identified as the substitute that restores the sink. The
-committed JSON explanation is
+At `tau=0`, the trace records `reviews_service`, `productpage_v1`,
+`productpage_service`, and `complete_book_page` failing in four propagation
+rounds. At `tau=5`, `reviews_v2` is identified as the substitute that restores
+the sink. The committed JSON explanation is
 [`explanations/reviews_v1.json`](explanations/reviews_v1.json).
 
 ## Rebuild

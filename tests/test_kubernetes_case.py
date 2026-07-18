@@ -51,9 +51,9 @@ def test_upstream_bookinfo_revision_and_hashes_are_pinned():
     assert all(len(record["sha256"]) == 64 for record in upstream["files"])
 
 
-def test_models_share_the_same_eleven_nodes(models):
+def test_models_share_the_same_twelve_nodes(models):
     assert set(models["declared"].nodes) == set(models["observed"].nodes)
-    assert len(models["observed"].nodes) == 11
+    assert len(models["observed"].nodes) == 12
 
 
 def test_selector_view_preserves_all_reviews_endpoints(models):
@@ -101,6 +101,7 @@ def test_explanation_records_failure_rounds_and_restoration(models):
     assert [r["nodes"][0]["node"] for r in at_zero["casualties"]] == [
         "reviews_service",
         "productpage_v1",
+        "productpage_service",
         "complete_book_page",
     ]
     assert at_five["restored_sinks"] == ["complete_book_page"]

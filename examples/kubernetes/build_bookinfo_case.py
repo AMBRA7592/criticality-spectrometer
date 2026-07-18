@@ -40,6 +40,7 @@ NODE_IDS = [
     "details_service",
     "ratings_service",
     "reviews_service",
+    "productpage_service",
     "complete_book_page",
 ]
 
@@ -102,15 +103,22 @@ def dependencies(review_members: list[str]) -> list[dict]:
             "target": "productpage_v1",
             "logic": "AND",
             "requirements": [
-                {"id": "request", "any_of": ["client_request"]},
                 {"id": "details", "any_of": ["details_service"]},
                 {"id": "reviews", "any_of": ["reviews_service"]},
             ],
         },
         {
+            "target": "productpage_service",
+            "logic": "OR",
+            "requirements": [{"id": "endpoint", "any_of": ["productpage_v1"]}],
+        },
+        {
             "target": "complete_book_page",
             "logic": "AND",
-            "requirements": [{"id": "rendered", "any_of": ["productpage_v1"]}],
+            "requirements": [
+                {"id": "request", "any_of": ["client_request"]},
+                {"id": "rendered", "any_of": ["productpage_service"]},
+            ],
         },
     ]
 
