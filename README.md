@@ -2,7 +2,8 @@
 
 # Criticality Spectrometer
 
-**Measure node criticality as a curve across adaptation horizons in AND/OR dependency systems.**
+**Find single points of failure, measure their mission-level blast radius, and
+see which risks a fast-enough substitute or failover can retire.**
 
 [![CI](https://github.com/AMBRA7592/criticality-spectrometer/actions/workflows/ci.yml/badge.svg)](https://github.com/AMBRA7592/criticality-spectrometer/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/criticality-spectrometer?color=3775A9&label=pypi)](https://pypi.org/project/criticality-spectrometer/)
@@ -13,7 +14,20 @@
 
 ![Three node-removal impact curves: persistent, fully adaptable, and none](docs/criticality-curves.svg)
 
-Most network rankings assign one importance score per node. Criticality Spectrometer instead removes each node, sweeps the time at which substitutes become available, and records mission loss at every horizon. The result distinguishes a node that must be protected now and later from one whose risk can be reduced by enabling alternatives.
+Criticality Spectrometer performs fault-tree-style AND/OR dependency analysis
+with a time-to-substitute dimension. It removes each modeled component, sweeps
+the time at which substitutes become available, and records mission loss at
+every horizon. The result distinguishes a component that remains a single point
+of failure from one whose risk can be retired by enabling an alternative soon
+enough.
+
+Use it to ask:
+
+- Which components are single points of failure for the mission I modeled?
+- What is each component's mission-level blast radius?
+- Does apparent redundancy preserve the required capability, or only a path?
+- Would a substitute or failover available by a given horizon restore the mission?
+- Which failed requirements and downstream casualties produce the measured curve?
 
 ## Install
 
