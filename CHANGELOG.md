@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [0.2.0] — 2026-07-19
 
 ### Added
 - A second worked domain using Istio Bookinfo: pinned Kubernetes/Istio

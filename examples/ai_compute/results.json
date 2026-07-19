@@ -4,7 +4,7 @@
       "baseline": 4,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.2"
+        "version": "0.2.0"
       },
       "model": {
         "name": "ai_compute_frontier_fab_only",
@@ -705,7 +705,7 @@
       "baseline": 4,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.2"
+        "version": "0.2.0"
       },
       "model": {
         "name": "ai_compute_frontier_stack",
@@ -1406,7 +1406,7 @@
       "baseline": 4,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.2"
+        "version": "0.2.0"
       },
       "model": {
         "name": "ai_compute_topology",
