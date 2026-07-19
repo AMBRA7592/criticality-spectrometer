@@ -12,8 +12,6 @@ see which risks a fast-enough substitute or failover can retire.**
 [![Release](https://img.shields.io/github/v/release/AMBRA7592/criticality-spectrometer?display_name=tag)](https://github.com/AMBRA7592/criticality-spectrometer/releases)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21383918.svg)](https://doi.org/10.5281/zenodo.21383918)
 
-![Three node-removal impact curves: persistent, fully adaptable, and none](docs/criticality-curves.svg)
-
 Criticality Spectrometer performs fault-tree-style AND/OR dependency analysis
 with a time-to-substitute dimension. It is not a probabilistic fault-tree
 solver: it does not estimate failure rates, MTBF, or minimal cut sets. Instead,
@@ -21,6 +19,13 @@ it removes each modeled component, sweeps the time at which substitutes become
 available, and records mission loss at every horizon. The result distinguishes
 a component that remains a single point of failure from one whose risk can be
 retired by enabling an alternative soon enough.
+
+You supply an explicit JSON model of components, AND/OR requirement groups,
+substitutes with activation times, and the mission endpoints that must remain
+served ("sinks"), optionally through required waypoints. The tool does not
+discover dependencies from a live system. Impact is the number of mission
+sinks that become unserved after a component is removed; each model defines
+its own adaptation horizons and time units.
 
 Use it to ask:
 
@@ -59,12 +64,19 @@ cd criticality-spectrometer
 criticality-spectrometer run examples/canonical/model.json
 ```
 
-The canonical model is a seven-node, hand-verifiable fixture. Its bottleneck has impact `1` at `tau=0` and `0` after its backup activates at `tau=12`:
+The canonical model is a seven-node, hand-verifiable fixture with horizons
+`[0, 12, 24]` in model-defined time units. Its bottleneck has impact `1` at
+`tau=0` and `0` at `tau=12` and `tau=24` after its backup activates:
 
 ```text
 node                     impact               shape                OR gap
 bottleneck               [1, 0, 0]            fully_adaptable      [1, 0, 0]
 ```
+
+`OR gap` is the number of additional mission sinks that survive when every
+requirement is read as maximally permissive `OR`, compared with the model's
+declared `AND`/`OR` logic. A positive value flags apparent redundancy that
+disappears when conjunctive requirements are enforced.
 
 Use JSON output for a reproducible artifact:
 
@@ -144,6 +156,8 @@ The machine-readable contract is in [`schema/model.schema.json`](schema/model.sc
 ## Worked example: AI compute supply chain
 
 The repository includes a 52-node worked example expressed entirely as model data; the engine contains no semiconductor-specific entities. Three missions separate topology, an advanced-fab path, and the primary ordered frontier stack.
+
+![Three node-removal impact curves: persistent, fully adaptable, and none](docs/criticality-curves.svg)
 
 The primary stack reproduces the prior case study's seven named acceptance tests at the shape level. For example, the modeled EUV corridor is persistent, TSMC is fully adaptable over the specified horizons, and germanium has no impact on that mission. The example is an application, not cross-domain validation.
 
