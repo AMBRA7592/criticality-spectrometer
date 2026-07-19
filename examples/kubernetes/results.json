@@ -4,7 +4,7 @@
       "baseline": 1,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.2"
+        "version": "0.2.0"
       },
       "model": {
         "name": "bookinfo_declared_selector_view",
@@ -160,7 +160,7 @@
       "baseline": 1,
       "instrument": {
         "name": "criticality-spectrometer",
-        "version": "0.1.2"
+        "version": "0.2.0"
       },
       "model": {
         "name": "bookinfo_observed_v1_route",
