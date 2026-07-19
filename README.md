@@ -15,11 +15,12 @@ see which risks a fast-enough substitute or failover can retire.**
 ![Three node-removal impact curves: persistent, fully adaptable, and none](docs/criticality-curves.svg)
 
 Criticality Spectrometer performs fault-tree-style AND/OR dependency analysis
-with a time-to-substitute dimension. It removes each modeled component, sweeps
-the time at which substitutes become available, and records mission loss at
-every horizon. The result distinguishes a component that remains a single point
-of failure from one whose risk can be retired by enabling an alternative soon
-enough.
+with a time-to-substitute dimension. It is not a probabilistic fault-tree
+solver: it does not estimate failure rates, MTBF, or minimal cut sets. Instead,
+it removes each modeled component, sweeps the time at which substitutes become
+available, and records mission loss at every horizon. The result distinguishes
+a component that remains a single point of failure from one whose risk can be
+retired by enabling an alternative soon enough.
 
 Use it to ask:
 
