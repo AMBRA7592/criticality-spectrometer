@@ -54,8 +54,10 @@ The fixed point is computed in synchronous rounds: each round removes every
 node whose dependency fails against the set frozen at the round's start. The
 greatest fixed point is unique regardless of update order, so this changes no
 result; it makes the rounds surfaced by `cascade_trace` and `explain`
-declaration-order-invariant propagation stages (round k = dependency first
-fails k rounds after removal). Rounds are stages, not unique-causality claims.
+declaration-order-invariant propagation stages by membership (round k =
+dependency first fails k rounds after removal). Display order within one round
+may follow model declaration order. Rounds are stages, not unique-causality
+claims.
 
 ## Outcome: served sinks
 
@@ -102,6 +104,10 @@ reported as the direct survival difference:
 
 A positive gap is the redundancy illusion: under naive OR reachability the node
 looks substitutable, but under the true AND requirements it is not.
+
+Proofs and implementation-linked tests for termination, declaration-order
+independence, horizon monotonicity, activation breakpoints, and the OR upper
+bound are recorded in [`formal-properties.md`](formal-properties.md).
 
 ## What v0.1 does not do
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Added
+- A bounded proof note for finite cascade termination, declaration-order
+  independence, horizon monotonicity, activation breakpoints, and the OR
+  relaxation upper bound, plus implementation-linked regression tests across
+  the canonical fixture and both worked domains.
+
 ## [0.2.0] — 2026-07-19
 
 ### Added
